@@ -7,7 +7,7 @@ from distutils.core import setup
 
 # http://stackoverflow.com/a/7071358/735926
 import re
-VERSIONFILE='src/term2048/__init__.py'
+VERSIONFILE='term2048/__init__.py'
 verstrline = open(VERSIONFILE, 'rt').read()
 VSRE = r'^__version__\s+=\s+[\'"]([^\'"]+)[\'"]'
 mo = re.search(VSRE, verstrline, re.M)
@@ -21,14 +21,20 @@ setup(
     version=verstr,
     author='Baptiste Fontaine',
     author_email='b@ptistefontaine.fr',
-    package_dir={'':'src'},
     packages=['term2048'],
     url='https://github.com/bfontaine/term2048',
     license='LICENSE',
     description='2048 in your terminal',
-    long_description=open('README', 'r').read(),
+    long_description=open('README.rst', 'r').read(),
     install_requires=[
         'colorama >= 0.2.7',
     ],
-    scripts=['bin/term2048'],
+    classifiers=[
+        'Programming Language :: Python :: 2.7'
+    ],
+    entry_points={
+        'console_scripts':[
+            'term2048 = term2048.ui:start_game'
+        ]
+    },
 )
