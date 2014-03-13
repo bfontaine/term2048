@@ -7,9 +7,6 @@ class Board():
     A 2048 board
     """
 
-    # FIXME:
-    # * [ 2 0 2 ] -> right gives [ 0 2 2 ] instead of [ 0 0 4 ]
-
     UP, DOWN, LEFT, RIGHT = 1, 2, 3, 4
 
     GOAL = 2048
@@ -109,7 +106,8 @@ class Board():
             chg, get = self.setCol, self.getCol
 
         for i in xrange(0, Board.SIZE):
-            collapsed = self.__collapseLineOrCol(get(i), d)
+            line = self.__moveLineOrCol(get(i), d)
+            collapsed = self.__collapseLineOrCol(line, d)
             chg(i, self.__moveLineOrCol(collapsed, d))
 
         if add_tile:

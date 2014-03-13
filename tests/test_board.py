@@ -194,6 +194,20 @@ class TestBoard(unittest.TestCase):
         b.move(Board.RIGHT, add_tile=False)
         self.assertSequenceEqual(b.getLine(0), [0, 2, 4])
 
+    def test_move_collapse_with_empty_cell_in_between(self):
+        Board.SIZE = 3
+        b = Board()
+        b.setLine(0, [2, 0, 2])
+        b.move(Board.RIGHT, add_tile=False)
+        self.assertSequenceEqual(b.getLine(0), [0, 0, 4])
+
+    def test_move_collapse_with_empty_cell_in_between2(self):
+        Board.SIZE = 3
+        b = Board()
+        b.setLine(0, [2, 0, 2])
+        b.move(Board.LEFT, add_tile=False)
+        self.assertSequenceEqual(b.getLine(0), [4, 0, 0])
+
     # == .__str__ == #
     def test_str(self):
         Board.SIZE = 1
