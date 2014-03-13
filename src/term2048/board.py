@@ -8,7 +8,6 @@ class Board():
     """
 
     # FIXME:
-    # * [ 2 2 2 ] -> right gives [ 0 4 2 ] instead of [ 0 2 4 ]
     # * [ 2 0 2 ] -> right gives [ 0 2 2 ] instead of [ 0 0 4 ]
 
     UP, DOWN, LEFT, RIGHT = 1, 2, 3, 4
@@ -74,16 +73,23 @@ class Board():
         return [[x, y] for x in xrange(Board.SIZE)
                            for y in xrange(Board.SIZE) if self.getCell(x, y) == 0]
 
-    def __collapseLineOrCol(self, line):
+    def __collapseLineOrCol(self, line, d):
         """
-        Merge tiles in a line or column
+        Merge tiles in a line or column according to a direction
         """
-        for i in xrange(0, Board.SIZE-1):
+        if (d == Board.LEFT or d == Board.UP):
+            rg = xrange(0, Board.SIZE-1)
+        else:
+            rg = xrange(Board.SIZE-2, -1, -1)
+
+        for i in rg:
             if line[i] == line[i+1]:
-                line[i] = 2*line[i]
-                line[i+1] = 0
-                if line[i] == Board.GOAL:
+                v = line[i]*2
+                if v == Board.GOAL:
                     self.won = True
+
+                line[i] = v
+                line[i+1] = 0
 
         return line
 
@@ -97,11 +103,14 @@ class Board():
         return [0] * (Board.SIZE - len(nl)) + nl
 
     def move(self, d, add_tile=True):
-        hz = (d == Board.LEFT or d == Board.RIGHT)
-        chg, get = (self.setLine, self.getLine) if hz \
-                        else (self.setCol, self.getCol)
+        if d == Board.LEFT or d == Board.RIGHT:
+            chg, get = self.setLine, self.getLine
+        else:
+            chg, get = self.setCol, self.getCol
+
         for i in xrange(0, Board.SIZE):
-            chg(i, self.__moveLineOrCol(self.__collapseLineOrCol(get(i)), d))
+            collapsed = self.__collapseLineOrCol(get(i), d)
+            chg(i, self.__moveLineOrCol(collapsed, d))
 
         if add_tile:
             self.addTile()

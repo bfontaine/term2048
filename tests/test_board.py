@@ -180,6 +180,20 @@ class TestBoard(unittest.TestCase):
             [0, 0]
         ])
 
+    def test_move_collapse_triplet1(self):
+        Board.SIZE = 3
+        b = Board()
+        b.setLine(0, [2, 2, 2])
+        b.move(Board.LEFT, add_tile=False)
+        self.assertSequenceEqual(b.getLine(0), [4, 2, 0])
+
+    def test_move_collapse_triplet2(self):
+        Board.SIZE = 3
+        b = Board()
+        b.setLine(0, [2, 2, 2])
+        b.move(Board.RIGHT, add_tile=False)
+        self.assertSequenceEqual(b.getLine(0), [0, 2, 4])
+
     # == .__str__ == #
     def test_str(self):
         Board.SIZE = 1
