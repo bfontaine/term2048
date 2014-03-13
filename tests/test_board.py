@@ -228,10 +228,3 @@ class TestBoard(unittest.TestCase):
         b.setLine(0, [2, 0, 2])
         b.move(Board.LEFT, add_tile=False)
         self.assertSequenceEqual(b.getLine(0), [4, 0, 0])
-
-    # == .__str__ == #
-    def test_str(self):
-        Board.SIZE = 1
-        b = Board()
-        b.setCell(0, 0, 2048)
-        self.assertEqual(b.__str__(), b.getCellStr(0, 0))

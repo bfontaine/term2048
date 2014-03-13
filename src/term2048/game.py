@@ -23,7 +23,7 @@ class Game:
     def end(self):
         return not (self.board.won() or self.board.canMove())
 
-    def read_move(self):
+    def readMove(self):
         k = keypress.getArrowKey()
         return Game.__dirs.get(k)
 
@@ -31,12 +31,19 @@ class Game:
         while True:
             os.system(Game.__clear)
             print self
-            self.score += self.board.move(self.read_move())
+            self.score += self.board.move(self.readMove())
             if self.board.won() or not self.board.canMove():
                 break
 
         print 'You won!' if self.board.won() else 'Game Over'
 
+    def boardToString(self):
+        b = self.board
+        rg = xrange(Board.SIZE)
+        s = "\n".join(
+            [' '.join([b.getCellStr(x, y) for x in rg]) for y in rg])
+        return s
+
     def __str__(self):
-        b = self.board.__str__()
+        b = self.boardToString()
         return b.replace('\n', ' \tScore: %5d\n' % self.score, 1)

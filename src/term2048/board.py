@@ -141,9 +141,3 @@ class Board():
             self.addTile()
 
         return score
-
-    def __str__(self):
-        s = "\n".join([' '.join(
-                    [self.getCellStr(x, y) for x in xrange(Board.SIZE)])
-                        for y in xrange(Board.SIZE)])
-        return s
