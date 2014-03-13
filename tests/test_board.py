@@ -48,6 +48,27 @@ class TestBoard(unittest.TestCase):
         self.b._Board__won = False
         self.assertFalse(self.b.won())
 
+    # == .canMove == #
+    def test_canMove_no_empty_cell(self):
+        Board.SIZE = 1
+        b = Board()
+        b.setCell(0, 0, 42)
+        self.assertFalse(b.canMove())
+
+    def test_canMove_empty_cell(self):
+        Board.SIZE = 2
+        b = Board()
+        self.assertTrue(b.canMove())
+
+    def test_canMove_no_empty_cell_can_collapse(self):
+        Board.SIZE = 2
+        b = Board()
+        b.cells = [
+            [2, 2],
+            [4, 8]
+        ]
+        self.assertTrue(b.canMove())
+
     # == .filled == #
     def test_filled(self):
         self.b.cells = [[1]*Board.SIZE for _ in xrange(Board.SIZE)]

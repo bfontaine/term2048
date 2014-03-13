@@ -21,6 +21,21 @@ class Board():
     def won(self):
         return self.__won
 
+    def canMove(self):
+        """
+        test if a move is possible
+        """
+        if not self.filled():
+            return True
+
+        for y in xrange(0, Board.SIZE-1):
+            for x in xrange(0, Board.SIZE-1):
+                c = self.getCell(x, y)
+                if c == self.getCell(x+1, y) or c == self.getCell(x, y+1):
+                    return True
+
+        return False
+
     def filled(self):
         return len(self.getEmptyCells()) == 0
 
