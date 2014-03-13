@@ -1,0 +1,6 @@
+*~
+.*.sw*
+*.dSYM
+*.pyc
+__pycache__
+/venv
