@@ -1,6 +1,10 @@
+.coverage
 *~
 .*.sw*
 *.dSYM
 *.pyc
+*.zip
+*.egg
 __pycache__
 /venv
+/dist

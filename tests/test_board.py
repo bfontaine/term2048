@@ -21,14 +21,15 @@ class TestBoard(unittest.TestCase):
     def test_init_dimensions_1(self):
         Board.SIZE = 1
         b = Board()
-        self.assertEqual(b.cells, [[2]])
+        c = b.cells[0][0]
+        self.assertTrue(c in [2, 4])
 
     def test_init_only_two_tiles(self):
         t = 0
         for x in xrange(Board.SIZE):
             for y in xrange(Board.SIZE):
                 c = self.b.cells[y][x]
-                if c == 2:
+                if not c == 0:
                     t += 1
                 else:
                     self.assertEqual(c, 0, 'board[%d][%d] should be 0' % (y, x))

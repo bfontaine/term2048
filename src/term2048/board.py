@@ -14,8 +14,8 @@ class Board():
 
     def __init__(self):
         self.cells = [[0]*Board.SIZE for i in xrange(Board.SIZE)]
-        self.addTile(2)
-        self.addTile(2)
+        self.addTile()
+        self.addTile()
         self.__won = False
 
     def won(self):

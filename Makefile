@@ -12,10 +12,12 @@ check:
 	python tests/test.py
 
 covercheck:
-	coverage3 run --omit='tests/**' tests/test.py
-	coverage3 report -m
+	coverage run --omit='tests/**,venv/**' tests/test.py
+	coverage report -m
 
 clean:
 	rm -f *~ */*~
 	rm -f $(COVERFILE)
 
+publish:
+	python setup.py sdist upload
