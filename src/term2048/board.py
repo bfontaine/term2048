@@ -96,14 +96,15 @@ class Board():
             return nl + [0] * (Board.SIZE - len(nl))
         return [0] * (Board.SIZE - len(nl)) + nl
 
-    def move(self, d):
+    def move(self, d, add_tile=True):
         hz = (d == Board.LEFT or d == Board.RIGHT)
         chg, get = (self.setLine, self.getLine) if hz \
                         else (self.setCol, self.getCol)
         for i in xrange(0, Board.SIZE):
             chg(i, self.__moveLineOrCol(self.__collapseLineOrCol(get(i)), d))
 
-        self.addTile()
+        if add_tile:
+            self.addTile()
 
     def __str__(self):
         s = "\n".join([' '.join(
