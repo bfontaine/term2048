@@ -23,6 +23,7 @@ This will change in the future. For now:
 
 ```sh
 git clone https://github.com/bfontaine/term2048.git
+pip install -r term2048/requirements.txt
 python term2048/src/term2048/ui.py
 ```
 
