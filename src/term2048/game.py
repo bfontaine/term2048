@@ -11,10 +11,24 @@ class Game:
         keypress.UP:    Board.UP,
         keypress.DOWN:  Board.DOWN,
         keypress.LEFT:  Board.LEFT,
-        keypress.RIGHT: Board.RIGHT
+        keypress.RIGHT: Board.RIGHT,
     }
 
     __clear = 'cls' if os.name == 'nt' else 'clear'
+
+    __colors = {
+           2: Fore.GREEN,
+           4: Fore.BLUE,
+           8: Fore.CYAN,
+          16: Fore.RED,
+          32: Fore.MAGENTA,
+          64: Fore.CYAN,
+         128: Fore.BLUE,
+         256: Fore.MAGENTA,
+         512: Fore.GREEN,
+        1024: Fore.RED,
+        2048: Fore.YELLOW,
+    }
 
     def __init__(self):
         self.board = Board()
@@ -40,8 +54,15 @@ class Game:
     def getCellStr(self, x, y):
         c = self.board.getCell(x, y)
         if c == 0:
-            return '   .'
-        return '%4d' % c
+            return '  .'
+
+        if c == 1024:
+            s = ' 1k'
+        elif c == 2048:
+            s = ' 2k'
+        else:
+            s = '%3d' % c
+        return Game.__colors.get(c, Fore.RESET) + s + Fore.RESET
 
     def boardToString(self):
         b = self.board
