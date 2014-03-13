@@ -44,8 +44,12 @@ class Game:
     def loop(self):
         while True:
             os.system(Game.__clear)
-            print self
-            self.score += self.board.move(self.readMove())
+            print self.__str__(margins={'left':4, 'top':4, 'bottom':4})
+            try:
+                m = self.readMove()
+            except KeyboardInterrupt:
+                return
+            self.score += self.board.move(m)
             if self.board.won() or not self.board.canMove():
                 break
 
@@ -64,13 +68,16 @@ class Game:
             s = '%3d' % c
         return Game.__colors.get(c, Fore.RESET) + s + Fore.RESET
 
-    def boardToString(self):
+    def boardToString(self, margins={}):
         b = self.board
         rg = xrange(Board.SIZE)
-        s = "\n".join(
-            [' '.join([self.getCellStr(x, y) for x in rg]) for y in rg])
+        left = ' '*margins.get('left', 0)
+        s = '\n'.join(
+            [left + ' '.join([self.getCellStr(x, y) for x in rg]) for y in rg])
         return s
 
-    def __str__(self):
-        b = self.boardToString()
-        return b.replace('\n', ' \tScore: %5d\n' % self.score, 1)
+    def __str__(self, margins):
+        b = self.boardToString(margins=margins)
+        top = '\n'*margins.get('top', 0)
+        bottom = '\n'*margins.get('bottom', 0)
+        return top + b.replace('\n', ' \tScore: %5d\n' % self.score, 1) + bottom
