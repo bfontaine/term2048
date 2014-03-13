@@ -37,11 +37,17 @@ class Game:
 
         print 'You won!' if self.board.won() else 'Game Over'
 
+    def getCellStr(self, x, y):
+        c = self.board.getCell(x, y)
+        if c == 0:
+            return '   .'
+        return '%4d' % c
+
     def boardToString(self):
         b = self.board
         rg = xrange(Board.SIZE)
         s = "\n".join(
-            [' '.join([b.getCellStr(x, y) for x in rg]) for y in rg])
+            [' '.join([self.getCellStr(x, y) for x in rg]) for y in rg])
         return s
 
     def __str__(self):

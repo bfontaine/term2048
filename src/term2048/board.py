@@ -56,12 +56,6 @@ class Board():
     def getCell(self, x, y):
         return self.cells[y][x]
 
-    def getCellStr(self, x, y):
-        c = self.getCell(x, y)
-        if c == 0:
-            return '   .'
-        return '%4d' % c
-
     def setCell(self, x, y, v):
         self.cells[y][x] = v
 
