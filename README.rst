@@ -13,7 +13,8 @@ This is currently under development.
 Install
 -------
 
-::
+.. code-block::
+
     pip install term2048
 
 Requirements
@@ -25,6 +26,6 @@ Requirements
 Tests
 -----
 
-Clone this repo, then:::
+Clone this repo, then: ::
 
     make check
