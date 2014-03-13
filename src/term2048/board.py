@@ -28,10 +28,11 @@ class Board():
         if not self.filled():
             return True
 
-        for y in xrange(0, Board.SIZE-1):
-            for x in xrange(0, Board.SIZE-1):
+        for y in xrange(0, Board.SIZE):
+            for x in xrange(0, Board.SIZE):
                 c = self.getCell(x, y)
-                if c == self.getCell(x+1, y) or c == self.getCell(x, y+1):
+                if (x < Board.SIZE-1 and c == self.getCell(x+1, y)) \
+                        or (y < Board.SIZE-1 and c == self.getCell(x, y+1)):
                     return True
 
         return False
@@ -87,13 +88,15 @@ class Board():
 
     def __collapseLineOrCol(self, line, d):
         """
-        Merge tiles in a line or column according to a direction
+        Merge tiles in a line or column according to a direction and return a
+        tuple with the new line and the score for the move on this line
         """
         if (d == Board.LEFT or d == Board.UP):
             rg = xrange(0, Board.SIZE-1)
         else:
             rg = xrange(Board.SIZE-2, -1, -1)
 
+        pts = 0
         for i in rg:
             if line[i] == line[i+1]:
                 v = line[i]*2
@@ -102,8 +105,9 @@ class Board():
 
                 line[i] = v
                 line[i+1] = 0
+                pts += v
 
-        return line
+        return (line, pts)
 
     def __moveLineOrCol(self, line, d):
         """
@@ -115,18 +119,28 @@ class Board():
         return [0] * (Board.SIZE - len(nl)) + nl
 
     def move(self, d, add_tile=True):
+        """
+        move and return the move score
+        """
         if d == Board.LEFT or d == Board.RIGHT:
             chg, get = self.setLine, self.getLine
-        else:
+        elif d == Board.UP or d == Board.DOWN:
             chg, get = self.setCol, self.getCol
+        else:
+            return 0
+
+        score = 0
 
         for i in xrange(0, Board.SIZE):
             line = self.__moveLineOrCol(get(i), d)
-            collapsed = self.__collapseLineOrCol(line, d)
+            collapsed, pts = self.__collapseLineOrCol(line, d)
             chg(i, self.__moveLineOrCol(collapsed, d))
+            score += pts
 
         if add_tile:
             self.addTile()
+
+        return score
 
     def __str__(self):
         s = "\n".join([' '.join(

@@ -12,6 +12,11 @@ This is currently under development.
 
 TODO
 
+## Requirements
+
+* Python 2.7
+* Linux or OSX (the arrows key input function won’t work on Windows)
+
 ## Run
 
 This will change in the future. For now:
