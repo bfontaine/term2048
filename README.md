@@ -1,5 +1,7 @@
 # term2048
 
+[![Build Status](https://img.shields.io/travis/bfontaine/term2048.svg)](https://travis-ci.org/bfontaine/term2048)
+
 **term2048** is a terminal-based version of [2048][2048].
 
 This is currently under development.
