@@ -4,7 +4,7 @@
 *.dSYM
 *.pyc
 *.zip
-*.egg
+*.egg-info
 __pycache__
 /venv
 /dist

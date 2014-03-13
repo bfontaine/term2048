@@ -3,6 +3,7 @@
 from os.path import dirname
 import sys
 
+import setuptools
 from distutils.core import setup
 
 # http://stackoverflow.com/a/7071358/735926
