@@ -10,11 +10,11 @@ SOURCEVENV=source venv/bin/activate;
 deps:
 	pip install -qr requirements.txt
 
-check: deps
+check:
 	$(SOURCEVENV) \
 	python tests/test.py
 
-covercheck: deps
+covercheck:
 	$(SOURCEVENV) \
 	coverage3 run --omit='tests/**' tests/test.py
 	$(SOURCEVENV) \
