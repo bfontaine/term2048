@@ -105,8 +105,12 @@ class TestBoard(unittest.TestCase):
         self.assertSequenceEqual(b.getLine(1), l)
 
     # == .getCol == #
-    def test_getLine(self):
-        self.assertFalse(True) # TODO
+    def test_getCol(self):
+        Board.SIZE = 4
+        b = Board()
+        l = [42, 17, 12, 3]
+        b.cells = [[l[i], 4, 1, 2] for i in xrange(Board.SIZE)]
+        self.assertSequenceEqual(b.getCol(0), l)
 
     # == .setLine == #
     def test_setLine(self):
@@ -124,15 +128,61 @@ class TestBoard(unittest.TestCase):
 
     # == .getEmptyCells == #
     def test_getEmptyCells(self):
-        self.assertFalse(True) # TODO
+        self.assertEqual(len(self.b.getEmptyCells()), Board.SIZE**2 - 2)
 
     def test_getEmptyCells_filled(self):
-        self.assertFalse(True) # TODO
+        Board.SIZE = 1
+        b = Board()
+        b.setCell(0, 0, 42)
+        self.assertSequenceEqual(b.getEmptyCells(), [])
 
     # == .move == #
-    def test_move(self):
-        self.assertFalse(True) # TODO
+    def test_move_filled(self):
+        Board.SIZE = 1
+        b = Board()
+        b.setCell(0, 0, 42)
+        b.move(Board.UP)
+        self.assertSequenceEqual(b.cells, [[42]])
+        b.move(Board.LEFT)
+        self.assertSequenceEqual(b.cells, [[42]])
+        b.move(Board.RIGHT)
+        self.assertSequenceEqual(b.cells, [[42]])
+        b.move(Board.DOWN)
+        self.assertSequenceEqual(b.cells, [[42]])
+
+    def test_move_add_tile(self):
+        Board.SIZE = 1
+        b = Board()
+        b.cells = [[0]]
+        b.move(Board.UP)
+        self.assertTrue(b.getCell(0, 0) != 0)
+        b.cells = [[0]]
+        b.move(Board.DOWN)
+        self.assertTrue(b.getCell(0, 0) != 0)
+        b.cells = [[0]]
+        b.move(Board.LEFT)
+        self.assertTrue(b.getCell(0, 0) != 0)
+        b.cells = [[0]]
+        b.move(Board.RIGHT)
+        self.assertTrue(b.getCell(0, 0) != 0)
+
+    def test_move_collapse(self):
+        Board.SIZE = 2
+        b = Board()
+        b.cells = [
+            [2, 2],
+            [0, 0]
+        ]
+
+        b.move(Board.LEFT, add_tile=False)
+        self.assertSequenceEqual(b.cells, [
+            [4, 0],
+            [0, 0]
+        ])
 
     # == .__str__ == #
     def test_str(self):
-        self.assertFalse(True) # TODO
+        Board.SIZE = 1
+        b = Board()
+        b.setCell(0, 0, 2048)
+        self.assertEqual(b.__str__(), b.getCellStr(0, 0))
