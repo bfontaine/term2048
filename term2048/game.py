@@ -62,6 +62,7 @@ class Game(object):
     SCORES_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
 
     def __init__(self, scores_file=SCORES_FILE, colors=COLORS,
+            clear_screen=True,
             mode=None, azmode=False, **kws):
         """
         Create a new game.
@@ -75,10 +76,13 @@ class Game(object):
         self.board = Board(**kws)
         self.score = 0
         self.scores_file = scores_file
+        self.clear_screen = clear_screen
+
         self.__colors = colors
+        self.__azmode = azmode
+
         self.loadBestScore()
         self.adjustColors(mode)
-        self.__azmode = azmode
 
     def adjustColors(self, mode='dark'):
         """
@@ -145,7 +149,10 @@ class Game(object):
         """
         try:
             while True:
-                os.system(Game.__clear)
+                if self.clear_screen:
+                    os.system(Game.__clear)
+                else:
+                    print("\n")
                 print(self.__str__(margins={'left':4, 'top':4, 'bottom':4}))
                 if self.board.won() or not self.board.canMove():
                     break
