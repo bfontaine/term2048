@@ -61,3 +61,4 @@ Contributions
 * Tests instructions fixed by @olafleur
 * Spawn probabilities fixed by @frankh
 * Colors improved by @idosch
+* hjkl keys support by @aminb
