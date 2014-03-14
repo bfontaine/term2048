@@ -22,6 +22,12 @@ Install
 
     pip install term2048
 
+To upgrade a previous installation, use:
+
+.. code-block::
+
+    pip install -U term2048
+
 Play
 ----
 
