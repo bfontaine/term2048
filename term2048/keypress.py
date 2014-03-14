@@ -20,7 +20,7 @@ UP_K, DOWN_J, RIGHT_L, LEFT_H = 107, 106, 108, 104
 hjkl = (107, 106, 108, 104)
 
 
-def getKey():
+def __getKey():
     """Return a key pressed by the user"""
     try:
         tty.setcbreak(sys.stdin.fileno())
@@ -31,11 +31,18 @@ def getKey():
         termios.tcsetattr(__fd, termios.TCSADRAIN, __old)
 
 
+def getKey():
+    """
+    same as __getKey, but handle arrow keys
+    """
+    k = __getKey()
+    if k == 27:
+        k = __getKey()
+        if k == 91:
+            k = __getKey()
+
+    return k
+
 def getArrowKey():
-    """same as getKey, but assuming that the user pressed an arrow key"""
-    k = getKey()
-    if not k in hjkl:
-        getKey()
-        return getKey()
-    else:
-        return k
+    """legacy function. See getKey"""
+    return getKey()
