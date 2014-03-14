@@ -118,6 +118,14 @@ class Game(object):
         except:
             pass # fail silently
 
+    def incScore(self, pts):
+        """
+        update the current score by adding it the specified number of points
+        """
+        self.score += pts
+        if self.score > self.best_score:
+            self.best_score = self.score
+
     def end(self):
         """
         return True if the game is finished
@@ -142,9 +150,7 @@ class Game(object):
                 if self.board.won() or not self.board.canMove():
                     break
                     m = self.readMove()
-                self.score += self.board.move(m)
-                if self.score > self.best_score:
-                    self.best_score = self.score
+                self.incScore(self.board.move(m))
 
         except KeyboardInterrupt:
             self.saveBestScore()
