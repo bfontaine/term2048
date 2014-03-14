@@ -107,6 +107,9 @@ class Board(object):
         return [(x, y) for x in xrange(self.__size)
                            for y in xrange(self.__size) if self.getCell(x, y) == 0]
 
+    def getGoal(self):
+        return self.__goal
+
     def __collapseLineOrCol(self, line, d):
         """
         Merge tiles in a line or column according to a direction and return a

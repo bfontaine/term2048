@@ -26,6 +26,8 @@ def start_game():
         parser = argparse.ArgumentParser(description='2048 in your terminal')
         parser.add_argument('--mode', dest='mode',
                 type=str, default=None, help='colors mode (dark or light)')
+        parser.add_argument('--az', dest='azmode',
+                action='store_true', help='Use the letters a-z instead of numbers')
         args = parser.parse_args()
 
-    Game(mode=args.mode).loop()
+    Game(mode=args.mode, azmode=args.azmode).loop()

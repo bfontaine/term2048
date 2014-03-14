@@ -3,6 +3,7 @@ from __future__ import print_function
 
 import os
 import os.path
+import math
 
 from colorama import init, Fore, Style
 
@@ -61,7 +62,7 @@ class Game(object):
     SCORES_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
 
     def __init__(self, scores_file=SCORES_FILE, colors=COLORS,
-            mode=None, **kws):
+            mode=None, azmode=False, **kws):
         """
         Create a new game.
             scores_file: file to use for the best score (default
@@ -77,6 +78,7 @@ class Game(object):
         self.__colors = colors
         self.loadBestScore()
         self.adjustColors(mode)
+        self.__azmode = azmode
 
     def adjustColors(self, mode='dark'):
         """
@@ -155,15 +157,25 @@ class Game(object):
         return a string representation of the cell located at x,y.
         """
         c = self.board.getCell(x, y)
-        if c == 0:
+
+        az = {}
+        for i in range(1, int(math.log(self.board.getGoal(), 2))):
+            az[2**i] = chr(i+96)
+
+        if c==0 and self.__azmode:
+            return '.'
+        elif c == 0:
             return '  .'
 
-        if c == 1024:
+        elif self.__azmode:
+            s = az[c]
+        elif c == 1024:
             s = ' 1k'
         elif c == 2048:
             s = ' 2k'
         else:
             s = '%3d' % c
+
         return self.__colors.get(c, Fore.RESET) + s + Fore.RESET
 
     def boardToString(self, margins={}):
