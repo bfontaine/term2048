@@ -18,6 +18,7 @@ __old = termios.tcgetattr(__fd)
 UP, DOWN, RIGHT, LEFT = 65, 66, 67, 68
 
 def getKey():
+    """Return a key pressed by the user"""
     try:
         tty.setcbreak(sys.stdin.fileno())
         termios.tcflush(sys.stdin, termios.TCIOFLUSH)
@@ -27,6 +28,7 @@ def getKey():
         termios.tcsetattr(__fd, termios.TCSADRAIN, __old)
 
 def getArrowKey():
+    """same as getKey, but assuming that the user pressed an arrow key"""
     getKey()
     getKey()
     return getKey()

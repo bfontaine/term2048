@@ -21,9 +21,15 @@ class Board():
         self.addTile()
 
     def size(self):
+        """
+        return the board size
+        """
         return self.__size
 
     def won(self):
+        """
+        return True if the board contains at least one tile with the board goal
+        """
         return self.__won
 
     def canMove(self):
@@ -43,11 +49,17 @@ class Board():
         return False
 
     def filled(self):
+        """
+        return true if the game is filled
+        """
         return len(self.getEmptyCells()) == 0
 
     def addTile(self, value=None, choices=[2, 4]):
         """
         add a random tile in an empty cell
+          value: value of the tile to add.
+          choices: a list of possible choices for the value of the tile.
+                   default is [2, 4].
         """
         if value:
             choices = [value]
@@ -59,29 +71,33 @@ class Board():
             self.setCell(x, y, v)
 
     def getCell(self, x, y):
+        """return the cell value at x,y"""
         return self.cells[y][x]
 
     def setCell(self, x, y, v):
+        """set the cell value at x,y"""
         self.cells[y][x] = v
 
     def getLine(self, y):
+        """return the y-th line, starting at 0"""
         return [self.getCell(i, y) for i in xrange(0, self.__size)]
 
     def getCol(self, x):
+        """return the x-th column, starting at 0"""
         return [self.getCell(x, i) for i in xrange(0, self.__size)]
 
     def setLine(self, y, l):
+        """set the y-th line, starting at 0"""
         for i in xrange(0, self.__size):
             self.setCell(i, y, l[i])
 
     def setCol(self, x, l):
+        """set the x-th column, starting at 0"""
         for i in xrange(0, self.__size):
             self.setCell(x, i, l[i])
 
     def getEmptyCells(self):
-        """
-        return (x, y) for each cell
-        """
+        """return a (x, y) pair for each cell"""
         return [(x, y) for x in xrange(self.__size)
                            for y in xrange(self.__size) if self.getCell(x, y) == 0]
 

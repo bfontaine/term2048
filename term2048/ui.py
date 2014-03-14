@@ -2,5 +2,6 @@
 
 from game import Game
 
-def start_game():
-    Game().loop()
+def start_game(**kws):
+    """start a new game"""
+    Game(**kws).loop()

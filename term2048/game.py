@@ -8,6 +8,10 @@ from colorama import init, Fore
 init(autoreset=True)
 
 class Game:
+    """
+    A 2048 game
+    """
+
     __dirs = {
         keypress.UP:    Board.UP,
         keypress.DOWN:  Board.DOWN,
