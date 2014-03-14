@@ -42,7 +42,6 @@ Then use arrow keys to move.
 Requirements
 ------------
 
-* Python 2.7
 * Linux or OSX (the arrows key input function won’t work on Windows)
 
 Tests
