@@ -12,20 +12,19 @@ class TestGame(unittest.TestCase):
     def setUp(self):
         Board.SIZE = _BSIZE
         Game.SCORES_FILE = None
-        self.g = Game()
+        self.g = Game(scores_file=None)
         self.b = self.g.board
 
     def test_init_with_size_3_goal_4(self):
-        g = Game(size=3, goal=4)
+        g = Game(size=3, goal=4, scores_file=None)
         self.assertEqual(g.board.size(), 3)
 
     # == .saveBestScore == #
 
     def test_save_best_score_no_file(self):
-        g = Game()
-        g.score = 42
-        g.saveBestScore()
-        self.assertEqual(g.best_score, 42)
+        self.g.score = 42
+        self.g.saveBestScore()
+        self.assertEqual(self.g.best_score, 42)
 
     # == .end == #
 

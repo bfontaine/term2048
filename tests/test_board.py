@@ -215,3 +215,8 @@ class TestBoard(unittest.TestCase):
         ]
         b.move(Board.LEFT, add_tile=False)
         self.assertTrue(b.won())
+
+    def test_move_wrong_direction(self):
+        self.assertEqual(self.b.move(42, add_tile=False), 0)
+        self.assertEqual(self.b.move(None), 0)
+        self.assertEqual(self.b.move("up"), 0)
