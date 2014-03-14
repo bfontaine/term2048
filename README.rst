@@ -13,8 +13,6 @@ term2048
 
 **term2048** is a terminal-based version of 2048_.
 
-This is currently under development.
-
 .. _2048: http://gabrielecirulli.github.io/2048/
 
 Install
