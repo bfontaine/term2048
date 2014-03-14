@@ -15,6 +15,8 @@ term2048
 
 .. _2048: http://gabrielecirulli.github.io/2048/
 
+.. image:: https://github.com/bfontaine/term2048/raw/master/img/term2048.png
+
 Install
 -------
 
