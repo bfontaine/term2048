@@ -23,4 +23,6 @@ clean:
 	rm -f $(COVERFILE)
 
 publish: check-versions
-	python setup.py sdist upload
+	@echo === DEPRECATED ===
+	@echo Releases are now published through Travis-CI.
+	@echo Tag the commit and push, and Travis will take care of the rest.
