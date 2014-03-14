@@ -4,7 +4,7 @@ python:
 - '2.7'
 - '3.2'
 install:
-- [[ $TRAVIS_PYTHON_VERSION == '2.6' ]] && pip install -r py26-requirements.txt
+- "[[ $TRAVIS_PYTHON_VERSION == '2.6' ]] && pip install -r py26-requirements.txt"
 - pip install -r requirements.txt
 script:
 - make covercheck
