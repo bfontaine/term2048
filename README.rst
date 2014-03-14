@@ -56,6 +56,9 @@ If you’re using Python 2.6, you need to do this as well before running tests: 
 Contributions
 -------------
 
+v0.2.0
+~~~~~~
+
 * Python 2.6 and 3.x support by @shaunduncan
 * Tests instructions fixed by @olafleur
 * Spawn probabilities fixed by @frankh
