@@ -19,5 +19,5 @@ clean:
 	rm -f *~ */*~
 	rm -f $(COVERFILE)
 
-publish:
+publish: check
 	python setup.py sdist upload
