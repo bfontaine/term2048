@@ -17,7 +17,7 @@ __old = termios.tcgetattr(__fd)
 # right: 27 91 67
 UP, DOWN, RIGHT, LEFT = 65, 66, 67, 68
 UP_K, DOWN_J, RIGHT_L, LEFT_H = 107, 106, 108, 104
-hjkl = {107, 106, 108, 104}
+hjkl = (107, 106, 108, 104)
 
 
 def getKey():
