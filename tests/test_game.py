@@ -8,10 +8,16 @@ import keypress_mock as kp
 from colorama import Fore
 from term2048.board import Board
 from term2048.game import Game
+
+import sys
 from tempfile import NamedTemporaryFile
 from os import remove
 
 _BSIZE = Board.SIZE
+
+class DevNull(object):
+    def write(self, *args):
+        pass
 
 class TestGame(unittest.TestCase):
 
@@ -20,6 +26,13 @@ class TestGame(unittest.TestCase):
         Game.SCORES_FILE = None
         self.g = Game(scores_file=None)
         self.b = self.g.board
+        # don't print anything on stdout
+        self.stdout = sys.stdout
+        sys.stdout = DevNull()
+
+    def tearDown(self):
+        sys.stdout = self.stdout
+        pass
 
     def test_init_with_size_3_goal_4(self):
         g = Game(size=3, goal=4, scores_file=None)
@@ -115,6 +128,17 @@ class TestGame(unittest.TestCase):
     def test_read_known_move(self):
         kp._setNextKey(kp.LEFT)
         self.assertEqual(self.g.readMove(), Board.LEFT)
+
+    # == .loop == #
+
+    def test_simple_win_loop(self):
+        kp._setNextKey(kp.UP)
+        g = Game(goal=4, size=2, clear_screen=False)
+        g.board.cells = [
+            [2, 0],
+            [2, 0]
+        ]
+        g.loop()
 
     # == .getCellStr == #
 
