@@ -209,7 +209,9 @@ class TestBoard(unittest.TestCase):
 
     def test_move_collapse_and_win(self):
         b = Board(size=2, goal=4)
-        b.setLine(0, [2, 2])
-        b.setLine(0, [0, 0])
+        b.cells = [
+            [2, 2],
+            [0, 0]
+        ]
         b.move(Board.LEFT, add_tile=False)
         self.assertTrue(b.won())
