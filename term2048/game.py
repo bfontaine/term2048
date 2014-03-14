@@ -37,20 +37,21 @@ class Game:
 
     SCORES_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
 
-    def __init__(self, **kws):
+    def __init__(self, scores_file=SCORES_FILE, **kws):
         self.board = Board(**kws)
         self.score = 0
+        self.scores_file = scores_file
         self.loadBestScore()
 
     def loadBestScore(self):
         """
         load local best score from the default file
         """
-        if Game.SCORES_FILE is None or not os.path.exists(Game.SCORES_FILE):
+        if self.scores_file is None or not os.path.exists(self.scores_file):
             self.best_score = 0
             return
         try:
-            f = open(Game.SCORES_FILE, 'r')
+            f = open(self.scores_file, 'r')
             self.best_score = int(f.readline(), 10)
             f.close()
         except:
@@ -63,7 +64,7 @@ class Game:
         if self.score > self.best_score:
             self.best_score = self.score
         try:
-            f = open(Game.SCORES_FILE, 'w')
+            f = open(self.scores_file, 'w')
             f.write(str(self.best_score))
             f.close()
         except:
