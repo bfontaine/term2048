@@ -85,6 +85,8 @@ class Game:
         while True:
             os.system(Game.__clear)
             print self.__str__(margins={'left':4, 'top':4, 'bottom':4})
+            if self.board.won() or not self.board.canMove():
+                break
             try:
                 m = self.readMove()
             except KeyboardInterrupt:
@@ -93,8 +95,6 @@ class Game:
             self.score += self.board.move(m)
             if self.score > self.best_score:
                 self.best_score = self.score
-            if self.board.won() or not self.board.canMove():
-                break
 
         self.saveBestScore()
         print 'You won!' if self.board.won() else 'Game Over'
