@@ -2,7 +2,7 @@
 term2048
 ========
 
-.. image:: https://img.shields.io/travis/bfontaine/term2048.svg
+.. image:: https://img.shields.io/travis/bfontaine/term2048.png
    :target: https://travis-ci.org/bfontaine/term2048
    :alt: Build status
 
