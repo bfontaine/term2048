@@ -3,12 +3,9 @@
 import unittest
 from term2048.board import Board
 
-_BSIZE = Board.SIZE
-
 class TestBoard(unittest.TestCase):
 
     def setUp(self):
-        Board.SIZE = _BSIZE
         self.b = Board()
 
     # == init == #
@@ -19,10 +16,13 @@ class TestBoard(unittest.TestCase):
             self.assertEqual(len(self.b.cells[1]), Board.SIZE)
 
     def test_init_dimensions_1(self):
-        Board.SIZE = 1
-        b = Board()
+        b = Board(size=1)
         c = b.cells[0][0]
         self.assertTrue(c in [2, 4])
+
+    def test_init_dimensions_3_goal_4(self):
+        b = Board(size=3, goal=4)
+        self.assertEqual(b.size(), 3)
 
     def test_init_only_two_tiles(self):
         t = 0
@@ -42,6 +42,12 @@ class TestBoard(unittest.TestCase):
     def test_init_not_filled(self):
         self.assertFalse(self.b.filled())
 
+    # == .size == #
+    def test_size(self):
+        s = 42
+        b = Board(size=s)
+        self.assertEqual(b.size(), s)
+
     # == .won == #
     def test_won(self):
         self.b._Board__won = True
@@ -51,19 +57,16 @@ class TestBoard(unittest.TestCase):
 
     # == .canMove == #
     def test_canMove_no_empty_cell(self):
-        Board.SIZE = 1
-        b = Board()
+        b = Board(size=1)
         b.setCell(0, 0, 42)
         self.assertFalse(b.canMove())
 
     def test_canMove_empty_cell(self):
-        Board.SIZE = 2
-        b = Board()
+        b = Board(size=2)
         self.assertTrue(b.canMove())
 
     def test_canMove_no_empty_cell_can_collapse(self):
-        Board.SIZE = 2
-        b = Board()
+        b = Board(size=2)
         b.cells = [
             [2, 2],
             [4, 8]
@@ -77,8 +80,7 @@ class TestBoard(unittest.TestCase):
 
     # == .addTile == #
     def test_addTile(self):
-        Board.SIZE = 1
-        b = Board()
+        b = Board(size=1)
         b.cells = [[0]]
         b.addTile(value=42)
         self.assertEqual(b.cells[0][0], 42)
@@ -99,8 +101,7 @@ class TestBoard(unittest.TestCase):
 
     # == .getLine == #
     def test_getLine(self):
-        Board.SIZE = 4
-        b = Board()
+        b = Board(size=4)
         l = [42, 17, 12, 3]
         b.cells = [
             [0]*4,
@@ -112,10 +113,10 @@ class TestBoard(unittest.TestCase):
 
     # == .getCol == #
     def test_getCol(self):
-        Board.SIZE = 4
-        b = Board()
+        s = 4
+        b = Board(size=s)
         l = [42, 17, 12, 3]
-        b.cells = [[l[i], 4, 1, 2] for i in xrange(Board.SIZE)]
+        b.cells = [[l[i], 4, 1, 2] for i in xrange(s)]
         self.assertSequenceEqual(b.getCol(0), l)
 
     # == .setLine == #
@@ -137,15 +138,13 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(len(self.b.getEmptyCells()), Board.SIZE**2 - 2)
 
     def test_getEmptyCells_filled(self):
-        Board.SIZE = 1
-        b = Board()
+        b = Board(size=1)
         b.setCell(0, 0, 42)
         self.assertSequenceEqual(b.getEmptyCells(), [])
 
     # == .move == #
     def test_move_filled(self):
-        Board.SIZE = 1
-        b = Board()
+        b = Board(size=1)
         b.setCell(0, 0, 42)
         b.move(Board.UP)
         self.assertSequenceEqual(b.cells, [[42]])
@@ -157,8 +156,7 @@ class TestBoard(unittest.TestCase):
         self.assertSequenceEqual(b.cells, [[42]])
 
     def test_move_add_tile(self):
-        Board.SIZE = 1
-        b = Board()
+        b = Board(size=1)
         b.cells = [[0]]
         b.move(Board.UP)
         self.assertTrue(b.getCell(0, 0) != 0)
@@ -173,8 +171,7 @@ class TestBoard(unittest.TestCase):
         self.assertTrue(b.getCell(0, 0) != 0)
 
     def test_move_collapse(self):
-        Board.SIZE = 2
-        b = Board()
+        b = Board(size=2)
         b.cells = [
             [2, 2],
             [0, 0]
@@ -187,29 +184,32 @@ class TestBoard(unittest.TestCase):
         ])
 
     def test_move_collapse_triplet1(self):
-        Board.SIZE = 3
-        b = Board()
+        b = Board(size=3)
         b.setLine(0, [2, 2, 2])
         b.move(Board.LEFT, add_tile=False)
         self.assertSequenceEqual(b.getLine(0), [4, 2, 0])
 
     def test_move_collapse_triplet2(self):
-        Board.SIZE = 3
-        b = Board()
+        b = Board(size=3)
         b.setLine(0, [2, 2, 2])
         b.move(Board.RIGHT, add_tile=False)
         self.assertSequenceEqual(b.getLine(0), [0, 2, 4])
 
     def test_move_collapse_with_empty_cell_in_between(self):
-        Board.SIZE = 3
-        b = Board()
+        b = Board(size=3)
         b.setLine(0, [2, 0, 2])
         b.move(Board.RIGHT, add_tile=False)
         self.assertSequenceEqual(b.getLine(0), [0, 0, 4])
 
     def test_move_collapse_with_empty_cell_in_between2(self):
-        Board.SIZE = 3
-        b = Board()
+        b = Board(size=3)
         b.setLine(0, [2, 0, 2])
         b.move(Board.LEFT, add_tile=False)
         self.assertSequenceEqual(b.getLine(0), [4, 0, 0])
+
+    def test_move_collapse_and_win(self):
+        b = Board(size=2, goal=4)
+        b.setLine(0, [2, 2])
+        b.setLine(0, [0, 0])
+        b.move(Board.LEFT, add_tile=False)
+        self.assertTrue(b.won())
