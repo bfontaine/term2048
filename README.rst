@@ -37,7 +37,8 @@ Play
 
     term2048
 
-Then use arrow keys to move.
+Then use arrow keys to move. Use ``-h``  to check the list of available
+options.
 
 Tests
 -----
@@ -61,3 +62,4 @@ Contributions
 * Colors improved by @idosch
 * hjkl keys support by @aminb
 * Windows support by @valtron
+* AZ mode by @JosephRedfern
