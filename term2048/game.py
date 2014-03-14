@@ -4,7 +4,7 @@ import os
 import os.path
 import keypress
 from board import Board
-from colorama import init, Fore
+from colorama import init, Fore, Style
 init(autoreset=True)
 
 class Game:
@@ -23,12 +23,12 @@ class Game:
 
     COLORS = {
            2: Fore.GREEN,
-           4: Fore.BLUE,
+           4: Fore.BLUE + Style.BRIGHT,
            8: Fore.CYAN,
           16: Fore.RED,
           32: Fore.MAGENTA,
           64: Fore.CYAN,
-         128: Fore.BLUE,
+         128: Fore.BLUE + Style.BRIGHT,
          256: Fore.MAGENTA,
          512: Fore.GREEN,
         1024: Fore.RED,
