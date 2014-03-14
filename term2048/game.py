@@ -42,7 +42,7 @@ class Game:
         """
         load local best score from the default file
         """
-        if not os.path.exists(Game.SCORES_FILE):
+        if Game.SCORES_FILE is None or not os.path.exists(Game.SCORES_FILE):
             self.best_score = 0
             return
         try:
@@ -120,13 +120,13 @@ class Game:
         return a string representation of the current board.
         """
         b = self.board
-        rg = xrange(Board.SIZE)
+        rg = xrange(b.size())
         left = ' '*margins.get('left', 0)
         s = '\n'.join(
             [left + ' '.join([self.getCellStr(x, y) for x in rg]) for y in rg])
         return s
 
-    def __str__(self, margins):
+    def __str__(self, margins={}):
         b = self.boardToString(margins=margins)
         top = '\n'*margins.get('top', 0)
         bottom = '\n'*margins.get('bottom', 0)
