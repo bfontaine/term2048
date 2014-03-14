@@ -1,7 +1,17 @@
 # -*- coding: UTF-8 -*-
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 
-import unittest
 from term2048.board import Board
+
+# PY3 compat
+try:
+    xrange
+except NameError:
+    xrange = range
+
 
 class TestBoard(unittest.TestCase):
 

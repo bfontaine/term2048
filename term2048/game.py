@@ -1,13 +1,25 @@
 # -*- coding: UTF-8 -*-
+from __future__ import print_function
 
 import os
 import os.path
-import keypress
-from board import Board
+
 from colorama import init, Fore
+
+from term2048 import keypress
+from term2048.board import Board
+
+# PY3 compat
+try:
+    xrange
+except NameError:
+    xrange = range
+
+
 init(autoreset=True)
 
-class Game:
+
+class Game(object):
     """
     A 2048 game
     """
@@ -89,7 +101,7 @@ class Game:
         """
         while True:
             os.system(Game.__clear)
-            print self.__str__(margins={'left':4, 'top':4, 'bottom':4})
+            print(self.__str__(margins={'left':4, 'top':4, 'bottom':4}))
             if self.board.won() or not self.board.canMove():
                 break
             try:
@@ -102,7 +114,7 @@ class Game:
                 self.best_score = self.score
 
         self.saveBestScore()
-        print 'You won!' if self.board.won() else 'Game Over'
+        print('You won!' if self.board.won() else 'Game Over')
 
     def getCellStr(self, x, y):
         """

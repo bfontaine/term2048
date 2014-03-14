@@ -1,8 +1,12 @@
 # -*- coding: UTF-8 -*-
+import sys
+
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 
 from os.path import dirname
-import sys
-import unittest
 
 if __name__ == '__main__':
     here = dirname(__file__)
