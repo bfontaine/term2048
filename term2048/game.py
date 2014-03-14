@@ -21,7 +21,7 @@ class Game:
 
     __clear = 'cls' if os.name == 'nt' else 'clear'
 
-    __colors = {
+    COLORS = {
            2: Fore.GREEN,
            4: Fore.BLUE,
            8: Fore.CYAN,
@@ -35,13 +35,47 @@ class Game:
         2048: Fore.YELLOW,
     }
 
+    # see Game#adjustColors
+    # these are color replacements for various modes
+    __color_modes = {
+        'dark': {
+            Fore.BLUE: Fore.WHITE,
+        },
+        'light': {
+            Fore.YELLOW: Fore.BLACK,
+        },
+    }
+
     SCORES_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
 
-    def __init__(self, scores_file=SCORES_FILE, **kws):
+    def __init__(self, scores_file=SCORES_FILE, colors=COLORS,
+            mode=None, **kws):
+        """
+        Create a new game.
+            scores_file: file to use for the best score (default
+                         is ~/.term2048.scores)
+            colors: dictionnary with colors to use for each tile
+            mode: color mode. This adjust a few colors and can be 'dark' or
+                  'light'. See the adjustColors functions for more info.
+            other options are passed to the underlying Board object.
+        """
         self.board = Board(**kws)
         self.score = 0
         self.scores_file = scores_file
+        self.__colors = colors
         self.loadBestScore()
+        self.adjustColors(mode)
+
+    def adjustColors(self, mode='dark'):
+        """
+        Change a few colors depending on the mode to use. The default mode
+        doesn't assume anything and avoid using white & black colors. The dark
+        mode use white and avoid dark blue while the light mode use black and
+        avoid yellow, to give a few examples.
+        """
+        rp = Game.__color_modes.get(mode, {})
+        for k, color in self.__colors.items():
+            self.__colors[k] = rp.get(color, color)
 
     def loadBestScore(self):
         """
@@ -118,7 +152,7 @@ class Game:
             s = ' 2k'
         else:
             s = '%3d' % c
-        return Game.__colors.get(c, Fore.RESET) + s + Fore.RESET
+        return self.__colors.get(c, Fore.RESET) + s + Fore.RESET
 
     def boardToString(self, margins={}):
         """

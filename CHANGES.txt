@@ -1,3 +1,4 @@
+v0.1.7, 2014-03-14 -- --mode option added to change the colors mode
 v0.1.6, 2014-03-14 -- random collapse bug fixed
 v0.1.5, 2014-03-14 -- tiles don't spawn if nothing moved, like in the original game
 v0.1.4, 2014-03-14 -- best score support, bug fixes, minor UI improvements
