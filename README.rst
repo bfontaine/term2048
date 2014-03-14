@@ -50,6 +50,6 @@ Tests
 
 Clone this repo, then: ::
 
-    sudo pip2 install colorama
+    [sudo] pip2 install -r requirements.txt
     make check
 
