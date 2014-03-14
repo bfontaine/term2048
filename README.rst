@@ -50,9 +50,11 @@ Tests
 
 Clone this repo, then: ::
 
+    [sudo] pip2 install -r requirements.txt
     make check
 
 Contributions
 -------------
 
 * Python 2.6 and 3.x support by @shaunduncan
+* Tests instructions fixed by @olafleur
