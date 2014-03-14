@@ -58,3 +58,5 @@ Contributions
 
 * Python 2.6 and 3.x support by @shaunduncan
 * Tests instructions fixed by @olafleur
+* Spawn probabilities fixed by @frankh
+* Colors improved by @idosch
