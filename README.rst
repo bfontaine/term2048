@@ -7,7 +7,7 @@ term2048
    :alt: Build status
 
 
-.. image:: https://coveralls.io/repos/bfontaine/term2048/badge.png
+.. image:: https://img.shields.io/coveralls/bfontaine/term2048.svg
   :target: https://coveralls.io/r/bfontaine/term2048
   :alt: Coverage status
 
