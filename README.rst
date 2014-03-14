@@ -53,6 +53,8 @@ Clone this repo, then: ::
     [sudo] pip2 install -r requirements.txt
     make check
 
+You need to install ``unittest2`` if you’re using Python 2.6.
+
 Contributions
 -------------
 
