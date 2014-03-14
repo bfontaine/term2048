@@ -60,12 +60,12 @@ class Board(object):
         """
         return len(self.getEmptyCells()) == 0
 
-    def addTile(self, value=None, choices=[2, 4]):
+    def addTile(self, value=None, choices=([2]*9+[4])):
         """
         add a random tile in an empty cell
           value: value of the tile to add.
           choices: a list of possible choices for the value of the tile.
-                   default is [2, 4].
+                   default is [2, 2, 2, 2, 2, 2, 2, 2, 2, 4].
         """
         if value:
             choices = [value]
