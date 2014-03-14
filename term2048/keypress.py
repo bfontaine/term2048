@@ -17,6 +17,7 @@ __old = termios.tcgetattr(__fd)
 # right: 27 91 67
 UP, DOWN, RIGHT, LEFT = 65, 66, 67, 68
 
+
 def getKey():
     """Return a key pressed by the user"""
     try:
@@ -26,6 +27,7 @@ def getKey():
         return ord(ch)
     finally:
         termios.tcsetattr(__fd, termios.TCSADRAIN, __old)
+
 
 def getArrowKey():
     """same as getKey, but assuming that the user pressed an arrow key"""

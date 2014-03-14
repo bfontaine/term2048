@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-from game import Game
+from term2048.game import Game
 import argparse
 
 def start_game():

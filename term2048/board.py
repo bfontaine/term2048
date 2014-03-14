@@ -1,8 +1,14 @@
 # -*- coding: UTF-8 -*-
-
 import random
 
-class Board():
+# PY3 compat
+try:
+    xrange
+except NameError:
+    xrange = range
+
+
+class Board(object):
     """
     A 2048 board
     """
