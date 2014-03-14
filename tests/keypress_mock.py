@@ -3,7 +3,7 @@
 # helpers
 
 __kp = None
-__key = 42
+__keys = []
 
 UP, DOWN, LEFT, RIGHT = range(4)
 
@@ -15,13 +15,16 @@ def _setRealModule(m):
     LEFT = __kp.LEFT
     LEFT = __kp.LEFT
 
-def _setNextKey(k):
+def _setNextKeys(ks):
     """test helper, set next key to return with getKey"""
-    global __key
-    __key = k
+    global __keys
+    __keys = ks
+
+def _setNextKey(k):
+    _setNextKeys([k])
 
 # mocks
 
 def getKey():
     """mock term2048.keypress.getKey"""
-    return __key
+    return __keys.pop()
