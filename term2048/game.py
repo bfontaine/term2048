@@ -33,12 +33,15 @@ class Game:
 
     SCORES_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
 
-    def __init__(self):
-        self.board = Board()
+    def __init__(self, **kws):
+        self.board = Board(**kws)
         self.score = 0
         self.loadBestScore()
 
     def loadBestScore(self):
+        """
+        load local best score from the default file
+        """
         if not os.path.exists(Game.SCORES_FILE):
             self.best_score = 0
             return
@@ -50,6 +53,9 @@ class Game:
             pass # fail silently
 
     def saveBestScore(self):
+        """
+        save current best score in the default file
+        """
         if self.score > self.best_score:
             self.best_score = self.score
         try:
@@ -60,13 +66,22 @@ class Game:
             pass # fail silently
 
     def end(self):
+        """
+        return True if the game is finished
+        """
         return not (self.board.won() or self.board.canMove())
 
     def readMove(self):
+        """
+        read and return a move to pass to a board
+        """
         k = keypress.getArrowKey()
         return Game.__dirs.get(k)
 
     def loop(self):
+        """
+        main game loop
+        """
         while True:
             os.system(Game.__clear)
             print self.__str__(margins={'left':4, 'top':4, 'bottom':4})
@@ -85,6 +100,9 @@ class Game:
         print 'You won!' if self.board.won() else 'Game Over'
 
     def getCellStr(self, x, y):
+        """
+        return a string representation of the cell located at x,y.
+        """
         c = self.board.getCell(x, y)
         if c == 0:
             return '  .'
@@ -98,6 +116,9 @@ class Game:
         return Game.__colors.get(c, Fore.RESET) + s + Fore.RESET
 
     def boardToString(self, margins={}):
+        """
+        return a string representation of the current board.
+        """
         b = self.board
         rg = xrange(Board.SIZE)
         left = ' '*margins.get('left', 0)
