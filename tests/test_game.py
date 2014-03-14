@@ -73,7 +73,7 @@ class TestGame(unittest.TestCase):
 
     def test_init_with_local_scores_file(self):
         scores_file = NamedTemporaryFile(delete=False)
-        scores_file.write('2048')
+        scores_file.write('2048'.encode())
         scores_file.close()
 
         g = Game(scores_file=scores_file.name)
