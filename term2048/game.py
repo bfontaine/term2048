@@ -149,7 +149,7 @@ class Game(object):
                 print(self.__str__(margins={'left':4, 'top':4, 'bottom':4}))
                 if self.board.won() or not self.board.canMove():
                     break
-                    m = self.readMove()
+                m = self.readMove()
                 self.incScore(self.board.move(m))
 
         except KeyboardInterrupt:
