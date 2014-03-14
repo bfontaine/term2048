@@ -39,11 +39,6 @@ Play
 
 Then use arrow keys to move.
 
-Requirements
-------------
-
-* Linux or OSX (the arrows key input function won’t work on Windows)
-
 Tests
 -----
 
@@ -62,3 +57,4 @@ Contributions
 * Spawn probabilities fixed by @frankh
 * Colors improved by @idosch
 * hjkl keys support by @aminb
+* Windows support by @valtron
