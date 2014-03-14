@@ -31,7 +31,14 @@ else:
     UP, DOWN, RIGHT, LEFT = 65, 66, 67, 68
 
     # Vim keys
-    UP_K, DOWN_J, RIGHT_L, LEFT_H = 107, 106, 108, 104
+    K, J, L, H = 107, 106, 108, 104
+
+    __key_aliases = {
+        K: UP,
+        J: DOWN,
+        L: RIGHT,
+        H: LEFT,
+    }
 
     def __getKey():
         """Return a key pressed by the user"""
@@ -54,7 +61,7 @@ else:
             if k == 91:
                 k = __getKey()
 
-        return k
+        return __key_aliases.get(k, k)
 
     # legacy support
     getArrowKey = getKey
