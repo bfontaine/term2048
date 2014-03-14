@@ -22,6 +22,15 @@ Install
 
     pip install term2048
 
+Play
+----
+
+.. code-block::
+
+    term2048
+
+Then use arrow keys to move.
+
 Requirements
 ------------
 
