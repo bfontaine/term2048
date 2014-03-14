@@ -135,19 +135,20 @@ class Game(object):
         """
         main game loop
         """
-        while True:
-            os.system(Game.__clear)
-            print(self.__str__(margins={'left':4, 'top':4, 'bottom':4}))
-            if self.board.won() or not self.board.canMove():
-                break
-            try:
-                m = self.readMove()
-            except KeyboardInterrupt:
-                self.saveBestScore()
-                return
-            self.score += self.board.move(m)
-            if self.score > self.best_score:
-                self.best_score = self.score
+        try:
+            while True:
+                os.system(Game.__clear)
+                print(self.__str__(margins={'left':4, 'top':4, 'bottom':4}))
+                if self.board.won() or not self.board.canMove():
+                    break
+                    m = self.readMove()
+                self.score += self.board.move(m)
+                if self.score > self.best_score:
+                    self.best_score = self.score
+
+        except KeyboardInterrupt:
+            self.saveBestScore()
+            return
 
         self.saveBestScore()
         print('You won!' if self.board.won() else 'Game Over')
