@@ -47,7 +47,10 @@ Clone this repo, then: ::
     [sudo] pip2 install -r requirements.txt
     make check
 
-You need to install ``unittest2`` if you’re using Python 2.6.
+If you’re using Python 2.6, you need to do this as well before running tests: ::
+
+    [sudo] pip2 install -r py26-requirements.txt
+
 
 Contributions
 -------------
