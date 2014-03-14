@@ -58,6 +58,12 @@ class TestBoard(unittest.TestCase):
         b = Board(size=s)
         self.assertEqual(b.size(), s)
 
+    # == .goal == #
+    def test_size(self):
+        g = 17
+        b = Board(goal=g)
+        self.assertEqual(b.goal(), g)
+
     # == .won == #
     def test_won(self):
         self.b._Board__won = True

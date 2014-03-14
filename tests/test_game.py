@@ -45,6 +45,16 @@ class TestGame(unittest.TestCase):
         self.assertEqual(self.g.getCellStr(0, 0),
                 '%s 42%s' % (Fore.RESET, Fore.RESET))
 
+    def test_getCellStr_unknown_number_azmode(self):
+        g = Game(azmode=True)
+        g.board.setCell(0, 0, 0)
+        self.assertEqual(g.getCellStr(0, 0), '.')
+
+    def test_getCellStr_unknown_number_azmode(self):
+        g = Game(azmode=True)
+        g.board.setCell(0, 0, 42)
+        self.assertEqual(g.getCellStr(0, 0), '?')
+
     # == .boardToString == #
 
     def test_boardToString_height_no_margins(self):
