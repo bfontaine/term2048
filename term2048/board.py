@@ -146,15 +146,20 @@ class Board():
         else:
             return 0
 
+        moved = False
         score = 0
 
         for i in xrange(0, self.__size):
-            line = self.__moveLineOrCol(get(i), d)
+            origin = get(i)
+            line = self.__moveLineOrCol(origin, d)
             collapsed, pts = self.__collapseLineOrCol(line, d)
-            chg(i, self.__moveLineOrCol(collapsed, d))
+            new = self.__moveLineOrCol(collapsed, d)
+            chg(i, new)
+            if origin != new:
+                moved = True
             score += pts
 
-        if add_tile:
+        if moved and add_tile:
             self.addTile()
 
         return score

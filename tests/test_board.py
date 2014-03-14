@@ -155,20 +155,40 @@ class TestBoard(unittest.TestCase):
         b.move(Board.DOWN)
         self.assertSequenceEqual(b.cells, [[42]])
 
-    def test_move_add_tile(self):
-        b = Board(size=1)
-        b.cells = [[0]]
+    def test_move_add_tile_if_collapse(self):
+        b = Board(size=2)
+        b.cells = [[2, 0],
+                   [2, 0]]
         b.move(Board.UP)
-        self.assertTrue(b.getCell(0, 0) != 0)
-        b.cells = [[0]]
-        b.move(Board.DOWN)
-        self.assertTrue(b.getCell(0, 0) != 0)
-        b.cells = [[0]]
-        b.move(Board.LEFT)
-        self.assertTrue(b.getCell(0, 0) != 0)
-        b.cells = [[0]]
-        b.move(Board.RIGHT)
-        self.assertTrue(b.getCell(0, 0) != 0)
+        self.assertEqual(len([e for l in b.cells for e in l if e != 0]), 2)
+
+    def test_move_add_tile_if_move(self):
+        b = Board(size=2)
+        b.cells = [[0, 0],
+                   [2, 0]]
+        b.move(Board.UP)
+        self.assertEqual(len([e for l in b.cells for e in l if e != 0]), 2)
+
+    def test_move_dont_add_tile_if_nothing_move(self):
+        b = Board(size=2)
+        b.cells = [[2, 0],
+                   [0, 0]]
+        b.move(Board.UP)
+        self.assertEqual(len([e for l in b.cells for e in l if e != 0]), 1)
+
+    # test for issue #1
+    def test_move_dont_add_tile_if_nothing_move2(self):
+        b = Board()
+        b.cells = [
+            [8, 4, 4, 2],
+            [0, 2, 2, 0],
+            [0]*4,
+            [0]*4
+        ]
+        self.assertEqual(b.move(Board.UP), 0)
+        self.assertEqual(len([e for l in b.cells for e in l if e != 0]), 6)
+        self.assertEqual(b.getLine(0), [8, 4, 4, 2])
+        self.assertEqual(b.getLine(1), [0, 2, 2, 0])
 
     def test_move_collapse(self):
         b = Board(size=2)
