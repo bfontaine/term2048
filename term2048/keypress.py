@@ -16,6 +16,8 @@ __old = termios.tcgetattr(__fd)
 # left: 27 91 68
 # right: 27 91 67
 UP, DOWN, RIGHT, LEFT = 65, 66, 67, 68
+UP_K, DOWN_J, RIGHT_L, LEFT_H = 107, 106, 108, 104
+hjkl = {107, 106, 108, 104}
 
 
 def getKey():
@@ -31,6 +33,9 @@ def getKey():
 
 def getArrowKey():
     """same as getKey, but assuming that the user pressed an arrow key"""
-    getKey()
-    getKey()
-    return getKey()
+    k = getKey()
+    if not k in hjkl:
+        getKey()
+        return getKey()
+    else:
+        return k
