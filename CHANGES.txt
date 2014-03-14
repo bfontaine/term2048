@@ -6,6 +6,7 @@ v0.2.0, 2014-03-14 -- Python 3, Windows and Vim keys support
 * Vim keys support
 * Windows support
 * AZ mode with letters instead of numbers in the UI
+* A few bugs fixes and other minor improvements
 
 v0.1.7, 2014-03-14 -- --mode option added to change the colors mode
 v0.1.6, 2014-03-14 -- random collapse bug fixed
