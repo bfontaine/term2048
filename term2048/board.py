@@ -107,21 +107,23 @@ class Board():
         tuple with the new line and the score for the move on this line
         """
         if (d == Board.LEFT or d == Board.UP):
-            rg = xrange(0, self.__size-1)
+            inc = 1
+            rg = xrange(0, self.__size-1, inc)
         else:
-            rg = xrange(self.__size-2, -1, -1)
+            inc = -1
+            rg = xrange(self.__size-1, 0, inc)
 
         pts = 0
         for i in rg:
             if line[i] == 0:
                 continue
-            if line[i] == line[i+1]:
+            if line[i] == line[i+inc]:
                 v = line[i]*2
                 if v == self.__goal:
                     self.__won = True
 
                 line[i] = v
-                line[i+1] = 0
+                line[i+inc] = 0
                 pts += v
 
         return (line, pts)

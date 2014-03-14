@@ -241,15 +241,17 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(self.b.move(None), 0)
         self.assertEqual(self.b.move("up"), 0)
 
+
+    # tests for weird-collapse-bug reported on HN (issue #2)
+    #   see: https://news.ycombinator.com/item?id=7398249
+
     def test_move_collapse_chain_col(self):
-        # from https://news.ycombinator.com/item?id=7398249
         b = Board()
         b.setCol(0, [0, 2, 2, 4])
         b.move(Board.DOWN, add_tile=False)
         self.assertSequenceEqual(b.getCol(0), [0, 0, 4, 4])
 
-    def test_move_collapse_chain_line(self):
-        # from https://news.ycombinator.com/item?id=7398249
+    def test_move_collapse_chain_line_right(self):
         b = Board()
         b.cells = [
             [0, 2, 2, 4],
@@ -259,3 +261,36 @@ class TestBoard(unittest.TestCase):
         ]
         self.assertEqual(b.move(Board.RIGHT, add_tile=False), 4)
         self.assertSequenceEqual(b.getLine(0), [0, 0, 4, 4])
+
+    def test_move_collapse_chain_line_right2(self):
+        b = Board()
+        b.cells = [
+            [0, 4, 2, 2],
+            [0]*4,
+            [0]*4,
+            [0]*4
+        ]
+        self.assertEqual(b.move(Board.RIGHT, add_tile=False), 4)
+        self.assertSequenceEqual(b.getLine(0), [0, 0, 4, 4])
+
+    def test_move_collapse_chain_line_left(self):
+        b = Board()
+        b.cells = [
+            [0, 2, 2, 4],
+            [0]*4,
+            [0]*4,
+            [0]*4
+        ]
+        self.assertEqual(b.move(Board.LEFT, add_tile=False), 4)
+        self.assertSequenceEqual(b.getLine(0), [4, 4, 0, 0])
+
+    def test_move_collapse_chain_four_same_tiles(self):
+        b = Board()
+        b.cells = [
+            [2, 2, 2, 2],
+            [0]*4,
+            [0]*4,
+            [0]*4
+        ]
+        self.assertEqual(b.move(Board.LEFT, add_tile=False), 8)
+        self.assertSequenceEqual(b.getLine(0), [4, 4, 0, 0])
