@@ -31,7 +31,11 @@ setup(
         'colorama >= 0.2.7',
     ],
     classifiers=[
-        'Programming Language :: Python :: 2.7'
+        'Environment :: Console',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.2',
     ],
     entry_points={
         'console_scripts':[

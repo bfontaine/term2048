@@ -2,14 +2,17 @@
 #
 COVERFILE=.coverage
 
-.DEFAULT: check
-.PHONY: check covercheck
+.DEFAULT: check-versions
+.PHONY: check check-versions covercheck
 
 deps:
 	pip install -qr requirements.txt
 
 check:
 	python tests/test.py
+
+check-versions:
+	tox
 
 covercheck:
 	coverage run --source=term2048 tests/test.py
@@ -19,5 +22,5 @@ clean:
 	rm -f *~ */*~
 	rm -f $(COVERFILE)
 
-publish: check
+publish: check-versions
 	python setup.py sdist upload

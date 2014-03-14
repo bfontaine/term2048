@@ -51,3 +51,8 @@ Tests
 Clone this repo, then: ::
 
     make check
+
+Contributions
+-------------
+
+* Python 2.6 and 3.x support by @shaunduncan

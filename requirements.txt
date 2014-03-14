@@ -1,3 +1,6 @@
 colorama==0.2.7
 coverage==3.7.1
+py==1.4.20
+tox==1.7.0
+virtualenv==1.11.4
 wsgiref==0.1.2
