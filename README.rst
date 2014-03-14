@@ -2,14 +2,14 @@
 term2048
 ========
 
-.. image:: https://img.shields.io/travis/bfontaine/term2048.png
+.. image:: https://img.shields.io/travis/bfontaine/term2048.svg
    :target: https://travis-ci.org/bfontaine/term2048
    :alt: Build status
 
-
-.. image:: https://img.shields.io/coveralls/bfontaine/term2048.png
-  :target: https://coveralls.io/r/bfontaine/term2048
+.. image:: https://img.shields.io/coveralls/bfontaine/term2048/master.svg
+  :target: https://coveralls.io/r/bfontaine/term2048?branch=master
   :alt: Coverage status
+
 
 **term2048** is a terminal-based version of 2048_.
 
