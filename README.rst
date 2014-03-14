@@ -6,6 +6,11 @@ term2048
    :target: https://travis-ci.org/bfontaine/term2048
    :alt: Build status
 
+
+.. image:: https://coveralls.io/repos/bfontaine/term2048/badge.png
+  :target: https://coveralls.io/r/bfontaine/term2048
+  :alt: Coverage status
+
 **term2048** is a terminal-based version of 2048_.
 
 This is currently under development.

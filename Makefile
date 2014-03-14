@@ -12,7 +12,7 @@ check:
 	python tests/test.py
 
 covercheck:
-	coverage run --omit='tests/**,venv/**' tests/test.py
+	coverage run --source=term2048 tests/test.py
 	coverage report -m
 
 clean:
