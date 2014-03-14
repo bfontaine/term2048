@@ -11,11 +11,3 @@ script:
 after_success: coveralls
 notifications:
   email: false
-deploy:
-  provider: pypi
-  user: bfontaine
-  password:
-    secure: VD+UhhmHCQcAJ+jP2Eyv3nhxY6BFksa83QSM7I5Dl/L/tyH6r7ICEJZl3L0neZSQ8SFN9tTqQYS3+0xzgc0WuJzOv0bh0bWVXGI5Gi5JPyLqmV8Qa9MEymPWysM3RkSHWqf+Sf/WjEapefEIwkc9zu/uU8ONstnWspaD22tYO1U=
-  on:
-    tags: true
-    repo: bfontaine/term2048
