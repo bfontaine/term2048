@@ -6,10 +6,13 @@ term2048
    :target: https://travis-ci.org/bfontaine/term2048
    :alt: Build status
 
-.. image:: https://img.shields.io/coveralls/bfontaine/term2048/master.svg
-  :target: https://coveralls.io/r/bfontaine/term2048?branch=master
-  :alt: Coverage status
+.. image:: https://img.shields.io/coveralls/bfontaine/term2048/master.png
+   :target: https://coveralls.io/r/bfontaine/term2048?branch=master
+   :alt: Coverage status
 
+.. image:: https://img.shields.io/pypi/v/term2048.png
+   :target: https://pypi.python.org/pypi/term2048
+   :alt: Pypi package
 
 **term2048** is a terminal-based version of 2048_.
 
