@@ -63,3 +63,4 @@ Contributions
 * hjkl keys support by @aminb
 * Windows support by @valtron
 * AZ mode by @JosephRedfern
+* The first file-related tests were added by @taeram
