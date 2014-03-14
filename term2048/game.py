@@ -192,7 +192,7 @@ class Game(object):
         else:
             s = '%3d' % c
 
-        return self.__colors.get(c, Fore.RESET) + s + Fore.RESET
+        return self.__colors.get(c, Fore.RESET) + s + Style.RESET_ALL
 
     def boardToString(self, margins={}):
         """

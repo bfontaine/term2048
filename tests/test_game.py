@@ -5,7 +5,7 @@ except ImportError:
     import unittest
 
 import keypress_mock as kp
-from colorama import Fore
+from colorama import Fore, Style
 from term2048.board import Board
 from term2048.game import Game
 
@@ -149,7 +149,7 @@ class TestGame(unittest.TestCase):
     def test_getCellStr_unknown_number(self):
         self.b.setCell(0, 0, 42)
         self.assertEqual(self.g.getCellStr(0, 0),
-                '%s 42%s' % (Fore.RESET, Fore.RESET))
+                '%s 42%s' % (Fore.RESET, Style.RESET_ALL))
 
     def test_getCellStr_0_azmode(self):
         g = Game(azmode=True)
@@ -159,22 +159,22 @@ class TestGame(unittest.TestCase):
     def test_getCellStr_2(self):
         g = Game()
         g.board.setCell(0, 0, 2)
-        self.assertRegexpMatches(g.getCellStr(0, 0), r'  2\x1b\[\d+m$')
+        self.assertRegexpMatches(g.getCellStr(0, 0), r'  2\x1b\[0m$')
 
     def test_getCellStr_1k(self):
         g = Game()
         g.board.setCell(0, 0, 1024)
-        self.assertRegexpMatches(g.getCellStr(0, 0), r' 1k\x1b\[\d+m$')
+        self.assertRegexpMatches(g.getCellStr(0, 0), r' 1k\x1b\[0m$')
 
     def test_getCellStr_2k(self):
         g = Game()
         g.board.setCell(0, 0, 2048)
-        self.assertRegexpMatches(g.getCellStr(0, 0), r' 2k\x1b\[\d+m$')
+        self.assertRegexpMatches(g.getCellStr(0, 0), r' 2k\x1b\[0m$')
 
     def test_getCellStr_2_azmode(self):
         g = Game(azmode=True)
         g.board.setCell(0, 0, 2)
-        self.assertRegexpMatches(g.getCellStr(0, 0), r'a\x1b\[\d+m$')
+        self.assertRegexpMatches(g.getCellStr(0, 0), r'a\x1b\[0m$')
 
     def test_getCellStr_unknown_number_azmode(self):
         g = Game(azmode=True)
