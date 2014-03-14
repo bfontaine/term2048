@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import os
+import os.path
 import keypress
 from board import Board
 from colorama import init, Fore
@@ -30,9 +31,33 @@ class Game:
         2048: Fore.YELLOW,
     }
 
+    SCORES_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
+
     def __init__(self):
         self.board = Board()
         self.score = 0
+        self.loadBestScore()
+
+    def loadBestScore(self):
+        if not os.path.exists(Game.SCORES_FILE):
+            self.best_score = 0
+            return
+        try:
+            f = open(Game.SCORES_FILE, 'r')
+            self.best_score = int(f.readline(), 10)
+            f.close()
+        except:
+            pass # fail silently
+
+    def saveBestScore(self):
+        if self.score > self.best_score:
+            self.best_score = self.score
+        try:
+            f = open(Game.SCORES_FILE, 'w')
+            f.write(str(self.best_score))
+            f.close()
+        except:
+            pass # fail silently
 
     def end(self):
         return not (self.board.won() or self.board.canMove())
@@ -48,11 +73,15 @@ class Game:
             try:
                 m = self.readMove()
             except KeyboardInterrupt:
+                self.saveBestScore()
                 return
             self.score += self.board.move(m)
+            if self.score > self.best_score:
+                self.best_score = self.score
             if self.board.won() or not self.board.canMove():
                 break
 
+        self.saveBestScore()
         print 'You won!' if self.board.won() else 'Game Over'
 
     def getCellStr(self, x, y):
@@ -80,4 +109,5 @@ class Game:
         b = self.boardToString(margins=margins)
         top = '\n'*margins.get('top', 0)
         bottom = '\n'*margins.get('bottom', 0)
-        return top + b.replace('\n', ' \tScore: %5d\n' % self.score, 1) + bottom
+        scores = ' \tScore: %5d  Best: %5d\n' % (self.score, self.best_score)
+        return top + b.replace('\n', scores, 1) + bottom

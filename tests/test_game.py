@@ -10,6 +10,7 @@ class TestGame(unittest.TestCase):
 
     def setUp(self):
         Board.SIZE = _BSIZE
+        Game.SCORES_FILE = None
         self.g = Game()
         self.b = self.g.board
 
