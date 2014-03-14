@@ -159,7 +159,7 @@ class Game(object):
         c = self.board.getCell(x, y)
 
         az = {}
-        for i in range(1, int(math.log(self.board.getGoal(), 2))):
+        for i in range(1, int(math.log(self.board.goal(), 2))):
             az[2**i] = chr(i+96)
 
         if c==0 and self.__azmode:
@@ -168,6 +168,8 @@ class Game(object):
             return '  .'
 
         elif self.__azmode:
+            if c not in az:
+                return '?'
             s = az[c]
         elif c == 1024:
             s = ' 1k'

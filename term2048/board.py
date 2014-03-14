@@ -27,10 +27,12 @@ class Board(object):
         self.addTile()
 
     def size(self):
-        """
-        return the board size
-        """
+        """return the board size"""
         return self.__size
+
+    def goal(self):
+        """return the board goal"""
+        return self.__goal
 
     def won(self):
         """
@@ -106,9 +108,6 @@ class Board(object):
         """return a (x, y) pair for each cell"""
         return [(x, y) for x in xrange(self.__size)
                            for y in xrange(self.__size) if self.getCell(x, y) == 0]
-
-    def getGoal(self):
-        return self.__goal
 
     def __collapseLineOrCol(self, line, d):
         """
