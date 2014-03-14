@@ -25,10 +25,14 @@ class Game(object):
     """
 
     __dirs = {
-        keypress.UP:    Board.UP,
-        keypress.DOWN:  Board.DOWN,
-        keypress.LEFT:  Board.LEFT,
-        keypress.RIGHT: Board.RIGHT,
+        keypress.UP:      Board.UP,
+        keypress.DOWN:    Board.DOWN,
+        keypress.LEFT:    Board.LEFT,
+        keypress.RIGHT:   Board.RIGHT,
+        keypress.UP_K:    Board.UP,
+        keypress.DOWN_J:  Board.DOWN,
+        keypress.LEFT_H:  Board.LEFT,
+        keypress.RIGHT_L: Board.RIGHT
     }
 
     __clear = 'cls' if os.name == 'nt' else 'clear'
