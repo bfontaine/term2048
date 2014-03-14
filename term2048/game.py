@@ -68,7 +68,7 @@ class Game(object):
     SCORES_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
 
     def __init__(self, scores_file=SCORES_FILE, colors=COLORS,
-            mode=None, **kws):
+            mode=None, akmode=False, **kws):
         """
         Create a new game.
             scores_file: file to use for the best score (default
@@ -84,6 +84,7 @@ class Game(object):
         self.__colors = colors
         self.loadBestScore()
         self.adjustColors(mode)
+        self.__akmode = akmode
 
     def adjustColors(self, mode='dark'):
         """
@@ -162,15 +163,22 @@ class Game(object):
         return a string representation of the cell located at x,y.
         """
         c = self.board.getCell(x, y)
-        if c == 0:
+        ak = {2: 'a', 4: 'b', 8: 'c', 16: 'd', 32: 'e', 64: 'f', 128: 'g', 256: 'h', 512:'i', 1024:'j', 2048:'k'}
+
+        if c==0 and self.__akmode:
+            return '.'
+        elif c == 0:
             return '  .'
 
-        if c == 1024:
+        elif self.__akmode:
+            s = ak[c]
+        elif c == 1024:
             s = ' 1k'
         elif c == 2048:
             s = ' 2k'
         else:
             s = '%3d' % c
+
         return self.__colors.get(c, Fore.RESET) + s + Fore.RESET
 
     def boardToString(self, margins={}):
