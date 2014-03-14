@@ -63,6 +63,44 @@ class TestGame(unittest.TestCase):
 
         remove(scores_file.name)
 
+    # == .incScore == #
+
+    def test_inc_0_score(self):
+        s = 3
+        self.g.score = s
+        self.g.best_score = s
+        self.g.incScore(0)
+        self.assertEqual(self.g.score, s)
+        self.assertEqual(self.g.best_score, s)
+
+    def test_inc_2_score(self):
+        s = 3
+        i = 2
+        self.g.score = s
+        self.g.best_score = s
+        self.g.incScore(i)
+        self.assertEqual(self.g.score, s+i)
+        self.assertEqual(self.g.best_score, s+i)
+
+    def test_inc_score_update_best_score(self):
+        s = 3
+        i = 2
+        self.g.score = s
+        self.g.best_score = 0
+        self.g.incScore(i)
+        self.assertEqual(self.g.score, s+i)
+        self.assertEqual(self.g.best_score, s+i)
+
+    def test_inc_score_dont_update_best_score_if_higher(self):
+        s = 3
+        bs = 80
+        i = 2
+        self.g.score = s
+        self.g.best_score = bs
+        self.g.incScore(i)
+        self.assertEqual(self.g.score, s+i)
+        self.assertEqual(self.g.best_score, bs)
+
     # == .end == #
 
     def test_end_can_play(self):
