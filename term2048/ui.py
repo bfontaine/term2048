@@ -4,6 +4,9 @@ from __future__ import print_function
 import sys
 from term2048.game import Game
 
+# set this to true when unit testing
+debug = False
+
 __has_argparse = True
 try:
     import argparse
@@ -44,4 +47,5 @@ def start_game():
         if args['version']:
             print_version_and_exit()
 
-    Game(**args).loop()
+    if not debug:
+        Game(**args).loop()
