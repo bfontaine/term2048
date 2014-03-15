@@ -6,18 +6,10 @@ import os.path
 import math
 
 from colorama import init, Fore, Style
+init(autoreset=True)
 
 from term2048 import keypress
 from term2048.board import Board
-
-# PY3 compat
-try:
-    xrange
-except NameError:
-    xrange = range
-
-
-init(autoreset=True)
 
 
 class Game(object):
@@ -199,7 +191,7 @@ class Game(object):
         return a string representation of the current board.
         """
         b = self.board
-        rg = xrange(b.size())
+        rg = range(b.size())
         left = ' '*margins.get('left', 0)
         s = '\n'.join(
             [left + ' '.join([self.getCellStr(x, y) for x in rg]) for y in rg])
