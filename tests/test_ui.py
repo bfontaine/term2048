@@ -8,6 +8,11 @@ import sys
 import helpers
 from term2048 import ui
 
+try:
+    import argparse as _argparse
+except ImportError:
+    _argparse = None
+
 _argv = sys.argv
 
 class TestUI(unittest.TestCase):
@@ -97,7 +102,19 @@ class TestUIPy26(unittest.TestCase):
         self.stdout = sys.stdout
         self.output = {}
         sys.stdout = helpers.DevNull(self.output)
+        sys.modules['argparse'] = None
+        helpers.reload(ui)
+        ui.debug = True
 
     def tearDown(self):
         sys.stdout = self.stdout
+        sys.modules['argparse'] = _argparse
+        ui.debug = False
 
+    def test_no_has_argparse(self):
+        self.assertFalse(getattr(ui, '__has_argparse'))
+
+    def test_start_game_print_argparse_warning(self):
+        ui.start_game()
+        self.assertIn('output', self.output)
+        self.assertRegexpMatches(self.output['output'], r'^WARNING')
