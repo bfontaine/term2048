@@ -10,6 +10,7 @@ from term2048.board import Board
 from term2048.game import Game
 
 import sys
+import os
 from tempfile import NamedTemporaryFile
 from os import remove
 from helpers import DevNull
@@ -26,10 +27,17 @@ class TestGame(unittest.TestCase):
         # don't print anything on stdout
         self.stdout = sys.stdout
         sys.stdout = DevNull()
+        # mock os.system
+        self.system = os.system
+        self.sys_cmd = None
+        def fake_system(*cmd):
+            self.sys_cmd = cmd
+
+        os.system = fake_system
 
     def tearDown(self):
         sys.stdout = self.stdout
-        pass
+        os.system = self.system
 
     def test_init_with_size_3_goal_4(self):
         g = Game(size=3, goal=4, scores_file=None)
@@ -136,6 +144,19 @@ class TestGame(unittest.TestCase):
             [2, 0]
         ]
         g.loop()
+
+    def test_simple_win_loop_clear(self):
+        kp._setNextKey(kp.UP)
+        g = Game(goal=4, size=2)
+        g.board.cells = [
+            [2, 0],
+            [2, 0]
+        ]
+        g.loop()
+        if os.name == 'nt':
+            self.assertEqual(self.sys_cmd, ('cls',))
+        else:
+            self.assertEqual(self.sys_cmd, ('clear',))
 
     # == .getCellStr == #
 
