@@ -137,7 +137,7 @@ class Game(object):
 
     def loop(self):
         """
-        main game loop
+        main game loop. returns the final score.
         """
         try:
             while True:
@@ -157,6 +157,7 @@ class Game(object):
 
         self.saveBestScore()
         print('You won!' if self.board.won() else 'Game Over')
+        return self.score
 
     def getCellStr(self, x, y):
         """
