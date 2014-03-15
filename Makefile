@@ -1,6 +1,7 @@
 # M1Algo project's Makefile
 #
 COVERFILE=.coverage
+COVERAGE_REPORT=report -m
 
 .DEFAULT: check-versions
 .PHONY: check check-versions covercheck
@@ -16,7 +17,7 @@ check-versions:
 
 covercheck:
 	coverage run --source=term2048 tests/test.py
-	coverage report -m
+	coverage $(COVERAGE_REPORT)
 
 clean:
 	rm -f *~ */*~

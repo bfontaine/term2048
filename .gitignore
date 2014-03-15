@@ -8,5 +8,6 @@
 __pycache__
 /venv
 /dist
+htmlcov
 MANIFEST
 .tox
