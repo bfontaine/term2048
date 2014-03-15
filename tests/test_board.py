@@ -1,10 +1,21 @@
 # -*- coding: UTF-8 -*-
-try:
+
+import platform
+
+if platform.python_version() < '2.7':
     import unittest2 as unittest
-except ImportError:
+else:
     import unittest
 
-from term2048.board import Board
+if platform.python_version() < '3.0':
+    import __builtin__
+else:
+    import builtins as __builtin__
+    import imp
+    reload = imp.reload
+
+from term2048 import board
+Board = board.Board
 
 # PY3 compat
 try:
@@ -310,3 +321,19 @@ class TestBoard(unittest.TestCase):
         ]
         self.assertEqual(b.move(Board.LEFT, add_tile=False), 8)
         self.assertSequenceEqual(b.getLine(0), [4, 4, 0, 0])
+
+
+class TestBoardPy3k(unittest.TestCase):
+    def setUp(self):
+        try:
+            self.xr = __builtin__.xrange
+            delattr(__builtin__, 'xrange')
+        except AttributeError:
+            self.xr = None
+        reload(board)
+
+    def tearDown(self):
+        __builtin__.xrange = self.xr
+
+    def test_xrange_fallback_on_range_on_py3k(self):
+        self.assertEqual(board.xrange, __builtin__.range)
