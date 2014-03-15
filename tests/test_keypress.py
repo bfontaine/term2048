@@ -4,7 +4,72 @@ try:
 except ImportError:
     import unittest
 
-from term2048.keypress import getKey
+import sys
+from StringIO import StringIO
+from term2048 import keypress
+keypress = keypress._getRealModule()
+
+fno = sys.stdin.fileno()
+
+class FakeStdin(StringIO):
+    def fileno(self):
+        return fno
 
 class TestKeypress(unittest.TestCase):
-    pass
+
+    def _pushChars(self, *chars):
+        """helper. Add chars in the fake stdin"""
+        sys.stdin.write(''.join(map(chr, chars)).encode())
+        sys.stdin.seek(0)
+
+    def _pushArrowKey(self, code):
+        """helper. Add an arrow special key in the fake stdin"""
+        self._pushChars(27, 91, code)
+
+    def setUp(self):
+        self.stdin = sys.stdin
+        sys.stdin = FakeStdin()
+
+    def tearDown(self):
+        sys.stdin = self.stdin
+
+    def test_getKey_read_stdin(self):
+        x = 42
+        self._pushChars(x)
+        self.assertEqual(keypress.getKey(), x)
+
+    def test_getKey_arrow_key_up(self):
+        k = keypress.UP
+        self._pushArrowKey(k)
+        self.assertEqual(keypress.getKey(), k)
+
+    def test_getKey_arrow_key_down(self):
+        k = keypress.DOWN
+        self._pushArrowKey(k)
+        self.assertEqual(keypress.getKey(), k)
+
+    def test_getKey_arrow_key_left(self):
+        k = keypress.LEFT
+        self._pushArrowKey(k)
+        self.assertEqual(keypress.getKey(), k)
+
+    def test_getKey_arrow_key_right(self):
+        k = keypress.RIGHT
+        self._pushArrowKey(k)
+        self.assertEqual(keypress.getKey(), k)
+
+    def test_getKey_vim_key_up(self):
+        self._pushChars(keypress.K)
+        self.assertEqual(keypress.getKey(), keypress.UP)
+
+    def test_getKey_vim_key_down(self):
+        self._pushArrowKey(keypress.J)
+        self.assertEqual(keypress.getKey(), keypress.DOWN)
+
+    def test_getKey_vim_key_left(self):
+        self._pushArrowKey(keypress.H)
+        self.assertEqual(keypress.getKey(), keypress.LEFT)
+
+    def test_getKey_vim_key_right(self):
+        self._pushArrowKey(keypress.L)
+        self.assertEqual(keypress.getKey(), keypress.RIGHT)
