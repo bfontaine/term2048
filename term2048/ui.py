@@ -44,4 +44,4 @@ def start_game():
         if args['version']:
             print_version_and_exit()
 
-        Game(**args).loop()
+    Game(**args).loop()
