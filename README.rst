@@ -53,6 +53,10 @@ Clone this repo, then: ::
     [sudo] make deps
     make check
 
+Note: while ``term2048`` should work on Windows, tests are meant to run on
+UNIX-like OSes and ``term2048.keypress``-related tests could fail if run on
+Windows.
+
 Contributions
 -------------
 
