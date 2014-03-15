@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from __future__ import print_function
 
+import sys
 from term2048.game import Game
 
 __has_argparse = True
@@ -16,6 +17,11 @@ def __print_argparse_warning():
         the module so I can handle your options:
             [sudo] pip install argparse
         I'll continue without processing any option.""")
+
+def print_version_and_exit():
+    from term2048 import __version__
+    print("term2048 v%s" % __version__)
+    sys.exit(0)
 
 def start_game():
     """start a new game"""
@@ -33,7 +39,6 @@ def start_game():
         args = parser.parse_args()
 
         if args.version:
-            from __init__ import __version__
-            print("term2048 version", __version__)
-        else:
-            Game(mode=args.mode, azmode=args.azmode).loop()
+            print_version_and_exit()
+
+        Game(mode=args.mode, azmode=args.azmode).loop()
