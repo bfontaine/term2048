@@ -23,22 +23,25 @@ def print_version_and_exit():
     print("term2048 v%s" % __version__)
     sys.exit(0)
 
+def parse_cli_args():
+    """parse args from the CLI and return a dict"""
+    parser = argparse.ArgumentParser(description='2048 in your terminal')
+    parser.add_argument('--mode', dest='mode',
+            type=str, default=None, help='colors mode (dark or light)')
+    parser.add_argument('--az', dest='azmode',
+            action='store_true', help='Use the letters a-z instead of numbers')
+    parser.add_argument('--version', action='store_true')
+    return vars(parser.parse_args())
+
 def start_game():
     """start a new game"""
     if not __has_argparse:
         __print_argparse_warning()
-        args = {'mode': None}
-        Game().loop()
+        args = {}
     else:
-        parser = argparse.ArgumentParser(description='2048 in your terminal')
-        parser.add_argument('--mode', dest='mode',
-                type=str, default=None, help='colors mode (dark or light)')
-        parser.add_argument('--az', dest='azmode',
-                action='store_true', help='Use the letters a-z instead of numbers')
-        parser.add_argument('--version', action='store_true')
-        args = parser.parse_args()
+        args = parse_cli_args()
 
-        if args.version:
+        if args['version']:
             print_version_and_exit()
 
-        Game(mode=args.mode, azmode=args.azmode).loop()
+        Game(**args).loop()
