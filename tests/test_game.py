@@ -38,6 +38,7 @@ class TestGame(unittest.TestCase):
     def tearDown(self):
         sys.stdout = self.stdout
         os.system = self.system
+        kp._setCtrlC(False)
 
     def test_init_with_size_3_goal_4(self):
         g = Game(size=3, goal=4, scores_file=None)
@@ -152,11 +153,16 @@ class TestGame(unittest.TestCase):
             [2, 0],
             [2, 0]
         ]
-        g.loop()
+        self.assertEqual(g.loop(), 4)
         if os.name == 'nt':
             self.assertEqual(self.sys_cmd, ('cls',))
         else:
             self.assertEqual(self.sys_cmd, ('clear',))
+
+    def test_loop_interrupt(self):
+        kp._setCtrlC(True)
+        g = Game(goal=4, size=2)
+        self.assertEqual(g.loop(), None)
 
     # == .getCellStr == #
 
