@@ -16,6 +16,7 @@ class TestUI(unittest.TestCase):
         self.exit_status = None
         def fake_exit(s):
             self.exit_status = s
+            raise helpers.FakeExit()
         self.exit = sys.exit
         sys.exit = fake_exit
         sys.argv = _argv
@@ -28,7 +29,12 @@ class TestUI(unittest.TestCase):
         sys.stdout = self.stdout
 
     def test_print_version(self):
-        ui.print_version_and_exit()
+        try:
+            ui.print_version_and_exit()
+        except helpers.FakeExit:
+            pass
+        else:
+            self.assertFalse(True, "should exit after printing the version")
         self.assertEqual(self.exit_status, 0)
 
     def test_parse_args_no_args(self):
@@ -72,6 +78,18 @@ class TestUI(unittest.TestCase):
         getattr(ui, '__print_argparse_warning')()
         self.assertIn('output', self.output)
         self.assertRegexpMatches(self.output['output'], r'^WARNING')
+
+    def test_start_game_print_version(self):
+        sys.argv = ['term2048', '--version']
+        try:
+            ui.start_game()
+        except helpers.FakeExit:
+            pass
+        else:
+            self.assertFalse(True, "should exit after printing the version")
+        self.assertEqual(self.exit_status, 0)
+        self.assertRegexpMatches(self.output['output'],
+                r'^term2048 v\d+\.\d+\.\d+$')
 
 class TestUIPy26(unittest.TestCase):
 

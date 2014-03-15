@@ -28,3 +28,7 @@ if platform.python_version() < '3.0':
 else:
     import imp
     reload = imp.reload
+
+# used by sys.exit mocks
+class FakeExit(Exception):
+    pass
