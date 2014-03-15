@@ -5,8 +5,8 @@ except ImportError:
     import unittest
 
 import sys
+import helpers
 from term2048 import ui
-from helpers import DevNull
 
 _argv = sys.argv
 
@@ -18,10 +18,10 @@ class TestUI(unittest.TestCase):
             self.exit_status = s
         self.exit = sys.exit
         sys.exit = fake_exit
+        sys.argv = _argv
         self.stdout = sys.stdout
         self.output = {}
-        sys.argv = _argv
-        sys.stdout = DevNull(self.output)
+        sys.stdout = helpers.DevNull(self.output)
 
     def tearDown(self):
         sys.exit = self.exit
@@ -67,3 +67,19 @@ class TestUI(unittest.TestCase):
         sys.argv = ['term2048', '--mode', m]
         args = ui.parse_cli_args()
         self.assertEqual(args['mode'], m)
+
+    def test_argparse_warning(self):
+        getattr(ui, '__print_argparse_warning')()
+        self.assertIn('output', self.output)
+        self.assertRegexpMatches(self.output['output'], r'^WARNING')
+
+class TestUIPy26(unittest.TestCase):
+
+    def setUp(self):
+        self.stdout = sys.stdout
+        self.output = {}
+        sys.stdout = helpers.DevNull(self.output)
+
+    def tearDown(self):
+        sys.stdout = self.stdout
+

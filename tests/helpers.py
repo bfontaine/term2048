@@ -11,8 +11,9 @@ class DevNull(object):
         self.output = output
 
     def write(self, s):
-        if self.output:
-            self.output['output'] = self.output.get('output', '') + s
+        if self.output is not None:
+            k = 'output'
+            self.output[k] = self.output.get(k, '') + s
 
 # use this for mocking msvcrt
 class FakeMsvcrt(object):
