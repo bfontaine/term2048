@@ -1,13 +1,28 @@
 # M1Algo project's Makefile
 #
-COVERFILE=.coverage
-COVERAGE_REPORT=report -m
+COVERFILE:=.coverage
+COVERAGE_REPORT:=report -m
+
+PY_VERSION:=$(subst ., ,$(shell python --version 2>&1 | cut -d' ' -f2))
+PY_VERSION_MAJOR:=$(word 1,$(PY_VERSION))
+PY_VERSION_MINOR:=$(word 2,$(PY_VERSION))
+PY_VERSION_SHORT:=$(PY_VERSION_MAJOR).$(PY_VERSION_MINOR)
+
+ifdef TRAVIS_PYTHON_VERSION
+PY_VERSION_SHORT:=$(TRAVIS_PYTHON_VERSION)
+endif
 
 .DEFAULT: check-versions
 .PHONY: check check-versions covercheck
 
 deps:
 	pip install -qr requirements.txt
+ifeq ($(PY_VERSION_SHORT),2.6)
+	pip install -qr py26-requirements.txt
+endif
+ifneq ($(PY_VERSION_SHORT),3.3)
+	pip install -q wsgiref==0.1.2
+endif
 
 check:
 	python tests/test.py
