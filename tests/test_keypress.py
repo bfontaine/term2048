@@ -5,7 +5,13 @@ except ImportError:
     import unittest
 
 import sys
-from StringIO import StringIO
+import platform
+
+if platform.python_version() < '3.0':
+    from StringIO import StringIO
+else:
+    from io import StringIO
+
 from term2048 import keypress
 keypress = keypress._getRealModule()
 
@@ -19,7 +25,7 @@ class TestKeypress(unittest.TestCase):
 
     def _pushChars(self, *chars):
         """helper. Add chars in the fake stdin"""
-        sys.stdin.write(''.join(map(chr, chars)).encode())
+        sys.stdin.write(''.join(map(chr, chars)))
         sys.stdin.seek(0)
 
     def _pushArrowKey(self, code):
