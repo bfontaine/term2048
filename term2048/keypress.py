@@ -46,7 +46,7 @@ else:
             tty.setcbreak(sys.stdin.fileno())
             termios.tcflush(sys.stdin, termios.TCIOFLUSH)
             ch = sys.stdin.read(1)
-            return ord(ch)
+            return ord(ch) if ch else None
         finally:
             termios.tcsetattr(__fd, termios.TCSADRAIN, __old)
 
