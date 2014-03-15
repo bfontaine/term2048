@@ -20,6 +20,7 @@ class Board(object):
 
     def __init__(self, goal=GOAL, size=SIZE):
         self.__size = size
+        self.__size_range = xrange(0, self.__size)
         self.__goal = goal
         self.__won = False
         self.cells = [[0]*self.__size for _ in xrange(self.__size)]
@@ -47,8 +48,8 @@ class Board(object):
         if not self.filled():
             return True
 
-        for y in xrange(0, self.__size):
-            for x in xrange(0, self.__size):
+        for y in self.__size_range:
+            for x in self.__size_range:
                 c = self.getCell(x, y)
                 if (x < self.__size-1 and c == self.getCell(x+1, y)) \
                         or (y < self.__size-1 and c == self.getCell(x, y+1)):
@@ -88,11 +89,11 @@ class Board(object):
 
     def getLine(self, y):
         """return the y-th line, starting at 0"""
-        return [self.getCell(i, y) for i in xrange(0, self.__size)]
+        return [self.getCell(i, y) for i in self.__size_range]
 
     def getCol(self, x):
         """return the x-th column, starting at 0"""
-        return [self.getCell(x, i) for i in xrange(0, self.__size)]
+        return [self.getCell(x, i) for i in self.__size_range]
 
     def setLine(self, y, l):
         """set the y-th line, starting at 0"""
@@ -106,8 +107,8 @@ class Board(object):
 
     def getEmptyCells(self):
         """return a (x, y) pair for each cell"""
-        return [(x, y) for x in xrange(self.__size)
-                           for y in xrange(self.__size) if self.getCell(x, y) == 0]
+        return [(x, y) for x in self.__size_range
+                           for y in self.__size_range if self.getCell(x, y) == 0]
 
     def __collapseLineOrCol(self, line, d):
         """
@@ -159,7 +160,7 @@ class Board(object):
         moved = False
         score = 0
 
-        for i in xrange(0, self.__size):
+        for i in self.__size_range:
             origin = get(i)
             line = self.__moveLineOrCol(origin, d)
             collapsed, pts = self.__collapseLineOrCol(line, d)
