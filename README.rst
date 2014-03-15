@@ -40,8 +40,10 @@ Play
 
     term2048
 
-Then use arrow keys to move. Use ``-h``  to check the list of available
-options.
+Then use arrow keys to move. Since version 0.2.1 VI keys (h,j,k,l) are also
+supported.
+
+Use ``-h``  to check the list of available options.
 
 Tests
 -----
