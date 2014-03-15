@@ -18,7 +18,7 @@ class Board(object):
     GOAL = 2048
     SIZE = 4
 
-    def __init__(self, goal=GOAL, size=SIZE):
+    def __init__(self, goal=GOAL, size=SIZE, **kws):
         self.__size = size
         self.__size_range = xrange(0, self.__size)
         self.__goal = goal
