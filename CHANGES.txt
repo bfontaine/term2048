@@ -1,7 +1,8 @@
-v0.2.2, 2014-03-?? -- (upcoming version)
+v0.2.2, 2014-03-15 -- version flag
 
-* --version flag added
-
+* --version flag added (#18)
+* colors issue fixed (#19)
+* minor bug fixes
 
 v0.2.1, 2014-03-14 -- Indentation error in the game loop fixed
 
