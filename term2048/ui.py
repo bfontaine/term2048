@@ -22,7 +22,7 @@ def start_game():
     if not __has_argparse:
         __print_argparse_warning()
         args = {'mode': None}
-        Game(mode=args.mode, azmode=args.azmode).loop()
+        Game().loop()
     else:
         parser = argparse.ArgumentParser(description='2048 in your terminal')
         parser.add_argument('--mode', dest='mode',
