@@ -12,12 +12,9 @@ from term2048.game import Game
 import sys
 from tempfile import NamedTemporaryFile
 from os import remove
+from helpers import DevNull
 
 _BSIZE = Board.SIZE
-
-class DevNull(object):
-    def write(self, *args):
-        pass
 
 class TestGame(unittest.TestCase):
 
