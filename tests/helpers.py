@@ -2,6 +2,8 @@
 
 import platform
 
+msvcrt_key = 42
+
 # use this for mocking stdout
 class DevNull(object):
     def write(self, *args):
@@ -12,7 +14,7 @@ class FakeMsvcrt(object):
     def kbhit(self):
         return True
     def getch(self):
-        return 42
+        return chr(msvcrt_key)
 
 # builtin (before 3.0) function 'reload(<module>)'
 if platform.python_version() < '3.0':

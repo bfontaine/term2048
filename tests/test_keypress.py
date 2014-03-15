@@ -99,3 +99,6 @@ class TestKeypressWindows(unittest.TestCase):
 
     def test_termios_fallback_on_msvcrt(self):
         self.assertEqual(keypress.UP, 72)
+
+    def test_termios_fallback_on_msvcrt_getKey(self):
+        self.assertEqual(keypress.getKey(), helpers.msvcrt_key)
