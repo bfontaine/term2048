@@ -61,6 +61,8 @@ If you’re using Python 2.6, you need to do this as well before running tests: 
 Contributions
 -------------
 
+* ``--version`` flag added by @aminb
+
 v0.2.0
 ~~~~~~
 

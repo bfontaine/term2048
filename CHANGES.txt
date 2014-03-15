@@ -1,3 +1,8 @@
+v0.2.2, 2014-03-?? -- (upcoming version)
+
+* --version flag added
+
+
 v0.2.1, 2014-03-14 -- Indentation error in the game loop fixed
 
 v0.2.0, 2014-03-14 -- Python 3, Windows and Vim keys support
