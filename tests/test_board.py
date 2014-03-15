@@ -11,9 +11,8 @@ if platform.python_version() < '3.0':
     import __builtin__
 else:
     import builtins as __builtin__
-    import imp
-    reload = imp.reload
 
+import helpers
 from term2048 import board
 Board = board.Board
 
@@ -330,7 +329,7 @@ class TestBoardPy3k(unittest.TestCase):
             delattr(__builtin__, 'xrange')
         except AttributeError:
             self.xr = None
-        reload(board)
+        helpers.reload(board)
 
     def tearDown(self):
         __builtin__.xrange = self.xr

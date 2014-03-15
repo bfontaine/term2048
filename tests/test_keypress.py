@@ -1,8 +1,4 @@
 # -*- coding: UTF-8 -*-
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
 
 import sys
 import platform
@@ -12,8 +8,19 @@ if platform.python_version() < '3.0':
 else:
     from io import StringIO
 
-from term2048 import keypress
-keypress = keypress._getRealModule()
+if platform.python_version() < '2.7':
+    import unittest2 as unittest
+else:
+    import unittest
+
+try:
+    import termios as _termios
+except ImportError:
+    _termios = None
+
+import helpers
+from term2048 import keypress as kp
+keypress = kp._getRealModule()
 
 fno = sys.stdin.fileno()
 
@@ -79,3 +86,16 @@ class TestKeypress(unittest.TestCase):
     def test_getKey_vim_key_right(self):
         self._pushArrowKey(keypress.L)
         self.assertEqual(keypress.getKey(), keypress.RIGHT)
+
+class TestKeypressWindows(unittest.TestCase):
+
+    def setUp(self):
+        sys.modules['termios'] = None
+        sys.modules['msvcrt'] = helpers.FakeMsvcrt()
+        helpers.reload(keypress)
+
+    def tearDown(self):
+        sys.modules['termios'] = _termios
+
+    def test_termios_fallback_on_msvcrt(self):
+        self.assertEqual(keypress.UP, 72)
