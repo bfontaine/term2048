@@ -10,12 +10,12 @@ UP, DOWN, LEFT, RIGHT = range(4)
 
 def _setRealModule(m):
     """test helper, save the real keypress module"""
-    global __kp
+    global __kp, UP, DOWN, LEFT, RIGHT
     __kp=m
     UP = __kp.UP
     DOWN = __kp.DOWN
     LEFT = __kp.LEFT
-    LEFT = __kp.LEFT
+    RIGHT = __kp.RIGHT
 
 def _getRealModule():
     return __kp
