@@ -38,6 +38,9 @@ class Game(object):
          512: Fore.GREEN,
         1024: Fore.RED,
         2048: Fore.YELLOW,
+        # just in case people set an higher goal they still have colors
+        4096: Fore.RED,
+        8192: Fore.CYAN,
     }
 
     # see Game#adjustColors
@@ -45,6 +48,7 @@ class Game(object):
     __color_modes = {
         'dark': {
             Fore.BLUE: Fore.WHITE,
+            Fore.BLUE + Style.BRIGHT: Fore.WHITE,
         },
         'light': {
             Fore.YELLOW: Fore.BLACK,
@@ -159,7 +163,7 @@ class Game(object):
         print('You won!' if self.board.won() else 'Game Over')
         return self.score
 
-    def getCellStr(self, x, y):
+    def getCellStr(self, x, y): # TODO: refactor regarding issue #11
         """
         return a string representation of the cell located at x,y.
         """

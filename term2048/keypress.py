@@ -63,5 +63,5 @@ else:
 
         return __key_aliases.get(k, k)
 
-    # legacy support
-    getArrowKey = getKey
+# legacy support
+getArrowKey = getKey

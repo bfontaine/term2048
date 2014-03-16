@@ -89,7 +89,7 @@ class Board(object):
 
     def getLine(self, y):
         """return the y-th line, starting at 0"""
-        return [self.getCell(i, y) for i in self.__size_range]
+        return self.cells[y]
 
     def getCol(self, x):
         """return the x-th column, starting at 0"""
@@ -97,8 +97,7 @@ class Board(object):
 
     def setLine(self, y, l):
         """set the y-th line, starting at 0"""
-        for i in xrange(0, self.__size):
-            self.setCell(i, y, l[i])
+        self.cells[y] = l[:]
 
     def setCol(self, x, l):
         """set the x-th column, starting at 0"""
@@ -106,7 +105,7 @@ class Board(object):
             self.setCell(x, i, l[i])
 
     def getEmptyCells(self):
-        """return a (x, y) pair for each cell"""
+        """return a (x, y) pair for each empty cell"""
         return [(x, y) for x in self.__size_range
                            for y in self.__size_range if self.getCell(x, y) == 0]
 
@@ -161,15 +160,23 @@ class Board(object):
         score = 0
 
         for i in self.__size_range:
+            # save the original line/col
             origin = get(i)
+            # move it
             line = self.__moveLineOrCol(origin, d)
+            # merge adjacent tiles
             collapsed, pts = self.__collapseLineOrCol(line, d)
+            # move it again (for when tiles are merged, because empty cells are
+            # inserted in the middle of the line/col)
             new = self.__moveLineOrCol(collapsed, d)
+            # set it back in the board
             chg(i, new)
+            # did it change?
             if origin != new:
                 moved = True
             score += pts
 
+        # don't add a new tile if nothing changed
         if moved and add_tile:
             self.addTile()
 
