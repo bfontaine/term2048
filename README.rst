@@ -14,6 +14,9 @@ term2048
    :target: https://pypi.python.org/pypi/term2048
    :alt: Pypi package
 
+.. image:: https://img.shields.io/pypi/dm/term2048.png
+   :target: https://pypi.python.org/pypi/term2048
+
 **term2048** is a terminal-based version of 2048_.
 
 .. _2048: http://gabrielecirulli.github.io/2048/
