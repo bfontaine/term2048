@@ -8,7 +8,7 @@ from distutils.core import setup
 
 # http://stackoverflow.com/a/7071358/735926
 import re
-VERSIONFILE='term2048/__init__.py'
+VERSIONFILE = 'term2048/__init__.py'
 verstrline = open(VERSIONFILE, 'rt').read()
 VSRE = r'^__version__\s+=\s+[\'"]([^\'"]+)[\'"]'
 mo = re.search(VSRE, verstrline, re.M)
@@ -39,7 +39,7 @@ setup(
         'Programming Language :: Python :: 3.3',
     ],
     entry_points={
-        'console_scripts':[
+        'console_scripts': [
             'term2048 = term2048.ui:start_game'
         ]
     },

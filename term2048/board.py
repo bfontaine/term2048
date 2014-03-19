@@ -9,6 +9,7 @@ except NameError:
 
 
 class Board(object):
+
     """
     A 2048 board
     """
@@ -23,7 +24,7 @@ class Board(object):
         self.__size_range = xrange(0, self.__size)
         self.__goal = goal
         self.__won = False
-        self.cells = [[0]*self.__size for _ in xrange(self.__size)]
+        self.cells = [[0] * self.__size for _ in xrange(self.__size)]
         self.addTile()
         self.addTile()
 
@@ -51,8 +52,8 @@ class Board(object):
         for y in self.__size_range:
             for x in self.__size_range:
                 c = self.getCell(x, y)
-                if (x < self.__size-1 and c == self.getCell(x+1, y)) \
-                        or (y < self.__size-1 and c == self.getCell(x, y+1)):
+                if (x < self.__size - 1 and c == self.getCell(x + 1, y)) \
+                        or (y < self.__size - 1 and c == self.getCell(x, y + 1)):
                     return True
 
         return False
@@ -63,7 +64,7 @@ class Board(object):
         """
         return len(self.getEmptyCells()) == 0
 
-    def addTile(self, value=None, choices=([2]*9+[4])):
+    def addTile(self, value=None, choices=([2] * 9 + [4])):
         """
         add a random tile in an empty cell
           value: value of the tile to add.
@@ -107,7 +108,7 @@ class Board(object):
     def getEmptyCells(self):
         """return a (x, y) pair for each empty cell"""
         return [(x, y) for x in self.__size_range
-                           for y in self.__size_range if self.getCell(x, y) == 0]
+                for y in self.__size_range if self.getCell(x, y) == 0]
 
     def __collapseLineOrCol(self, line, d):
         """
@@ -116,22 +117,22 @@ class Board(object):
         """
         if (d == Board.LEFT or d == Board.UP):
             inc = 1
-            rg = xrange(0, self.__size-1, inc)
+            rg = xrange(0, self.__size - 1, inc)
         else:
             inc = -1
-            rg = xrange(self.__size-1, 0, inc)
+            rg = xrange(self.__size - 1, 0, inc)
 
         pts = 0
         for i in rg:
             if line[i] == 0:
                 continue
-            if line[i] == line[i+inc]:
-                v = line[i]*2
+            if line[i] == line[i + inc]:
+                v = line[i] * 2
                 if v == self.__goal:
                     self.__won = True
 
                 line[i] = v
-                line[i+inc] = 0
+                line[i + inc] = 0
                 pts += v
 
         return (line, pts)
