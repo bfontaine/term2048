@@ -13,6 +13,7 @@ from term2048.board import Board
 
 
 class Game(object):
+
     """
     A 2048 game
     """
@@ -27,15 +28,15 @@ class Game(object):
     __clear = 'cls' if os.name == 'nt' else 'clear'
 
     COLORS = {
-           2: Fore.GREEN,
-           4: Fore.BLUE + Style.BRIGHT,
-           8: Fore.CYAN,
-          16: Fore.RED,
-          32: Fore.MAGENTA,
-          64: Fore.CYAN,
-         128: Fore.BLUE + Style.BRIGHT,
-         256: Fore.MAGENTA,
-         512: Fore.GREEN,
+        2: Fore.GREEN,
+        4: Fore.BLUE + Style.BRIGHT,
+        8: Fore.CYAN,
+        16: Fore.RED,
+        32: Fore.MAGENTA,
+        64: Fore.CYAN,
+        128: Fore.BLUE + Style.BRIGHT,
+        256: Fore.MAGENTA,
+        512: Fore.GREEN,
         1024: Fore.RED,
         2048: Fore.YELLOW,
         # just in case people set an higher goal they still have colors
@@ -58,8 +59,8 @@ class Game(object):
     SCORES_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
 
     def __init__(self, scores_file=SCORES_FILE, colors=COLORS,
-            clear_screen=True,
-            mode=None, azmode=False, **kws):
+                 clear_screen=True,
+                 mode=None, azmode=False, **kws):
         """
         Create a new game.
             scores_file: file to use for the best score (default
@@ -103,7 +104,7 @@ class Game(object):
             self.best_score = int(f.readline(), 10)
             f.close()
         except:
-            pass # fail silently
+            pass  # fail silently
 
     def saveBestScore(self):
         """
@@ -116,7 +117,7 @@ class Game(object):
             f.write(str(self.best_score))
             f.close()
         except:
-            pass # fail silently
+            pass  # fail silently
 
     def incScore(self, pts):
         """
@@ -149,7 +150,7 @@ class Game(object):
                     os.system(Game.__clear)
                 else:
                     print("\n")
-                print(self.__str__(margins={'left':4, 'top':4, 'bottom':4}))
+                print(self.__str__(margins={'left': 4, 'top': 4, 'bottom': 4}))
                 if self.board.won() or not self.board.canMove():
                     break
                 m = self.readMove()
@@ -163,7 +164,7 @@ class Game(object):
         print('You won!' if self.board.won() else 'Game Over')
         return self.score
 
-    def getCellStr(self, x, y): # TODO: refactor regarding issue #11
+    def getCellStr(self, x, y):  # TODO: refactor regarding issue #11
         """
         return a string representation of the cell located at x,y.
         """
@@ -171,9 +172,9 @@ class Game(object):
 
         az = {}
         for i in range(1, int(math.log(self.board.goal(), 2))):
-            az[2**i] = chr(i+96)
+            az[2 ** i] = chr(i + 96)
 
-        if c==0 and self.__azmode:
+        if c == 0 and self.__azmode:
             return '.'
         elif c == 0:
             return '  .'
@@ -197,14 +198,14 @@ class Game(object):
         """
         b = self.board
         rg = range(b.size())
-        left = ' '*margins.get('left', 0)
+        left = ' ' * margins.get('left', 0)
         s = '\n'.join(
             [left + ' '.join([self.getCellStr(x, y) for x in rg]) for y in rg])
         return s
 
     def __str__(self, margins={}):
         b = self.boardToString(margins=margins)
-        top = '\n'*margins.get('top', 0)
-        bottom = '\n'*margins.get('bottom', 0)
+        top = '\n' * margins.get('top', 0)
+        bottom = '\n' * margins.get('bottom', 0)
         scores = ' \tScore: %5d  Best: %5d\n' % (self.score, self.best_score)
         return top + b.replace('\n', scores, 1) + bottom

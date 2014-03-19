@@ -52,7 +52,8 @@ class TestBoard(unittest.TestCase):
                 if not c == 0:
                     t += 1
                 else:
-                    self.assertEqual(c, 0, 'board[%d][%d] should be 0' % (y, x))
+                    self.assertEqual(
+                        c, 0, 'board[%d][%d] should be 0' % (y, x))
 
         self.assertEqual(t, 2)
 
@@ -101,7 +102,7 @@ class TestBoard(unittest.TestCase):
 
     # == .filled == #
     def test_filled(self):
-        self.b.cells = [[1]*Board.SIZE for _ in xrange(Board.SIZE)]
+        self.b.cells = [[1] * Board.SIZE for _ in xrange(Board.SIZE)]
         self.assertTrue(self.b.filled())
 
     # == .addTile == #
@@ -130,10 +131,10 @@ class TestBoard(unittest.TestCase):
         b = Board(size=4)
         l = [42, 17, 12, 3]
         b.cells = [
-            [0]*4,
+            [0] * 4,
             l,
-            [0]*4,
-            [0]*4
+            [0] * 4,
+            [0] * 4
         ]
         self.assertSequenceEqual(b.getLine(1), l)
 
@@ -161,7 +162,7 @@ class TestBoard(unittest.TestCase):
 
     # == .getEmptyCells == #
     def test_getEmptyCells(self):
-        self.assertEqual(len(self.b.getEmptyCells()), Board.SIZE**2 - 2)
+        self.assertEqual(len(self.b.getEmptyCells()), Board.SIZE ** 2 - 2)
 
     def test_getEmptyCells_filled(self):
         b = Board(size=1)
@@ -208,8 +209,8 @@ class TestBoard(unittest.TestCase):
         b.cells = [
             [8, 4, 4, 2],
             [0, 2, 2, 0],
-            [0]*4,
-            [0]*4
+            [0] * 4,
+            [0] * 4
         ]
         self.assertEqual(b.move(Board.UP), 0)
         self.assertEqual(len([e for l in b.cells for e in l if e != 0]), 6)
@@ -267,10 +268,8 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(self.b.move(None), 0)
         self.assertEqual(self.b.move("up"), 0)
 
-
     # tests for weird-collapse-bug reported on HN (issue #2)
     #   see: https://news.ycombinator.com/item?id=7398249
-
     def test_move_collapse_chain_col(self):
         b = Board()
         b.setCol(0, [0, 2, 2, 4])
@@ -281,9 +280,9 @@ class TestBoard(unittest.TestCase):
         b = Board()
         b.cells = [
             [0, 2, 2, 4],
-            [0]*4,
-            [0]*4,
-            [0]*4
+            [0] * 4,
+            [0] * 4,
+            [0] * 4
         ]
         self.assertEqual(b.move(Board.RIGHT, add_tile=False), 4)
         self.assertSequenceEqual(b.getLine(0), [0, 0, 4, 4])
@@ -292,9 +291,9 @@ class TestBoard(unittest.TestCase):
         b = Board()
         b.cells = [
             [0, 4, 2, 2],
-            [0]*4,
-            [0]*4,
-            [0]*4
+            [0] * 4,
+            [0] * 4,
+            [0] * 4
         ]
         self.assertEqual(b.move(Board.RIGHT, add_tile=False), 4)
         self.assertSequenceEqual(b.getLine(0), [0, 0, 4, 4])
@@ -303,9 +302,9 @@ class TestBoard(unittest.TestCase):
         b = Board()
         b.cells = [
             [0, 2, 2, 4],
-            [0]*4,
-            [0]*4,
-            [0]*4
+            [0] * 4,
+            [0] * 4,
+            [0] * 4
         ]
         self.assertEqual(b.move(Board.LEFT, add_tile=False), 4)
         self.assertSequenceEqual(b.getLine(0), [4, 4, 0, 0])
@@ -314,15 +313,16 @@ class TestBoard(unittest.TestCase):
         b = Board()
         b.cells = [
             [2, 2, 2, 2],
-            [0]*4,
-            [0]*4,
-            [0]*4
+            [0] * 4,
+            [0] * 4,
+            [0] * 4
         ]
         self.assertEqual(b.move(Board.LEFT, add_tile=False), 8)
         self.assertSequenceEqual(b.getLine(0), [4, 4, 0, 0])
 
 
 class TestBoardPy3k(unittest.TestCase):
+
     def setUp(self):
         try:
             self.xr = __builtin__.xrange

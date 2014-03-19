@@ -17,10 +17,12 @@ except ImportError:
 _argv = sys.argv
 _os_system = os.system
 
+
 class TestUI(unittest.TestCase):
 
     def setUp(self):
         self.exit_status = None
+
         def fake_exit(s):
             self.exit_status = s
             raise helpers.FakeExit()
@@ -96,7 +98,8 @@ class TestUI(unittest.TestCase):
             self.assertFalse(True, "should exit after printing the version")
         self.assertEqual(self.exit_status, 0)
         self.assertRegexpMatches(self.output['output'],
-                r'^term2048 v\d+\.\d+\.\d+$')
+                                 r'^term2048 v\d+\.\d+\.\d+$')
+
 
 class TestUIPy26(unittest.TestCase):
 
@@ -107,6 +110,7 @@ class TestUIPy26(unittest.TestCase):
         sys.modules['argparse'] = None
         helpers.reload(ui)
         ui.debug = True
+
         def system_interrupt(*args):
             raise KeyboardInterrupt()
         os.system = system_interrupt
@@ -127,4 +131,4 @@ class TestUIPy26(unittest.TestCase):
 
     def test_start_game_loop(self):
         ui.debug = False
-        self.assertEqual(ui.start_game(), None) # interrupted
+        self.assertEqual(ui.start_game(), None)  # interrupted
