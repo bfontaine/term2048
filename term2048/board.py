@@ -67,6 +67,33 @@ class Board(object):
 
         return False
 
+    def validMove(self, dir):
+        """
+        test if a move is possible
+        """
+        if dir == self.UP or dir == self.DOWN:
+            for x in self.__size_range:
+                col = self.getCol(x)
+                for y in self.__size_range:
+                    if(y < self.__size-1 and col[y] == col[y+1] and col[y]!=0):
+                        return True
+                    if(dir == self.DOWN and y > 0 and col[y] == 0 and col[y-1]!=0):
+                        return True
+                    if(dir == self.UP and y < self.__size-1 and col[y] == 0 and col[y+1]!=0):
+                        return True        
+        
+        if dir == self.LEFT or dir == self.RIGHT:
+            for y in self.__size_range:
+                line = self.getLine(y)
+                for x in self.__size_range:
+                    if(x < self.__size-1 and line[x] == line[x+1] and line[x]!=0):
+                        return True
+                    if(dir == self.RIGHT and x > 0 and line[x] == 0 and line[x-1]!=0):
+                        return True
+                    if(dir == self.LEFT and x < self.__size-1 and line[x] == 0 and line[x+1]!=0):
+                        return True        
+        return False
+
     def filled(self):
         """
         return true if the game is filled
