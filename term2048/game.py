@@ -4,12 +4,14 @@ from __future__ import print_function
 import os
 import os.path
 import math
+import time
 
 from colorama import init, Fore, Style
 init(autoreset=True)
 
 from term2048 import keypress
 from term2048.board import Board
+from term2048.ia import IA
 
 
 class Game(object):
@@ -154,6 +156,31 @@ class Game(object):
                     break
                 m = self.readMove()
                 self.incScore(self.board.move(m))
+
+        except KeyboardInterrupt:
+            self.saveBestScore()
+            return
+
+        self.saveBestScore()
+        print('You won!' if self.board.won() else 'Game Over')
+        return self.score
+        
+    def loopIA(self,sleep_time=0.1):
+        """
+        main game loop. returns the final score.
+        """
+        try:
+            while True:
+                if self.clear_screen:
+                    os.system(Game.__clear)
+                else:
+                    print("\n")
+                print(self.__str__(margins={'left':4, 'top':4, 'bottom':4}))
+                if self.board.won() or not self.board.canMove():
+                    break
+                m = IA.nextMove(self.board)
+                self.incScore(self.board.move(m))
+                time.sleep(0.01)
 
         except KeyboardInterrupt:
             self.saveBestScore()
