@@ -1,5 +1,7 @@
-# M1Algo project's Makefile
+# term2048's Makefile
 #
+SRC=term2048
+
 COVERFILE:=.coverage
 COVERAGE_REPORT:=report -m
 
@@ -13,7 +15,7 @@ PY_VERSION_SHORT:=$(TRAVIS_PYTHON_VERSION)
 endif
 
 .DEFAULT: check-versions
-.PHONY: check check-versions covercheck
+.PHONY: check check-versions stylecheck covercheck
 
 deps:
 	pip install -qr requirements.txt
@@ -29,6 +31,9 @@ check:
 
 check-versions:
 	tox
+
+stylecheck:
+	pep8 $(SRC)
 
 covercheck:
 	coverage run --source=term2048 tests/test.py

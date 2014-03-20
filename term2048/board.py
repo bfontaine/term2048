@@ -52,7 +52,7 @@ class Board(object):
             for x in self.__size_range:
                 c = self.getCell(x, y)
                 if (x < self.__size-1 and c == self.getCell(x+1, y)) \
-                        or (y < self.__size-1 and c == self.getCell(x, y+1)):
+                   or (y < self.__size-1 and c == self.getCell(x, y+1)):
                     return True
 
         return False
@@ -106,8 +106,9 @@ class Board(object):
 
     def getEmptyCells(self):
         """return a (x, y) pair for each empty cell"""
-        return [(x, y) for x in self.__size_range
-                           for y in self.__size_range if self.getCell(x, y) == 0]
+        return [(x, y)
+                for x in self.__size_range
+                for y in self.__size_range if self.getCell(x, y) == 0]
 
     def __collapseLineOrCol(self, line, d):
         """
