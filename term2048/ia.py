@@ -9,9 +9,9 @@ class IA(object):
 
     @staticmethod
     def randomNextMove(board):
-    """
-    It's just a test for the validMove function
-    """
+        '''
+        It's just a test for the validMove function
+        '''
         if board.validMove(Board.UP):
             print "UP: ok"
         else:
@@ -64,16 +64,26 @@ class IA(object):
         linearWeightedVal = 0
         invert = False
         weight = 1.
+        minVal = board.getCell(0,0)
+        malus = 0
         for y in range(0,board.size()):
             for x in range(0,board.size()):
                 b_x = x
                 if invert:
                     b_x = board.size() - 1 - x
-                linearWeightedVal += board.getCell(b_x,y)*weight
+                #linearW
+                currVal=board.getCell(b_x,y)
+                linearWeightedVal += currVal*weight
                 weight *= commonRatio
+                #low value malus
+                if(currVal < minVal):
+                    minVal = currVal
+                else:
+                    malus += currVal - minVal
+                    
             invert = not invert
         
-        return linearWeightedVal
+        return max(linearWeightedVal-malus,0)
         
 
     '''
