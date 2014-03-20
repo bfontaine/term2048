@@ -41,6 +41,16 @@ class Board(object):
         """
         return self.__won
 
+    def maxValue(self):
+        """
+        return the max value in the board
+        """
+        maxVal = 0
+        for y in self.__size_range:
+            for x in self.__size_range:
+                maxVal = max(self.getCell(x,y),maxVal)
+        return maxVal
+
     def canMove(self):
         """
         test if a move is possible
