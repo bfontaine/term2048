@@ -60,10 +60,10 @@ class IA(object):
         return (bestMove,bestScore);
 
     @staticmethod
-    def evaluate(board,commonRatio=4):
+    def evaluate(board,commonRatio=0.25):
         linearWeightedVal = 0
         invert = False
-        weight = 1.
+        weight = 4000000.
         minVal = board.getCell(0,0)
         malus = 0
         for y in range(0,board.size()):
