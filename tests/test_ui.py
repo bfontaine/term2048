@@ -44,6 +44,15 @@ class TestUI(unittest.TestCase):
             self.assertFalse(True, "should exit after printing the version")
         self.assertEqual(self.exit_status, 0)
 
+    def test_print_rules(self):
+        try:
+            ui.print_rules_and_exit()
+        except helpers.FakeExit:
+            pass
+        else:
+            self.assertFalse(True, "should exit after printing the rules")
+        self.assertEqual(self.exit_status, 0)
+
     def test_parse_args_no_args(self):
         sys.argv = ['term2048']
         args = ui.parse_cli_args()
@@ -51,6 +60,7 @@ class TestUI(unittest.TestCase):
             'version': False,
             'azmode': False,
             'mode': None,
+            'rules': False,
         })
 
     def test_parse_args_version(self):
@@ -67,6 +77,12 @@ class TestUI(unittest.TestCase):
         sys.argv = ['term2048', '--az', '--version']
         args = ui.parse_cli_args()
         self.assertTrue(args['azmode'])
+        self.assertTrue(args['version'])
+
+    def test_parse_args_rules_version(self):
+        sys.argv = ['term2048', '--rules', '--version']
+        args = ui.parse_cli_args()
+        self.assertTrue(args['rules'])
         self.assertTrue(args['version'])
 
     def test_parse_args_dark_mode(self):
@@ -97,6 +113,30 @@ class TestUI(unittest.TestCase):
         self.assertEqual(self.exit_status, 0)
         self.assertRegexpMatches(self.output['output'],
                 r'^term2048 v\d+\.\d+\.\d+$')
+
+    def test_start_game_print_version_over_rules(self):
+        sys.argv = ['term2048', '--rules', '--version']
+        try:
+            ui.start_game()
+        except helpers.FakeExit:
+            pass
+        else:
+            self.assertFalse(True, "should exit after printing the version")
+        self.assertEqual(self.exit_status, 0)
+        self.assertRegexpMatches(self.output['output'],
+                r'^term2048 v\d+\.\d+\.\d+$')
+
+    def test_start_game_print_rules(self):
+        sys.argv = ['term2048', '--rules']
+        try:
+            ui.start_game()
+        except helpers.FakeExit:
+            pass
+        else:
+            self.assertFalse(True, "should exit after printing the version")
+        self.assertEqual(self.exit_status, 0)
+        self.assertRegexpMatches(self.output['output'],
+                r'.+')
 
 class TestUIPy26(unittest.TestCase):
 
