@@ -28,9 +28,13 @@ def print_version_and_exit():
     print("term2048 v%s" % __version__)
     sys.exit(0)
 
+
 def print_rules_and_exit():
-    print("Use your arrow keys to move the tiles. When two tiles with the same number touch they merge into one! Try to reach 2048 to win.")
+    print("""Use your arrow keys to move the tiles.
+When two tiles with the same value touch they merge into one with the sum of
+their value! Try to reach 2048 to win.""")
     sys.exit(0)
+
 
 def parse_cli_args():
     """parse args from the CLI and return a dict"""
@@ -54,7 +58,7 @@ def start_game():
 
         if args['version']:
             print_version_and_exit()
-        
+
         if args['rules']:
             print_rules_and_exit()
 
