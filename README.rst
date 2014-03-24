@@ -46,7 +46,8 @@ Play
 Then use arrow keys to move. Since version 0.2.1 VI keys (h,j,k,l) are also
 supported.
 
-Use ``-h``  to check the list of available options.
+Use ``-h``  to check the list of available options, and ``--rules`` for the
+game rules.
 
 Tests
 -----
@@ -64,6 +65,7 @@ Contributions
 -------------
 
 * ``--version`` flag added by @aminb
+* ``--rules`` flag added by @cardern
 
 v0.2.0
 ~~~~~~

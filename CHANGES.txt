@@ -1,3 +1,7 @@
+v0.2.3, 2014-03-24 -- rules flag
+
+* --rules flag added (#25)
+
 v0.2.2, 2014-03-15 -- version flag
 
 * --version flag added (#18)
