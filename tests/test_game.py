@@ -120,11 +120,6 @@ class TestGame(unittest.TestCase):
         self.assertEqual(self.g.score, s+i)
         self.assertEqual(self.g.best_score, bs)
 
-    # == .end == #
-
-    def test_end_can_play(self):
-        self.assertFalse(self.g.end())
-
     # == .readMove == #
 
     def test_read_unknown_move(self):

@@ -126,12 +126,6 @@ class Game(object):
         if self.score > self.best_score:
             self.best_score = self.score
 
-    def end(self):
-        """
-        return True if the game is finished
-        """
-        return not (self.board.won() or self.board.canMove())
-
     def readMove(self):
         """
         read and return a move to pass to a board
