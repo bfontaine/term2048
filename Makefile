@@ -1,6 +1,10 @@
 # term2048's Makefile
 #
 SRC=term2048
+VENV=venv
+BINUTILS=$(VENV)/bin
+
+PIP=$(BINUTILS)/pip
 
 COVERFILE:=.coverage
 COVERAGE_REPORT:=report -m
@@ -17,33 +21,36 @@ endif
 .DEFAULT: check-versions
 .PHONY: check check-versions stylecheck covercheck
 
-deps:
-	pip install -qr requirements.txt
+deps: $(VENV)
+	$(PIP) install -qr requirements.txt
 ifeq ($(PY_VERSION_SHORT),2.6)
-	pip install -qr py26-requirements.txt
+	$(PIP) install -qr py26-requirements.txt
 endif
 ifneq ($(PY_VERSION_SHORT),3.3)
 ifneq ($(PY_VERSION_SHORT),3.4)
-	pip install -q wsgiref==0.1.2
+	$(PIP) install -q wsgiref==0.1.2
 endif
 endif
 
-check:
-	python tests/test.py
+$(VENV):
+	virtualenv $@
 
-check-versions:
-	tox
+check: deps
+	$(BINUTILS)/python tests/test.py
 
-stylecheck:
-	pep8 $(SRC)
+check-versions: deps
+	$(BINUTILS)/tox
 
-covercheck:
-	coverage run --source=term2048 tests/test.py
-	coverage $(COVERAGE_REPORT)
+stylecheck: deps
+	$(BINUTILS)/pep8 $(SRC)
+
+covercheck: deps
+	$(BINUTILS)/coverage run --source=term2048 tests/test.py
+	$(BINUTILS)/coverage $(COVERAGE_REPORT)
 
 clean:
 	rm -f *~ */*~
 	rm -f $(COVERFILE)
 
-publish: check-versions
-	python setup.py sdist upload
+publish: deps check-versions
+	$(BINUTILS)/python setup.py sdist upload

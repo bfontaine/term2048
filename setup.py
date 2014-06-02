@@ -29,6 +29,7 @@ setup(
     long_description=open('README.rst', 'r').read(),
     install_requires=[
         'colorama >= 0.2.7',
+        'argparse >= 1.1',
     ],
     classifiers=[
         'Environment :: Console',

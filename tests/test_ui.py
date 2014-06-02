@@ -9,11 +9,6 @@ import os
 import helpers
 from term2048 import ui
 
-try:
-    import argparse as _argparse
-except ImportError:
-    _argparse = None
-
 _argv = sys.argv
 _os_system = os.system
 
@@ -97,11 +92,6 @@ class TestUI(unittest.TestCase):
         args = ui.parse_cli_args()
         self.assertEqual(args['mode'], m)
 
-    def test_argparse_warning(self):
-        getattr(ui, '__print_argparse_warning')()
-        self.assertIn('output', self.output)
-        self.assertRegexpMatches(self.output['output'], r'^WARNING')
-
     def test_start_game_print_version(self):
         sys.argv = ['term2048', '--version']
         try:
@@ -137,34 +127,3 @@ class TestUI(unittest.TestCase):
         self.assertEqual(self.exit_status, 0)
         self.assertRegexpMatches(self.output['output'],
                 r'.+')
-
-class TestUIPy26(unittest.TestCase):
-
-    def setUp(self):
-        self.stdout = sys.stdout
-        self.output = {}
-        sys.stdout = helpers.DevNull(self.output)
-        sys.modules['argparse'] = None
-        helpers.reload(ui)
-        ui.debug = True
-        def system_interrupt(*args):
-            raise KeyboardInterrupt()
-        os.system = system_interrupt
-
-    def tearDown(self):
-        sys.stdout = self.stdout
-        sys.modules['argparse'] = _argparse
-        ui.debug = False
-        os.system = _os_system
-
-    def test_no_has_argparse(self):
-        self.assertFalse(getattr(ui, '__has_argparse'))
-
-    def test_start_game_print_argparse_warning(self):
-        ui.start_game()
-        self.assertIn('output', self.output)
-        self.assertRegexpMatches(self.output['output'], r'^WARNING')
-
-    def test_start_game_loop(self):
-        ui.debug = False
-        self.assertEqual(ui.start_game(), None) # interrupted
