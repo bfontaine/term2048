@@ -29,8 +29,8 @@ def parse_cli_args():
                         default=None, help='colors mode (dark or light)')
     parser.add_argument('--az', dest='azmode', action='store_true',
                         help='Use the letters a-z instead of numbers')
-    parser.add_argument('--version', action='store_true')
-    parser.add_argument('--rules', action='store_true')
+    parser.add_argument('-V', '--version', action='store_true')
+    parser.add_argument('-R', '--rules', action='store_true')
     return vars(parser.parse_args())
 
 
