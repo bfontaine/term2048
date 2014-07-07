@@ -66,6 +66,7 @@ Contributions
 
 * ``--version`` flag added by @aminb
 * ``--rules`` flag added by @cardern
+* Short ``-r`` and ``-v`` flags added by @yankuangshi
 
 v0.2.0
 ~~~~~~

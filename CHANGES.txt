@@ -1,3 +1,11 @@
+v0.2.4, 2014-07-07 -- arparse for everyone
+
+* argparse dependency added for all versions. It’s normally included in the
+  stdlib for Python >2.6, but the code is cleaner if we don’t have
+  2.6-specific pieces of code
+* short flags for --rules (-r) and --version (-v) (#27)
+* unused game.end function removed
+
 v0.2.3, 2014-03-24 -- rules flag
 
 * --rules flag added (#25)
