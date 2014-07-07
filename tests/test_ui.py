@@ -58,8 +58,13 @@ class TestUI(unittest.TestCase):
             'rules': False,
         })
 
-    def test_parse_args_version(self):
+    def test_parse_args_version_long(self):
         sys.argv = ['term2048', '--version']
+        args = ui.parse_cli_args()
+        self.assertTrue(args['version'])
+
+    def test_parse_args_version_short(self):
+        sys.argv = ['term2048', '-v']
         args = ui.parse_cli_args()
         self.assertTrue(args['version'])
 
@@ -76,6 +81,23 @@ class TestUI(unittest.TestCase):
 
     def test_parse_args_rules_version(self):
         sys.argv = ['term2048', '--rules', '--version']
+        args = ui.parse_cli_args()
+        self.assertTrue(args['rules'])
+        self.assertTrue(args['version'])
+
+    def test_parse_args_rules_short(self):
+        sys.argv = ['term2048', '-r']
+        args = ui.parse_cli_args()
+        self.assertTrue(args['rules'])
+
+    def test_parse_args_rules_version_short_rv(self):
+        sys.argv = ['term2048', '-rv']
+        args = ui.parse_cli_args()
+        self.assertTrue(args['rules'])
+        self.assertTrue(args['version'])
+
+    def test_parse_args_rules_version_short_vr(self):
+        sys.argv = ['term2048', '-vr']
         args = ui.parse_cli_args()
         self.assertTrue(args['rules'])
         self.assertTrue(args['version'])
