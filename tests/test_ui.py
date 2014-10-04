@@ -8,9 +8,11 @@ import sys
 import os
 import helpers
 from term2048 import ui
+from term2048.game import Game
 
 _argv = sys.argv
 _os_system = os.system
+_game_loop = Game.loop
 
 class TestUI(unittest.TestCase):
 
@@ -24,11 +26,16 @@ class TestUI(unittest.TestCase):
         sys.argv = _argv
         self.stdout = sys.stdout
         self.output = {}
+        self._game_loop_started = False
+        def _loop(*args, **kwargs):
+            self._game_loop_started = True
+        Game.loop = _loop
         sys.stdout = helpers.DevNull(self.output)
 
     def tearDown(self):
         sys.exit = self.exit
         sys.stdout = self.stdout
+        Game.loop = _game_loop
 
     def test_print_version(self):
         try:
@@ -147,5 +154,11 @@ class TestUI(unittest.TestCase):
         else:
             self.assertFalse(True, "should exit after printing the version")
         self.assertEqual(self.exit_status, 0)
-        self.assertRegexpMatches(self.output['output'],
-                r'.+')
+        self.assertRegexpMatches(self.output['output'], r'.+')
+
+
+    def test_start_game_loop(self):
+        sys.argv = ['term2048']
+        self.assertFalse(self._game_loop_started)
+        ui.start_game()
+        self.assertTrue(self._game_loop_started)
