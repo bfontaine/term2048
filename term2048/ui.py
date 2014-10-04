@@ -9,7 +9,6 @@ debug = False
 
 import argparse
 
-
 def print_version_and_exit():
     from term2048 import __version__
     print("term2048 v%s" % __version__)
@@ -30,6 +29,8 @@ def parse_cli_args():
                         default=None, help='colors mode (dark or light)')
     parser.add_argument('--az', dest='azmode', action='store_true',
                         help='Use the letters a-z instead of numbers')
+    parser.add_argument('--resume', dest='resume', action='store_true',
+                        help='restart the game from where you left')
     parser.add_argument('-v', '--version', action='store_true')
     parser.add_argument('-r', '--rules', action='store_true')
     return vars(parser.parse_args())
@@ -46,4 +47,9 @@ def start_game():
         print_rules_and_exit()
 
     if not debug:
-        Game(**args).loop()
+        if args['resume']:
+            game = Game(**args)
+            game.restore()
+            game.loop()
+        else:
+            Game(**args).loop()

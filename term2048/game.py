@@ -2,6 +2,7 @@
 from __future__ import print_function
 
 import os
+import sys
 import os.path
 import math
 
@@ -22,6 +23,7 @@ class Game(object):
         keypress.DOWN:    Board.DOWN,
         keypress.LEFT:    Board.LEFT,
         keypress.RIGHT:   Board.RIGHT,
+        keypress.SPACE:   Board.PAUSE,
     }
 
     __clear = 'cls' if os.name == 'nt' else 'clear'
@@ -55,14 +57,16 @@ class Game(object):
         },
     }
 
-    SCORES_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
 
-    def __init__(self, scores_file=SCORES_FILE, colors=COLORS,
-                 clear_screen=True,
+    HIGHSCORE_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
+    SCORE_FILE = '%s/.term2048.score' % os.path.expanduser('~')
+
+    def __init__(self, highscore_file=HIGHSCORE_FILE, colors=COLORS,
+                 score_file=SCORE_FILE, clear_screen=True,
                  mode=None, azmode=False, **kws):
         """
         Create a new game.
-            scores_file: file to use for the best score (default
+            bestscore_file: file to use for the best score (default
                          is ~/.term2048.scores)
             colors: dictionnary with colors to use for each tile
             mode: color mode. This adjust a few colors and can be 'dark' or
@@ -71,7 +75,8 @@ class Game(object):
         """
         self.board = Board(**kws)
         self.score = 0
-        self.scores_file = scores_file
+        self.scores_file = highscore_file
+        self.score_file = score_file
         self.clear_screen = clear_screen
 
         self.__colors = colors
@@ -133,6 +138,60 @@ class Game(object):
         k = keypress.getKey()
         return Game.__dirs.get(k)
 
+    def store(self):
+        """
+        save the current game session's score and data for further use
+        """
+        size = self.board.SIZE
+        score_str = ''
+
+        for i in range(size):
+            for j in range(size):
+                score_str += str(self.board.getCell(j, i)) + " "
+
+        score_str = score_str.strip()
+        score_str += "\n%d" % (self.score)
+
+        try:
+            with open(self.score_file, 'w') as f:
+                f.write(score_str)
+                f.close()
+        except:
+            pass  # fail silently
+
+    def restore(self):
+        """
+        restore the saved game score and data
+        """
+
+        size = self.board.SIZE
+        score_str = ''
+        score = 0
+
+        if self.score_file is None or not os.path.exists(self.score_file):
+            # need to do something here
+            pass
+
+        try:
+            with open(self.score_file, 'r') as f:
+                lines = f.readlines()
+                score_str = lines[0]
+                score = lines[1]
+                f.close()
+        except:
+            pass  # fail silently
+
+        score_str_list = score_str.split(' ')
+        count = 0
+
+        for i in range(size):
+            for j in range(size):
+                value = score_str_list[count]
+                self.board.setCell(j, i, int(value))
+                count += 1
+
+        self.score = int(score)
+
     def loop(self):
         """
         main game loop. returns the final score.
@@ -147,6 +206,12 @@ class Game(object):
                 if self.board.won() or not self.board.canMove():
                     break
                 m = self.readMove()
+
+                if (m == self.board.PAUSE):
+                    self.saveBestScore()
+                    self.store()
+                    sys.exit()
+
                 self.incScore(self.board.move(m))
 
         except KeyboardInterrupt:

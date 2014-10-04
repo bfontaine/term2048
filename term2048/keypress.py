@@ -30,6 +30,9 @@ else:
     # they are preceded by 27 and 91, hence the double 'if' in getKey.
     UP, DOWN, RIGHT, LEFT = 65, 66, 67, 68
 
+    # Space Bar key to pause the game
+    SPACE = 32
+
     # Vim keys
     K, J, L, H = 107, 106, 108, 104
 

@@ -13,7 +13,7 @@ class Board(object):
     A 2048 board
     """
 
-    UP, DOWN, LEFT, RIGHT = 1, 2, 3, 4
+    UP, DOWN, LEFT, RIGHT, PAUSE = 1, 2, 3, 4, 5
 
     GOAL = 2048
     SIZE = 4
