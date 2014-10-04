@@ -48,6 +48,10 @@ covercheck: deps
 	$(BINUTILS)/coverage run --source=term2048 tests/test.py
 	$(BINUTILS)/coverage $(COVERAGE_REPORT)
 
+coverhtml:
+	@make COVERAGE_REPORT=html covercheck
+	@echo '--> open htmlcov/index.html'
+
 clean:
 	rm -f *~ */*~
 	rm -f $(COVERFILE)
