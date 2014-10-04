@@ -9,6 +9,7 @@ debug = False
 
 import argparse
 
+
 def print_version_and_exit():
     from term2048 import __version__
     print("term2048 v%s" % __version__)
