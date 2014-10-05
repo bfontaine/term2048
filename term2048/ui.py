@@ -47,9 +47,7 @@ def start_game():
         print_rules_and_exit()
 
     if not debug:
+        game = Game(**args)
         if args['resume']:
-            game = Game(**args)
             game.restore()
-            game.loop()
-        else:
-            Game(**args).loop()
+        game.loop()

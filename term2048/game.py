@@ -58,25 +58,26 @@ class Game(object):
     }
 
 
-    HIGHSCORE_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
-    SCORE_FILE = '%s/.term2048.score' % os.path.expanduser('~')
+    SCORES_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
+    STORE_FILE = '%s/.term2048.store' % os.path.expanduser('~')
 
-    def __init__(self, highscore_file=HIGHSCORE_FILE, colors=COLORS,
-                 score_file=SCORE_FILE, clear_screen=True,
+    def __init__(self, scores_file=SCORES_FILE, colors=COLORS,
+                 store_file=STORE_FILE, clear_screen=True,
                  mode=None, azmode=False, **kws):
         """
         Create a new game.
-            bestscore_file: file to use for the best score (default
+            scores_file: file to use for the best score (default
                          is ~/.term2048.scores)
             colors: dictionnary with colors to use for each tile
+            store_file: file that stores game session's snapshot
             mode: color mode. This adjust a few colors and can be 'dark' or
                   'light'. See the adjustColors functions for more info.
             other options are passed to the underlying Board object.
         """
         self.board = Board(**kws)
         self.score = 0
-        self.scores_file = highscore_file
-        self.score_file = score_file
+        self.scores_file = scores_file
+        self.store_file = store_file
         self.clear_screen = clear_screen
 
         self.__colors = colors
@@ -153,7 +154,7 @@ class Game(object):
         score_str += "\n%d" % (self.score)
 
         try:
-            with open(self.score_file, 'w') as f:
+            with open(self.store_file, 'w') as f:
                 f.write(score_str)
                 f.close()
         except:
@@ -168,12 +169,11 @@ class Game(object):
         score_str = ''
         score = 0
 
-        if self.score_file is None or not os.path.exists(self.score_file):
-            # need to do something here
-            pass
+        if self.store_file is None or not os.path.exists(self.store_file):
+            return
 
         try:
-            with open(self.score_file, 'r') as f:
+            with open(self.store_file, 'r') as f:
                 lines = f.readlines()
                 score_str = lines[0]
                 score = lines[1]
@@ -210,6 +210,8 @@ class Game(object):
                 if (m == self.board.PAUSE):
                     self.saveBestScore()
                     self.store()
+                    print("Game successfully saved. "\
+                         "Resume it with `term2048 --resume`.")
                     sys.exit()
 
                 self.incScore(self.board.move(m))
