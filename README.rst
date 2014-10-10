@@ -46,8 +46,9 @@ Play
 Then use arrow keys to move. Since version 0.2.1 VI keys (h,j,k,l) are also
 supported.
 
-Use ``-h``  to check the list of available options, and ``--rules`` for the
-game rules.
+Use ``-h`` to check the list of available options, and ``--rules`` for the
+game rules. Press ``<space>`` at any time during the game to pause the game
+(since 0.2.5).
 
 Tests
 -----
@@ -67,6 +68,7 @@ Contributions
 * ``--version`` flag added by @aminb
 * ``--rules`` flag added by @cardern
 * Short ``-r`` and ``-v`` flags added by @yankuangshi
+* Resume feature added by @pravj
 
 v0.2.0
 ~~~~~~
