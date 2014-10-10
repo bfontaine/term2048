@@ -1,3 +1,8 @@
+v0.2.5, 2014-10-?? (upcoming version) -- pause/resume feature
+
+* pause & resume games (#30)
+* Vim keys support for Windows (was only for Linux/OSX before)
+
 v0.2.4, 2014-07-07 -- arparse for everyone
 
 * argparse dependency added for all versions. It’s normally included in the
