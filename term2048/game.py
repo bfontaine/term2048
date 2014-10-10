@@ -139,6 +139,7 @@ class Game(object):
         k = keypress.getKey()
         return Game.__dirs.get(k)
 
+
     def store(self):
         """
         save the current game session's score and data for further use
@@ -157,8 +158,11 @@ class Game(object):
             with open(self.store_file, 'w') as f:
                 f.write(score_str)
                 f.close()
+
+            return True
+
         except:
-            pass  # fail silently
+            return False  # fail silently
 
     def restore(self):
         """
@@ -169,9 +173,6 @@ class Game(object):
         score_str = ''
         score = 0
 
-        if self.store_file is None or not os.path.exists(self.store_file):
-            return
-
         try:
             with open(self.store_file, 'r') as f:
                 lines = f.readlines()
@@ -179,7 +180,7 @@ class Game(object):
                 score = lines[1]
                 f.close()
         except:
-            pass  # fail silently
+            return False  # fail silently
 
         score_str_list = score_str.split(' ')
         count = 0
@@ -191,6 +192,8 @@ class Game(object):
                 count += 1
 
         self.score = int(score)
+
+        return True
 
     def loop(self):
         """
