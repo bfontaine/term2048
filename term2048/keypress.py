@@ -1,21 +1,38 @@
 # -*- coding: UTF-8 -*-
 
+# Common values
+
+# Space Bar key to pause the game
+SPACE = 32
+
+# Vim keys
+K, J, L, H = 107, 106, 108, 104
+
 try:
     import termios
 except ImportError:
-    # Assume windows
+    # Windows
 
     import msvcrt
 
     UP, DOWN, RIGHT, LEFT = 72, 80, 77, 75
 
+    __key_aliases = {
+        K: UP,
+        J: DOWN,
+        L: RIGHT,
+        H: LEFT,
+    }
+
     def getKey():
         while True:
             if msvcrt.kbhit():
                 a = ord(msvcrt.getch())
-                return a
+                return __key_aliases.get(a, a)
 
 else:
+    # Linux/OSX
+
     # refs:
     # http://bytes.com/topic/python/answers/630206-check-keypress-linux-xterm
     # http://stackoverflow.com/a/2521032/735926
@@ -29,12 +46,6 @@ else:
     # Arrow keys
     # they are preceded by 27 and 91, hence the double 'if' in getKey.
     UP, DOWN, RIGHT, LEFT = 65, 66, 67, 68
-
-    # Space Bar key to pause the game
-    SPACE = 32
-
-    # Vim keys
-    K, J, L, H = 107, 106, 108, 104
 
     __key_aliases = {
         K: UP,
