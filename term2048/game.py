@@ -57,7 +57,6 @@ class Game(object):
         },
     }
 
-
     SCORES_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
     STORE_FILE = '%s/.term2048.store' % os.path.expanduser('~')
 
@@ -139,7 +138,6 @@ class Game(object):
         k = keypress.getKey()
         return Game.__dirs.get(k)
 
-
     def store(self):
         """
         save the current game session's score and data for further use
@@ -157,12 +155,9 @@ class Game(object):
         try:
             with open(self.store_file, 'w') as f:
                 f.write(score_str)
-                f.close()
-
-            return True
-
         except:
-            return False  # fail silently
+            return False
+        return True
 
     def restore(self):
         """
@@ -178,9 +173,8 @@ class Game(object):
                 lines = f.readlines()
                 score_str = lines[0]
                 score = lines[1]
-                f.close()
         except:
-            return False  # fail silently
+            return False
 
         score_str_list = score_str.split(' ')
         count = 0
@@ -213,9 +207,9 @@ class Game(object):
                 if (m == self.board.PAUSE):
                     self.saveBestScore()
                     self.store()
-                    print("Game successfully saved. "\
-                         "Resume it with `term2048 --resume`.")
-                    sys.exit()
+                    print("Game successfully saved. "
+                          "Resume it with `term2048 --resume`.")
+                    return sys.exit()
 
                 self.incScore(self.board.move(m))
 
