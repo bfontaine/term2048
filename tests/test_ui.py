@@ -63,6 +63,7 @@ class TestUI(unittest.TestCase):
             'azmode': False,
             'mode': None,
             'rules': False,
+            'resume': False,
         })
 
     def test_parse_args_version_long(self):

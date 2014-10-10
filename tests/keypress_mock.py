@@ -6,16 +6,17 @@ __kp = None
 __keys = []
 __ctrl_c = False # flag for KeyboardInterrupt
 
-UP, DOWN, LEFT, RIGHT = range(4)
+UP, DOWN, LEFT, RIGHT, SPACE = range(5)
 
 def _setRealModule(m):
     """test helper, save the real keypress module"""
-    global __kp, UP, DOWN, LEFT, RIGHT
+    global __kp, UP, DOWN, LEFT, RIGHT, SPACE
     __kp=m
     UP = __kp.UP
     DOWN = __kp.DOWN
     LEFT = __kp.LEFT
     RIGHT = __kp.RIGHT
+    SPACE = __kp.SPACE
 
 def _getRealModule():
     return __kp
