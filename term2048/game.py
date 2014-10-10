@@ -2,7 +2,6 @@
 from __future__ import print_function
 
 import os
-import sys
 import os.path
 import math
 
@@ -143,14 +142,13 @@ class Game(object):
         save the current game session's score and data for further use
         """
         size = self.board.SIZE
-        score_str = ''
+        cells = []
 
         for i in range(size):
             for j in range(size):
-                score_str += str(self.board.getCell(j, i)) + " "
+                cells.append(str(self.board.getCell(j, i)))
 
-        score_str = score_str.strip()
-        score_str += "\n%d" % (self.score)
+        score_str = "%s\n%d" % (' '.join(cells), self.score)
 
         try:
             with open(self.store_file, 'w') as f:
@@ -165,14 +163,12 @@ class Game(object):
         """
 
         size = self.board.SIZE
-        score_str = ''
-        score = 0
 
         try:
             with open(self.store_file, 'r') as f:
                 lines = f.readlines()
                 score_str = lines[0]
-                score = lines[1]
+                self.score = int(lines[1])
         except:
             return False
 
@@ -185,31 +181,34 @@ class Game(object):
                 self.board.setCell(j, i, int(value))
                 count += 1
 
-        self.score = int(score)
-
         return True
 
     def loop(self):
         """
         main game loop. returns the final score.
         """
+        pause_key = self.board.PAUSE
+        margins = {'left': 4, 'top': 4, 'bottom': 4}
+
         try:
             while True:
                 if self.clear_screen:
                     os.system(Game.__clear)
                 else:
                     print("\n")
-                print(self.__str__(margins={'left': 4, 'top': 4, 'bottom': 4}))
+                print(self.__str__(margins=margins))
                 if self.board.won() or not self.board.canMove():
                     break
                 m = self.readMove()
 
-                if (m == self.board.PAUSE):
+                if (m == pause_key):
                     self.saveBestScore()
-                    self.store()
-                    print("Game successfully saved. "
-                          "Resume it with `term2048 --resume`.")
-                    return sys.exit()
+                    if self.store():
+                        print("Game successfully saved. "
+                              "Resume it with `term2048 --resume`.")
+                        return self.score
+                    print("An error ocurred while saving your game.")
+                    return
 
                 self.incScore(self.board.move(m))
 
@@ -227,16 +226,14 @@ class Game(object):
         """
         c = self.board.getCell(x, y)
 
-        az = {}
-        for i in range(1, int(math.log(self.board.goal(), 2))):
-            az[2 ** i] = chr(i + 96)
-
-        if c == 0 and self.__azmode:
-            return '.'
-        elif c == 0:
-            return '  .'
+        if c == 0:
+            return '.' if self.__azmode else '  .'
 
         elif self.__azmode:
+            az = {}
+            for i in range(1, int(math.log(self.board.goal(), 2))):
+                az[2 ** i] = chr(i + 96)
+
             if c not in az:
                 return '?'
             s = az[c]
