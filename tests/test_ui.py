@@ -4,8 +4,11 @@ try:
 except ImportError:
     import unittest
 
-import sys
 import os
+import sys
+from os import remove
+from tempfile import NamedTemporaryFile
+
 import helpers
 from term2048 import ui
 from term2048.game import Game
@@ -13,10 +16,12 @@ from term2048.game import Game
 _argv = sys.argv
 _os_system = os.system
 _game_loop = Game.loop
+_store_file = Game.STORE_FILE
 
 class TestUI(unittest.TestCase):
 
     def setUp(self):
+        store = NamedTemporaryFile(delete=False)
         self.exit_status = None
         def fake_exit(s):
             self.exit_status = s
@@ -30,12 +35,15 @@ class TestUI(unittest.TestCase):
         def _loop(*args, **kwargs):
             self._game_loop_started = True
         Game.loop = _loop
+        Game.STORE_FILE = store.name
         sys.stdout = helpers.DevNull(self.output)
 
     def tearDown(self):
         sys.exit = self.exit
         sys.stdout = self.stdout
         Game.loop = _game_loop
+        remove(Game.STORE_FILE)
+        Game.STORE_FILE = _store_file
 
     def test_print_version(self):
         try:
@@ -157,9 +165,29 @@ class TestUI(unittest.TestCase):
         self.assertEqual(self.exit_status, 0)
         self.assertRegexpMatches(self.output['output'], r'.+')
 
-
     def test_start_game_loop(self):
         sys.argv = ['term2048']
         self.assertFalse(self._game_loop_started)
         ui.start_game()
         self.assertTrue(self._game_loop_started)
+
+    def test_start_game_no_resume(self):
+        g1 = Game(scores_file=None)
+        g1.board.setCell(0, 0, 2)
+        self.assertTrue(g1.store())
+
+        sys.argv = ['term2048']
+        g2 = ui.start_game(debug=True)
+        self.assertEqual(0, g2.board.getCell(0, 0))
+
+    def test_start_game_resume(self):
+        cellvalue = 2
+        g1 = Game(scores_file=None)
+        g1.board.setCell(0, 0, cellvalue)
+        g1.score = 42
+        self.assertTrue(g1.store())
+
+        sys.argv = ['term2048', '--resume']
+        g2 = ui.start_game(debug=True)
+        self.assertEqual(cellvalue, g2.board.getCell(0, 0))
+        self.assertEqual(g1.score, g2.score)

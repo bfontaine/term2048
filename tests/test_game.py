@@ -11,8 +11,10 @@ from term2048.game import Game
 
 import sys
 import os
-from tempfile import NamedTemporaryFile
 from os import remove
+from tempfile import NamedTemporaryFile
+from uuid import uuid4
+
 from helpers import DevNull
 
 _BSIZE = Board.SIZE
@@ -22,7 +24,7 @@ class TestGame(unittest.TestCase):
     def setUp(self):
         Board.SIZE = _BSIZE
         Game.SCORES_FILE = None
-        self.g = Game(scores_file=None)
+        self.g = Game(scores_file=None, store_file=None)
         self.b = self.g.board
         # don't print anything on stdout
         self.stdout = sys.stdout
@@ -39,6 +41,12 @@ class TestGame(unittest.TestCase):
         sys.stdout = self.stdout
         os.system = self.system
         kp._setCtrlC(False)
+
+    def assertFileIsNotEmpty(self, path):
+        with open(path, 'r') as f:
+            f.seek(0, 2)
+            size = f.tell()
+        self.assertNotEqual(0, size)
 
     def test_init_with_size_3_goal_4(self):
         g = Game(size=3, goal=4, scores_file=None)
@@ -79,6 +87,7 @@ class TestGame(unittest.TestCase):
         scores_file.close()
 
         g = Game(scores_file=scores_file.name)
+        self.assertEqual(g.best_score, 0)
 
         remove(scores_file.name)
 
@@ -120,6 +129,41 @@ class TestGame(unittest.TestCase):
         self.assertEqual(self.g.score, s+i)
         self.assertEqual(self.g.best_score, bs)
 
+    # == .store/.restore == #
+
+    def test_store_non_empty_file(self):
+        store = NamedTemporaryFile(delete=False)
+        store.close()
+        g = Game(scores_file=None, store_file=store.name)
+        self.assertTrue(g.store())
+        self.assertFileIsNotEmpty(store.name)
+        remove(store.name)
+
+    def test_store_fail_return_false(self):
+        store = NamedTemporaryFile(delete=False)
+        store.close()
+        os.chmod(store.name, 0)  # no rights at all
+        g = Game(scores_file=None, store_file=store.name)
+        self.assertFalse(g.store())
+        os.chmod(store.name, 0200)  # give me writing rights back
+        remove(store.name)
+
+    def test_store_restore_empty_game(self):
+        store = NamedTemporaryFile(delete=False)
+        store.close()
+        g1 = Game(scores_file=None, store_file=store.name)
+        self.assertTrue(g1.store())
+        g2 = Game(scores_file=None, store_file=store.name)
+        g2.board.setCell(0, 0, 16)
+        self.assertTrue(g2.restore())
+        self.assertEqual(0, g2.board.getCell(0, 0))
+        remove(store.name)
+
+    def test_restore_fail_return_false(self):
+        store_name = '/i/dont/%s/exist/%s' % (uuid4(), uuid4())
+        g = Game(scores_file=None, store_file=store_name)
+        self.assertFalse(g.restore())
+
     # == .readMove == #
 
     def test_read_unknown_move(self):
@@ -139,11 +183,11 @@ class TestGame(unittest.TestCase):
             [2, 0],
             [2, 0]
         ]
-        g.loop()
+        self.assertEqual(4, g.loop())
 
     def test_simple_win_loop_clear(self):
         kp._setNextKey(kp.UP)
-        g = Game(goal=4, size=2)
+        g = Game(goal=4, size=2, scores_file=None)
         g.board.cells = [
             [2, 0],
             [2, 0]
@@ -156,8 +200,27 @@ class TestGame(unittest.TestCase):
 
     def test_loop_interrupt(self):
         kp._setCtrlC(True)
-        g = Game(goal=4, size=2)
+        g = Game(goal=4, size=2, scores_file=None)
         self.assertEqual(g.loop(), None)
+
+    def test_loop_pause(self):
+        store = NamedTemporaryFile(delete=False)
+        store.close()
+        kp._setNextKey(kp.SPACE)
+        g = Game(scores_file=None, store_file=store.name)
+        self.assertEqual(g.loop(), 0)
+        self.assertFileIsNotEmpty(store.name)
+        remove(store.name)
+
+    def test_loop_pause_error(self):
+        store = NamedTemporaryFile(delete=False)
+        store.close()
+        os.chmod(store.name, 0)  # no rights at all
+        kp._setNextKey(kp.SPACE)
+        g = Game(scores_file=None, store_file=store.name)
+        self.assertIs(None, g.loop())
+        os.chmod(store.name, 0200)  # give me writing rights back
+        remove(store.name)
 
     # == .getCellStr == #
 
