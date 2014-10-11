@@ -173,12 +173,12 @@ class TestUI(unittest.TestCase):
 
     def test_start_game_no_resume(self):
         g1 = Game(scores_file=None)
-        g1.board.setCell(0, 0, 2)
+        g1.board.setCell(0, 0, 16)
         self.assertTrue(g1.store())
 
         sys.argv = ['term2048']
         g2 = ui.start_game(debug=True)
-        self.assertEqual(0, g2.board.getCell(0, 0))
+        self.assertIn(g2.board.getCell(0, 0), [0, 2, 4])
 
     def test_start_game_resume(self):
         cellvalue = 2

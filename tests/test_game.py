@@ -156,7 +156,7 @@ class TestGame(unittest.TestCase):
         g2 = Game(scores_file=None, store_file=store.name)
         g2.board.setCell(0, 0, 16)
         self.assertTrue(g2.restore())
-        self.assertIn(g2.board.getCell(0, 0) [0, 2])
+        self.assertIn(g2.board.getCell(0, 0), [0, 2, 4])
         remove(store.name)
 
     def test_restore_fail_return_false(self):
