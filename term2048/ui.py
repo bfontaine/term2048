@@ -4,9 +4,6 @@ from __future__ import print_function
 import sys
 from term2048.game import Game
 
-# set this to true when unit testing
-debug = False
-
 import argparse
 
 
@@ -37,8 +34,11 @@ def parse_cli_args():
     return vars(parser.parse_args())
 
 
-def start_game():
-    """start a new game"""
+def start_game(debug=False):
+    """
+    Start a new game. If ``debug`` is set to ``True``, the game object is
+    returned and the game loop isn't fired.
+    """
     args = parse_cli_args()
 
     if args['version']:
@@ -47,8 +47,11 @@ def start_game():
     if args['rules']:
         print_rules_and_exit()
 
-    if not debug:
-        game = Game(**args)
-        if args['resume']:
-            game.restore()
-        game.loop()
+    game = Game(**args)
+    if args['resume']:
+        game.restore()
+
+    if debug:
+        return game
+
+    return game.loop()
