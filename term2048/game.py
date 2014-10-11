@@ -99,15 +99,13 @@ class Game(object):
         """
         load local best score from the default file
         """
-        if self.scores_file is None or not os.path.exists(self.scores_file):
-            self.best_score = 0
-            return
         try:
-            f = open(self.scores_file, 'r')
-            self.best_score = int(f.readline(), 10)
-            f.close()
+            with open(self.scores_file, 'r') as f:
+                self.best_score = int(f.readline(), 10)
         except:
-            pass  # fail silently
+            self.best_score = 0
+            return False
+        return True
 
     def saveBestScore(self):
         """
@@ -116,11 +114,11 @@ class Game(object):
         if self.score > self.best_score:
             self.best_score = self.score
         try:
-            f = open(self.scores_file, 'w')
-            f.write(str(self.best_score))
-            f.close()
+            with open(self.scores_file, 'w') as f:
+                f.write(str(self.best_score))
         except:
-            pass  # fail silently
+            return False
+        return True
 
     def incScore(self, pts):
         """
