@@ -1,4 +1,4 @@
-v0.2.5, 2014-10-?? (upcoming version) -- pause/resume feature
+v0.2.5, 2014-10-11 (upcoming version) -- pause/resume feature
 
 * pause & resume games (#30)
 * Vim keys support for Windows (was only for Linux/OSX before)

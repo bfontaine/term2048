@@ -1,10 +1,10 @@
 # term2048's Makefile
 #
 SRC=term2048
-VENV=venv
-BINUTILS=$(VENV)/bin
+VENV=./venv
+BINPREFIX=$(VENV)/bin/
 
-PIP=$(BINUTILS)/pip
+PIP=$(BINPREFIX)pip
 
 COVERFILE:=.coverage
 COVERAGE_REPORT:=report -m
@@ -36,20 +36,20 @@ $(VENV):
 	virtualenv $@
 
 check: deps
-	$(BINUTILS)/python tests/test.py
+	$(BINPREFIX)python tests/test.py
 
 check-versions: deps
-	$(BINUTILS)/tox
+	$(BINPREFIX)tox
 
 stylecheck: deps
-	$(BINUTILS)/pep8 $(SRC)
+	$(BINPREFIX)pep8 $(SRC)
 
 covercheck: deps
-	$(BINUTILS)/coverage run --source=term2048 tests/test.py
-	$(BINUTILS)/coverage $(COVERAGE_REPORT)
+	$(BINPREFIX)coverage run --source=term2048 tests/test.py
+	$(BINPREFIX)coverage $(COVERAGE_REPORT)
 
 coverhtml:
-	@make COVERAGE_REPORT=html covercheck
+	@make COVERAGE_REPORT=html BINPREFIX=$(BINPREFIX) covercheck
 	@echo '--> open htmlcov/index.html'
 
 clean:
@@ -57,4 +57,4 @@ clean:
 	rm -f $(COVERFILE)
 
 publish: deps check-versions
-	$(BINUTILS)/python setup.py sdist upload
+	$(BINPREFIX)python setup.py sdist upload

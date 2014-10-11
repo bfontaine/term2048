@@ -9,10 +9,10 @@ os:
 - linux
 - osx
 install:
-- make deps
+- make BINPREFIX= deps
 - pip install coveralls
 script:
-- make covercheck
+- make BINPREFIX= covercheck
 after_success: coveralls
 notifications:
   email: false

@@ -156,6 +156,7 @@ class TestGame(unittest.TestCase):
         g2 = Game(scores_file=None, store_file=store.name)
         g2.board.setCell(0, 0, 16)
         self.assertTrue(g2.restore())
+        # FIXME this **sometimes** fails, with g2.board.getCell(0,0)==2
         self.assertEqual(0, g2.board.getCell(0, 0))
         remove(store.name)
 
