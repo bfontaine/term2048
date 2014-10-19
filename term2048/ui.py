@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+
+"""
+UI-related functions
+"""
+
 from __future__ import print_function
 
 import sys
@@ -8,12 +13,14 @@ import argparse
 
 
 def print_version_and_exit():
+    """print term2048's current version and exit"""
     from term2048 import __version__
     print("term2048 v%s" % __version__)
     sys.exit(0)
 
 
 def print_rules_and_exit():
+    """print 2048's rules and exit"""
     print("""Use your arrow keys to move the tiles.
 When two tiles with the same value touch they merge into one with the sum of
 their value! Try to reach 2048 to win.""")

@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+
+"""
+Game logic
+"""
+
 from __future__ import print_function
 
 import atexit

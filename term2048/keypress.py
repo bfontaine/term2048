@@ -1,5 +1,9 @@
 # -*- coding: UTF-8 -*-
 
+"""
+Keyboard events processing
+"""
+
 # Common values
 
 # Space Bar key to pause the game
@@ -25,6 +29,7 @@ except ImportError:
     }
 
     def getKey():
+        """Return a key pressed by the user"""
         while True:
             if msvcrt.kbhit():
                 a = ord(msvcrt.getch())

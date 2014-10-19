@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+
+"""
+Board-related things
+"""
+
 import random
 
 # PY3 compat
