@@ -42,11 +42,16 @@ class TestGame(unittest.TestCase):
         os.system = self.system
         kp._setCtrlC(False)
 
+    def setWindows(self, game, isWin=True):
+        setattr(game, '_Game__is_windows', isWin)
+
     def assertFileIsNotEmpty(self, path):
         with open(path, 'r') as f:
             f.seek(0, 2)
             size = f.tell()
         self.assertNotEqual(0, size)
+
+    # == .init == #
 
     def test_init_with_size_3_goal_4(self):
         g = Game(size=3, goal=4, scores_file=None)
@@ -173,6 +178,66 @@ class TestGame(unittest.TestCase):
     def test_read_known_move(self):
         kp._setNextKey(kp.LEFT)
         self.assertEqual(self.g.readMove(), Board.LEFT)
+
+    # == .clear == #
+
+    def test_clear_with_no_clear_screen(self):
+        g = Game(scores_file=None, store_file=None, clear_screen=False)
+        g.clearScreen()
+        self.assertEqual(sys.stdout.read(), '\n\n')  # \n + print's \n
+
+    # == .hideCursor == #
+
+    def test_hide_cursor_linux(self):
+        g = Game(scores_file=None, store_file=None, clear_screen=True)
+        self.setWindows(g, False)
+        g.hideCursor()
+        self.assertEqual(sys.stdout.read(), '\033[?25l')
+        g.showCursor()
+
+    def test_hide_cursor_windows(self):
+        g = Game(scores_file=None, store_file=None, clear_screen=True)
+        self.setWindows(g)
+        g.hideCursor()
+        # this doesn't do anything for now
+        self.assertEqual(sys.stdout.read(), '')
+        g.showCursor()
+
+    def test_hide_cursor_no_clear_screen_linux(self):
+        g = Game(scores_file=None, store_file=None, clear_screen=False)
+        self.setWindows(g, False)
+        g.hideCursor()
+        self.assertEqual(sys.stdout.read(), '')
+
+    def test_hide_cursor_no_clear_screen_windows(self):
+        g = Game(scores_file=None, store_file=None, clear_screen=False)
+        self.setWindows(g)
+        g.hideCursor()
+        self.assertEqual(sys.stdout.read(), '')
+
+    # == .showCursor == #
+
+    def test_show_cursor_linux(self):
+        g = Game(scores_file=None, store_file=None, clear_screen=True)
+        self.setWindows(g, False)
+        g.hideCursor()
+        g.showCursor()
+        self.assertEqual(sys.stdout.read(), '\033[?25l\033[?25h')
+
+    def test_show_cursor_windows(self):
+        g = Game(scores_file=None, store_file=None, clear_screen=True)
+        self.setWindows(g)
+        g.hideCursor()
+        g.showCursor()
+        # these don't do anything for now
+        self.assertEqual(sys.stdout.read(), '')
+
+    def test_show_cursor_no_clear_screen_linux(self):
+        g = Game(scores_file=None, store_file=None, clear_screen=False)
+        self.setWindows(g, False)
+        g.hideCursor()
+        g.showCursor()
+        self.assertEqual(sys.stdout.read(), '\033[?25h')
 
     # == .loop == #
 
