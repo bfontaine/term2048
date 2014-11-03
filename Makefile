@@ -22,9 +22,9 @@ endif
 .PHONY: check check-versions stylecheck covercheck
 
 deps: $(VENV)
-	$(PIP) install -qr requirements.txt
+	$(PIP) install -r requirements.txt
 ifeq ($(PY_VERSION_SHORT),2.6)
-	$(PIP) install -qr py26-requirements.txt
+	$(PIP) install -r py26-requirements.txt
 endif
 ifneq ($(PY_VERSION_SHORT),3.3)
 ifneq ($(PY_VERSION_SHORT),3.4)
@@ -55,6 +55,9 @@ coverhtml:
 clean:
 	rm -f *~ */*~
 	rm -f $(COVERFILE)
+
+sdist: deps check-versions
+	$(BINPREFIX)python setup.py sdist
 
 publish: deps check-versions
 	$(BINPREFIX)python setup.py sdist upload
