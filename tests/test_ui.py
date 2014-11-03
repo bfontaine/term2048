@@ -30,13 +30,13 @@ class TestUI(unittest.TestCase):
         sys.exit = fake_exit
         sys.argv = _argv
         self.stdout = sys.stdout
-        self.output = {}
+        self.output = helpers.DevNull()
         self._game_loop_started = False
         def _loop(*args, **kwargs):
             self._game_loop_started = True
         Game.loop = _loop
         Game.STORE_FILE = store.name
-        sys.stdout = helpers.DevNull(self.output)
+        sys.stdout = self.output
 
     def tearDown(self):
         sys.exit = self.exit
@@ -139,7 +139,7 @@ class TestUI(unittest.TestCase):
         else:
             self.assertFalse(True, "should exit after printing the version")
         self.assertEqual(self.exit_status, 0)
-        self.assertRegexpMatches(self.output['output'],
+        self.assertRegexpMatches(self.output.read(),
                 r'^term2048 v\d+\.\d+\.\d+$')
 
     def test_start_game_print_version_over_rules(self):
@@ -151,7 +151,7 @@ class TestUI(unittest.TestCase):
         else:
             self.assertFalse(True, "should exit after printing the version")
         self.assertEqual(self.exit_status, 0)
-        self.assertRegexpMatches(self.output['output'],
+        self.assertRegexpMatches(self.output.read(),
                 r'^term2048 v\d+\.\d+\.\d+$')
 
     def test_start_game_print_rules(self):
@@ -163,7 +163,7 @@ class TestUI(unittest.TestCase):
         else:
             self.assertFalse(True, "should exit after printing the version")
         self.assertEqual(self.exit_status, 0)
-        self.assertRegexpMatches(self.output['output'], r'.+')
+        self.assertRegexpMatches(self.output.read(), r'.+')
 
     def test_start_game_loop(self):
         sys.argv = ['term2048']

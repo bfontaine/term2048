@@ -6,14 +6,14 @@ msvcrt_key = 42
 
 # use this for mocking stdout
 class DevNull(object):
-    def __init__(self, output=None):
-        """output: dict where to put the output written in this instance"""
-        self.output = output
+    def __init__(self):
+        self.output = ''
 
     def write(self, s):
-        if self.output is not None:
-            k = 'output'
-            self.output[k] = self.output.get(k, '') + s
+        self.output += s
+
+    def read(self):
+        return self.output[:]
 
 # use this for mocking msvcrt
 class FakeMsvcrt(object):
