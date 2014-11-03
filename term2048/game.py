@@ -4,13 +4,13 @@ from __future__ import print_function
 import os
 import os.path
 import math
+import sys
 
 from colorama import init, Fore, Style
 init(autoreset=True)
 
 from term2048 import keypress
 from term2048.board import Board
-
 
 class Game(object):
     """
@@ -25,7 +25,7 @@ class Game(object):
         keypress.SPACE:   Board.PAUSE,
     }
 
-    __clear = 'cls' if os.name == 'nt' else 'clear'
+    __is_windows = os.name == 'nt'
 
     COLORS = {
         2:    Fore.GREEN,
@@ -181,6 +181,33 @@ class Game(object):
 
         return True
 
+    def clear(self):
+        """Clear the console"""
+        if self.clear_screen:
+            os.system('cls' if self.__is_windows else 'clear')
+        else:
+            print('\n')
+
+    def hideCursor(self):
+        """
+        Hide the cursor. Don't forget to call ``showCursor`` to restore
+        the normal shell behavior. This is a no-op if ``clear_screen`` is
+        falsy.
+        """
+        if not self.clear_screen:
+            return
+        if self.__is_windows:
+            pass  # FIXME
+        else:
+            sys.stdout.write('\033[?25l')
+
+    def showCursor(self):
+        """Show the cursor."""
+        if self.__is_windows:
+            pass  # FIXME
+        else:
+            sys.stdout.write('\033[?25h')
+
     def loop(self):
         """
         main game loop. returns the final score.
@@ -189,11 +216,9 @@ class Game(object):
         margins = {'left': 4, 'top': 4, 'bottom': 4}
 
         try:
+            self.hideCursor()
             while True:
-                if self.clear_screen:
-                    os.system(Game.__clear)
-                else:
-                    print("\n")
+                self.clear()
                 print(self.__str__(margins=margins))
                 if self.board.won() or not self.board.canMove():
                     break
@@ -213,6 +238,8 @@ class Game(object):
         except KeyboardInterrupt:
             self.saveBestScore()
             return
+        finally:
+            self.showCursor()
 
         self.saveBestScore()
         print('You won!' if self.board.won() else 'Game Over')
