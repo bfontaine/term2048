@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from __future__ import print_function
 
+import atexit
 import os
 import os.path
 import math
@@ -181,7 +182,7 @@ class Game(object):
 
         return True
 
-    def clear(self):
+    def clearScreen(self):
         """Clear the console"""
         if self.clear_screen:
             os.system('cls' if self.__is_windows else 'clear')
@@ -196,16 +197,12 @@ class Game(object):
         """
         if not self.clear_screen:
             return
-        if self.__is_windows:
-            pass  # FIXME
-        else:
+        if not self.__is_windows:
             sys.stdout.write('\033[?25l')
 
     def showCursor(self):
         """Show the cursor."""
-        if self.__is_windows:
-            pass  # FIXME
-        else:
+        if not self.__is_windows:
             sys.stdout.write('\033[?25h')
 
     def loop(self):
@@ -215,10 +212,12 @@ class Game(object):
         pause_key = self.board.PAUSE
         margins = {'left': 4, 'top': 4, 'bottom': 4}
 
+        atexit.register(self.showCursor)
+
         try:
             self.hideCursor()
             while True:
-                self.clear()
+                self.clearScreen()
                 print(self.__str__(margins=margins))
                 if self.board.won() or not self.board.canMove():
                     break
@@ -238,8 +237,6 @@ class Game(object):
         except KeyboardInterrupt:
             self.saveBestScore()
             return
-        finally:
-            self.showCursor()
 
         self.saveBestScore()
         print('You won!' if self.board.won() else 'Game Over')
