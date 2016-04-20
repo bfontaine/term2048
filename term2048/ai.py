@@ -11,6 +11,8 @@
 #
 # For example run(your_function, size=8) would set board size to 8.
 
+from __future__ import print_function   # import print() for printing to file
+
 import random
 import time
 
@@ -34,11 +36,23 @@ def random_ai(board, score):
     #time.sleep(0.2)
     return moves[r]
 
+# Print results to file
+def print_to_file(results):
+    l = len(results)                                    # get number of results
+    f = open('results.csv','w')                         # open file
+    print("moves,largestTile,score", file=f)            # print title row
+    for i in range(0, l):                               # loop over results
+        print(str(results[i][0]) + \
+        ',' + str(results[i][1]) + \
+        ',' + str(results[i][2]), file=f)
+    f.close()                                           # close file
+
+
 # Use this to run your AI with GUI
 def run_gui(ai_function, **kws):
     game = Game(**kws)
     game.ai_loop(ai_function)
-    
+
 def run(ai_function, times=1,  **kws):
     results = []
     while(times > 0):
@@ -51,11 +65,12 @@ def run(ai_function, times=1,  **kws):
             move = ai_function(board,score)
             score += board.move(move)
             moves += 1
-    
+
         results.append((moves, largest_tile(board), score))
         times -= 1
 
     return results
-    
-results = run(random_ai,10000)
+
+results = run(random_ai,10, size=4)
 print( max([res[1] for res in results] ))
+print_to_file(results)
