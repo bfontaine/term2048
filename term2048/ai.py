@@ -71,6 +71,11 @@ def run(ai_function, times=1,  **kws):
 
     return results
 
+startTime = time.time() # start the timer
+
 results = run(random_ai,10, size=4)
-print( max([res[1] for res in results] ))
-print_to_file(results)
+
+print('Highscore =    ' + str(max([res[1] for res in results] )))
+print_to_file(results)  # print to file
+endTime = time.time()   # end the timer
+print('Elapsed time = ' + str(endTime - startTime))
