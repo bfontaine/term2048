@@ -10,8 +10,8 @@ import sys
 from colorama import init, Fore, Style
 init(autoreset=True)
 
-from term2048 import keypress
-from term2048.board import Board
+import keypress
+from board import Board
 
 class Game(object):
     """
