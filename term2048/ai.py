@@ -24,11 +24,14 @@ def get_state(board):
     s = range(board.size())
     return [ board.getCell(x,y) for y in s for x in s]
 
+def largest_tile(board):
+    """ Returns the value of the largest tile at board """
+    return max(get_state(board))
+
 def random_ai(board, score):
     moves = [Board.UP, Board.DOWN, Board.LEFT, Board.RIGHT]
-    print(get_state(board))
     r = random.randint(0,3)
-    time.sleep(0.2)
+    #time.sleep(0.2)
     return moves[r]
 
 # Use this to run your AI with GUI
@@ -36,16 +39,23 @@ def run_gui(ai_function, **kws):
     game = Game(**kws)
     game.ai_loop(ai_function)
     
-def run(ai_function, **kws):
-    score = 0
-    board = Board(**kws)
-    while True:
-        if board.won() or not board.canMove():
-            break
-        move = ai_function(board,score)
-        score += board.move(move)
+def run(ai_function, times=1,  **kws):
+    results = []
+    while(times > 0):
+        score = 0
+        moves = 0
+        board = Board(**kws)
+        while True:
+            if board.won() or not board.canMove():
+                break
+            move = ai_function(board,score)
+            score += board.move(move)
+            moves += 1
+    
+        results.append((moves, largest_tile(board), score))
+        times -= 1
 
-    print(get_state(board))
-    print(score)
-
-run_gui(random_ai)
+    return results
+    
+results = run(random_ai,10000)
+print( max([res[1] for res in results] ))
