@@ -6,6 +6,8 @@ import os
 import os.path
 import math
 import sys
+import random
+import time
 
 from colorama import init, Fore, Style
 init(autoreset=True)
@@ -205,6 +207,33 @@ class Game(object):
         if not self.__is_windows:
             sys.stdout.write('\033[?25h')
 
+    #### HERE STARTS THE AI STUFF ####    
+
+    def ai_loop(self, ai_function):
+        """
+        Loop to use with AI.
+        Input function (ai_function) need to return value from [Board.UP, Board.DOWN..]
+        as input ai_function recives current board object and current score.
+        """
+        margins = {'left': 4, 'top': 4, 'bottom': 4}
+
+        atexit.register(self.showCursor)
+
+        self.hideCursor()
+        while True:
+            self.clearScreen()
+            print(self.__str__(margins=margins))
+            if self.board.won() or not self.board.canMove():
+                break
+    
+            m = ai_function(self.board, self.score)
+            self.incScore(self.board.move(m))
+
+        print('You won!' if self.board.won() else 'Game Over')
+        return self.score
+
+    ### HERE ENDS AI STUFF #####################
+
     def loop(self):
         """
         main game loop. returns the final score.
@@ -221,7 +250,7 @@ class Game(object):
                 print(self.__str__(margins=margins))
                 if self.board.won() or not self.board.canMove():
                     break
-                m = self.readMove()
+                m = self.random_ai()#self.readMove()
 
                 if (m == pause_key):
                     self.saveBestScore()
