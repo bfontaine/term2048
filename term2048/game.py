@@ -250,7 +250,7 @@ class Game(object):
                 print(self.__str__(margins=margins))
                 if self.board.won() or not self.board.canMove():
                     break
-                m = self.random_ai()#self.readMove()
+                m = self.readMove()
 
                 if (m == pause_key):
                     self.saveBestScore()
