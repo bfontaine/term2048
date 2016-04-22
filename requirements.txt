@@ -1,7 +1,0 @@
-colorama==0.2.7
-coverage==3.7.1
-pep8==1.4.6
-py==1.4.20
-tox==1.7.0
-argparse>=1.1
-virtualenv==1.11.4

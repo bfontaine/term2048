@@ -1,6 +1,0 @@
-include *.rst
-include *.md
-include *.txt
-include README
-include LICENSE
-exclude *.pyc
