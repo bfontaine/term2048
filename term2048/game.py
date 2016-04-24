@@ -207,7 +207,7 @@ class Game(object):
         if not self.__is_windows:
             sys.stdout.write('\033[?25h')
 
-    #### HERE STARTS THE AI STUFF ####    
+    #### HERE STARTS THE AI STUFF ####
 
     def ai_loop(self, ai_function):
         """
@@ -225,7 +225,7 @@ class Game(object):
             print(self.__str__(margins=margins))
             if self.board.won() or not self.board.canMove():
                 break
-    
+
             m = ai_function(self.board, self.score)
             self.incScore(self.board.move(m))
 
@@ -242,6 +242,8 @@ class Game(object):
         margins = {'left': 4, 'top': 4, 'bottom': 4}
 
         atexit.register(self.showCursor)
+
+        moves = 0
 
         try:
             self.hideCursor()
@@ -262,6 +264,7 @@ class Game(object):
                     return
 
                 self.incScore(self.board.move(m))
+                moves += 1
 
         except KeyboardInterrupt:
             self.saveBestScore()
@@ -269,6 +272,7 @@ class Game(object):
 
         self.saveBestScore()
         print('You won!' if self.board.won() else 'Game Over')
+        print('Moves: %s' %moves)
         return self.score
 
     def getCellStr(self, x, y):  # TODO: refactor regarding issue #11
