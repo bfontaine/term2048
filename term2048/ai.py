@@ -19,6 +19,8 @@ import time
 from game import Game
 from board import Board
 
+import players
+
 def get_state(board):
     """
     Append all rows to one array, starting from the uppermost one.
@@ -73,7 +75,7 @@ def run(ai_function, times=1,  **kws):
 
 startTime = time.time() # start the timer
 
-results = run(random_ai,1000, size=4)
+results = run(players.biasRandom_ai,10000, size=4)
 
 print('Highscore =    ' + str(max([res[1] for res in results] )))
 print_to_file(results)  # print to file

@@ -3,7 +3,7 @@ clc;
 
 format long
 
-filename = 'random_4_160421_r5.csv';
+filename = 'results.csv';
 M = csvread(filename,1,0);
 runs = length(M)
 
