@@ -9,16 +9,16 @@ runs = length(M)
 
 %% General analysis
 
-Moves = [min(M(:,1)); max(M(:,1)); mean(M(:,1)); std(M(:,1))];
-Score = [min(M(:,3)); max(M(:,3)); mean(M(:,3)); std(M(:,3))];
-maxTile = [min(M(:,2)); max(M(:,2)); mean(M(:,2)); std(M(:,2))];
+Moves = [min(M(:,1)); median(M(:,1)); max(M(:,1)); mean(M(:,1)); std(M(:,1))];
+Score = [min(M(:,3)); median(M(:,3)); max(M(:,3)); mean(M(:,3)); std(M(:,3))];
+maxTile = [min(M(:,2)); median(M(:,2)); max(M(:,2)); mean(M(:,2)); std(M(:,2))];
 
-rows = {'Min';'Max';'Avg';'Std'};
+rows = {'Min';'Med';'Max';'Avg';'Std'};
 T = table(Moves,Score,maxTile,'RowNames',rows)
 
 figure(1)
 histogram(M(:,3),100)
-xlim([Score(1) Score(2)])
+xlim([Score(1) Score(3)])
 
 %% Per max tile analysis
 
@@ -40,7 +40,7 @@ R = table(v,n,p,'VariableNames',columns)
 
 figure(2)
 clf
-xlim([Score(1) Score(2)])
+xlim([Score(1) Score(3)])
 bins = 10;
 hold on
 histogram(F32(:,3),bins)
