@@ -32,10 +32,11 @@ F512 = M((M(:, 2) == 512),:);
 
 % number of runs that finished with specific max tile
 v = [8; 16; 32; 64; 128; 256; 512];
-p = [length(F8); length(F16); length(F32); length(F64); length(F128); length(F256); length(F512)];
+n = [length(F8); length(F16); length(F32); length(F64); length(F128); length(F256); length(F512)];
+p = n./runs;
 
-columns = {'maxTile';'numberOfRuns'};
-R = table(v,p,'VariableNames',columns)
+columns = {'maxTile';'numberOfRuns';'part'};
+R = table(v,n,p,'VariableNames',columns)
 
 figure(2)
 clf
