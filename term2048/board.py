@@ -15,7 +15,7 @@ class Board(object):
 
     UP, DOWN, LEFT, RIGHT, PAUSE = 1, 2, 3, 4, 5
 
-    GOAL = 2048
+    GOAL = 8192
     SIZE = 4
 
     def __init__(self, goal=GOAL, size=SIZE, **kws):
