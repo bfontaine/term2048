@@ -3,7 +3,7 @@ clc;
 
 format shortG
 
-filename = '/Users/Ajrok/Dropbox/MachineLearning/results/random_4_160421_r6.csv';
+filename = 'results.csv';
 M = csvread(filename,1,0);
 runs = length(M)
 
