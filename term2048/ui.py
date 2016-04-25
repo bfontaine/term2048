@@ -2,7 +2,7 @@
 from __future__ import print_function
 
 import sys
-from term2048.game import Game
+from game import Game
 
 import argparse
 
@@ -55,3 +55,5 @@ def start_game(debug=False):
         return game
 
     return game.loop()
+
+start_game()

@@ -6,12 +6,14 @@ import os
 import os.path
 import math
 import sys
+import random
+import time
 
 from colorama import init, Fore, Style
 init(autoreset=True)
 
-from term2048 import keypress
-from term2048.board import Board
+import keypress
+from board import Board
 
 class Game(object):
     """
@@ -205,6 +207,33 @@ class Game(object):
         if not self.__is_windows:
             sys.stdout.write('\033[?25h')
 
+    #### HERE STARTS THE AI STUFF ####
+
+    def ai_loop(self, ai_function):
+        """
+        Loop to use with AI.
+        Input function (ai_function) need to return value from [Board.UP, Board.DOWN..]
+        as input ai_function recives current board object and current score.
+        """
+        margins = {'left': 4, 'top': 4, 'bottom': 4}
+
+        atexit.register(self.showCursor)
+
+        self.hideCursor()
+        while True:
+            self.clearScreen()
+            print(self.__str__(margins=margins))
+            if self.board.won() or not self.board.canMove():
+                break
+
+            m = ai_function(self.board, self.score)
+            self.incScore(self.board.move(m))
+
+        print('You won!' if self.board.won() else 'Game Over')
+        return self.score
+
+    ### HERE ENDS AI STUFF #####################
+
     def loop(self):
         """
         main game loop. returns the final score.
@@ -213,6 +242,8 @@ class Game(object):
         margins = {'left': 4, 'top': 4, 'bottom': 4}
 
         atexit.register(self.showCursor)
+
+        moves = 0
 
         try:
             self.hideCursor()
@@ -233,6 +264,7 @@ class Game(object):
                     return
 
                 self.incScore(self.board.move(m))
+                moves += 1
 
         except KeyboardInterrupt:
             self.saveBestScore()
@@ -240,6 +272,7 @@ class Game(object):
 
         self.saveBestScore()
         print('You won!' if self.board.won() else 'Game Over')
+        print('Moves: %s' %moves)
         return self.score
 
     def getCellStr(self, x, y):  # TODO: refactor regarding issue #11
