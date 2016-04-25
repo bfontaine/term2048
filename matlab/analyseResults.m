@@ -1,7 +1,7 @@
 %% Machine Learning - Project - Analyse results
 clc;
 
-format long
+format shortG
 
 filename = 'results.csv';
 M = csvread(filename,1,0);
@@ -9,24 +9,16 @@ runs = length(M)
 
 %% General analysis
 
-minMoves = min(M(:,1))
-maxMoves = max(M(:,1))
-avgMoves = mean(M(:,1))
-stdMoves = std(M(:,1))
+Moves = [min(M(:,1)); median(M(:,1)); max(M(:,1)); mean(M(:,1)); std(M(:,1))];
+Score = [min(M(:,3)); median(M(:,3)); max(M(:,3)); mean(M(:,3)); std(M(:,3))];
+maxTile = [min(M(:,2)); median(M(:,2)); max(M(:,2)); mean(M(:,2)); std(M(:,2))];
 
-minScore = min(M(:,3))
-maxScore = max(M(:,3))
-avgScore = mean(M(:,3))
-stdScore = std(M(:,3))
-
-minTile = min(M(:,2))
-maxTile = max(M(:,2))
-avgTile = mean(M(:,2))
-stdTile = std(M(:,2))
+rows = {'Min';'Med';'Max';'Avg';'Std'};
+T = table(Moves,Score,maxTile,'RowNames',rows)
 
 figure(1)
 histogram(M(:,3),100)
-xlim([minScore maxScore])
+xlim([Score(1) Score(3)])
 
 %% Per max tile analysis
 
@@ -40,12 +32,15 @@ F512 = M((M(:, 2) == 512),:);
 
 % number of runs that finished with specific max tile
 v = [8; 16; 32; 64; 128; 256; 512];
-p = [length(F8); length(F16); length(F32); length(F64); length(F128); length(F256); length(F512)];
-r = [v p]
+n = [length(F8); length(F16); length(F32); length(F64); length(F128); length(F256); length(F512)];
+p = n./runs;
+
+columns = {'maxTile';'numberOfRuns';'part'};
+R = table(v,n,p,'VariableNames',columns)
 
 figure(2)
 clf
-xlim([minScore maxScore])
+xlim([Score(1) Score(3)])
 bins = 10;
 hold on
 histogram(F32(:,3),bins)
