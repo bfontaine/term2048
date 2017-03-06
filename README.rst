@@ -33,6 +33,14 @@ To upgrade a previous installation, use:
 
     pip install -U term2048
 
+Install from source
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+    git clone https://github.com/bfontaine/term2048.git && cd term2048
+    [sudo] python setup.py install
+
 Play
 ----
 
