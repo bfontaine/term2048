@@ -2,15 +2,15 @@
 term2048
 ========
 
-.. image:: https://img.shields.io/travis/bfontaine/term2048.png
+.. image:: https://img.shields.io/travis/bfontaine/term2048.svg
    :target: https://travis-ci.org/bfontaine/term2048
    :alt: Build status
 
-.. image:: https://img.shields.io/coveralls/bfontaine/term2048/master.png
+.. image:: https://img.shields.io/coveralls/bfontaine/term2048/master.svg
    :target: https://coveralls.io/r/bfontaine/term2048?branch=master
    :alt: Coverage status
 
-.. image:: https://img.shields.io/pypi/v/term2048.png
+.. image:: https://img.shields.io/pypi/v/term2048.svg
    :target: https://pypi.python.org/pypi/term2048
    :alt: Pypi package
 
