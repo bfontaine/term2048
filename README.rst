@@ -32,6 +32,14 @@ To upgrade a previous installation, use:
 .. code-block::
 
     pip install -U term2048
+    
+To install via `snap`_:
+
+::
+
+    sudo snap install term2048
+
+.. _snap: https://www.snapcraft.io
 
 Install from source
 ~~~~~~~~~~~~~~~~~~~
@@ -73,6 +81,7 @@ Contributions
 * ``--rules`` flag added by @cardern
 * Short ``-r`` and ``-v`` flags added by @yankuangshi
 * Resume feature added by @pravj
+* Snap installation method added by @LaughingLove
 
 v0.2.0
 ~~~~~~
