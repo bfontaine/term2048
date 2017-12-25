@@ -33,10 +33,12 @@ class Game(object):
         4:    Fore.BLUE + Style.BRIGHT,
         8:    Fore.CYAN,
         16:   Fore.RED,
-        32:   Fore.MAGENTA,
+        # Don't use MAGENTA directly; it doesn't display well on Windows.
+        # see https://github.com/bfontaine/term2048/issues/24
+        32:  Fore.MAGENTA + Style.BRIGHT,
         64:   Fore.CYAN,
         128:  Fore.BLUE + Style.BRIGHT,
-        256:  Fore.MAGENTA,
+        256:  Fore.MAGENTA + Style.BRIGHT,
         512:  Fore.GREEN,
         1024: Fore.RED,
         2048: Fore.YELLOW,
