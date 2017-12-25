@@ -1,6 +1,7 @@
 v0.2.6, upcoming version
 
 * the cursor is now hidden on OSX/Linux (#31)
+* fix disappearing tiles in PowerShell (#24)
 
 v0.2.5, 2014-10-11 -- pause/resume feature
 
