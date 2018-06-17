@@ -26,12 +26,12 @@ deps: $(VENV)
 ifeq ($(PY_VERSION_SHORT),2.6)
 	$(PIP) install -r py26-requirements.txt
 endif
-ifneq ($(PY_VERSION_MAJOR),3)
+ifeq ($(PY_VERSION_MAJOR),2)
 	$(PIP) install wsgiref==0.1.2
 endif
 
 $(VENV):
-	virtualenv $@
+	virtualenv --python python2 $@
 
 check: deps
 	$(BINPREFIX)python tests/test.py
@@ -47,7 +47,7 @@ covercheck: deps
 	$(BINPREFIX)coverage $(COVERAGE_REPORT)
 
 coverhtml:
-	@make COVERAGE_REPORT=html BINPREFIX=$(BINPREFIX) covercheck
+	@$(MAKE) COVERAGE_REPORT=html BINPREFIX=$(BINPREFIX) covercheck
 	@echo '--> open htmlcov/index.html'
 
 clean:
