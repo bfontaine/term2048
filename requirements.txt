@@ -1,7 +1,6 @@
 colorama==0.2.7
 coverage==3.7.1
 pep8==1.7.1
-pluggy==0.6.0
 py==1.5.3
 six==1.11.0
 tox==3.0.0
