@@ -26,10 +26,8 @@ deps: $(VENV)
 ifeq ($(PY_VERSION_SHORT),2.6)
 	$(PIP) install -r py26-requirements.txt
 endif
-ifneq ($(PY_VERSION_SHORT),3.3)
-ifneq ($(PY_VERSION_SHORT),3.4)
+ifneq ($(PY_VERSION_MAJOR),3)
 	$(PIP) install -q wsgiref==0.1.2
-endif
 endif
 
 $(VENV):
