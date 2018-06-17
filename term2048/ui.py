@@ -7,9 +7,9 @@ UI-related functions
 from __future__ import print_function
 
 import sys
-from term2048.game import Game
-
 import argparse
+
+from term2048.game import Game
 
 
 def print_version_and_exit():

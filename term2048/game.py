@@ -67,7 +67,7 @@ class Game(object):
     SCORES_FILE = '%s/.term2048.scores' % os.path.expanduser('~')
     STORE_FILE = '%s/.term2048.store' % os.path.expanduser('~')
 
-    def __init__(self, scores_file=SCORES_FILE, colors=COLORS,
+    def __init__(self, scores_file=SCORES_FILE, colors=None,
                  store_file=STORE_FILE, clear_screen=True,
                  mode=None, azmode=False, **kws):
         """
@@ -86,7 +86,9 @@ class Game(object):
         self.store_file = store_file
         self.clear_screen = clear_screen
 
-        self.__colors = colors
+        self.best_score = 0
+
+        self.__colors = colors or self.COLORS
         self.__azmode = azmode
 
         self.loadBestScore()
@@ -111,7 +113,6 @@ class Game(object):
             with open(self.scores_file, 'r') as f:
                 self.best_score = int(f.readline(), 10)
         except:
-            self.best_score = 0
             return False
         return True
 
@@ -230,20 +231,20 @@ class Game(object):
                     break
                 m = self.readMove()
 
-                if (m == pause_key):
+                if m == pause_key:
                     self.saveBestScore()
                     if self.store():
                         print("Game successfully saved. "
                               "Resume it with `term2048 --resume`.")
-                        return self.score
-                    print("An error ocurred while saving your game.")
-                    return
+                    else:
+                        print("An error ocurred while saving your game.")
+                    return self.score
 
                 self.incScore(self.board.move(m))
 
         except KeyboardInterrupt:
             self.saveBestScore()
-            return
+            return self.score
 
         self.saveBestScore()
         print('You won!' if self.board.won() else 'Game Over')
@@ -275,10 +276,13 @@ class Game(object):
 
         return self.__colors.get(c, Fore.RESET) + s + Style.RESET_ALL
 
-    def boardToString(self, margins={}):
+    def boardToString(self, margins=None):
         """
         return a string representation of the current board.
         """
+        if margins is None:
+            margins = {}
+
         b = self.board
         rg = range(b.size())
         left = ' '*margins.get('left', 0)
@@ -286,7 +290,9 @@ class Game(object):
             [left + ' '.join([self.getCellStr(x, y) for x in rg]) for y in rg])
         return s
 
-    def __str__(self, margins={}):
+    def __str__(self, margins=None):
+        if margins is None:
+            margins = {}
         b = self.boardToString(margins=margins)
         top = '\n'*margins.get('top', 0)
         bottom = '\n'*margins.get('bottom', 0)

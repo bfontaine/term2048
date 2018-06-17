@@ -23,7 +23,7 @@ class Board(object):
     GOAL = 2048
     SIZE = 4
 
-    def __init__(self, goal=GOAL, size=SIZE, **kws):
+    def __init__(self, goal=GOAL, size=SIZE, **_kwargs):
         self.__size = size
         self.__size_range = xrange(0, self.__size)
         self.__goal = goal
@@ -68,13 +68,17 @@ class Board(object):
         """
         return len(self.getEmptyCells()) == 0
 
-    def addTile(self, value=None, choices=([2]*9+[4])):
+    def addTile(self, value=None, choices=None):
         """
         add a random tile in an empty cell
           value: value of the tile to add.
-          choices: a list of possible choices for the value of the tile.
-                   default is [2, 2, 2, 2, 2, 2, 2, 2, 2, 4].
+          choices: a list of possible choices for the value of the tile. if
+                   ``None`` (the default), it uses
+                   ``[2, 2, 2, 2, 2, 2, 2, 2, 2, 4]``.
         """
+        if choices is None:
+            choices = [2] * 9 + [4]
+
         if value:
             choices = [value]
 
