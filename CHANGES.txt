@@ -1,4 +1,4 @@
-v0.2.6, upcoming version
+v0.2.6, 2018-06-17 -- bugfixes
 
 * the cursor is now hidden on OSX/Linux (#31)
 * fix disappearing tiles in PowerShell (#24)
