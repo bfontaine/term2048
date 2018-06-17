@@ -2,4 +2,4 @@ colorama==0.2.7
 coverage==3.7.1
 pep8==1.7.1
 tox
-virtualenv==16.0.0
+virtualenv

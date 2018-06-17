@@ -236,15 +236,16 @@ class Game(object):
                     if self.store():
                         print("Game successfully saved. "
                               "Resume it with `term2048 --resume`.")
-                    else:
-                        print("An error ocurred while saving your game.")
-                    return self.score
+                        return self.score
+
+                    print("An error ocurred while saving your game.")
+                    return None
 
                 self.incScore(self.board.move(m))
 
         except KeyboardInterrupt:
             self.saveBestScore()
-            return self.score
+            return None
 
         self.saveBestScore()
         print('You won!' if self.board.won() else 'Game Over')
