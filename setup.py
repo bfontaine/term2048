@@ -24,9 +24,9 @@ setup(
     author_email='b@ptistefontaine.fr',
     packages=['term2048'],
     url='https://github.com/bfontaine/term2048',
-    license=open('LICENSE', 'r').read(),
+    license=open('LICENSE', 'r', encoding='utf-8').read(),
     description='2048 in your terminal',
-    long_description=open('README.rst', 'r').read(),
+    long_description=open('README.rst', 'r', encoding='utf-8').read(),
     install_requires=[
         'colorama >= 0.2.7',
         'argparse >= 1.1',
