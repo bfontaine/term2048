@@ -19,9 +19,13 @@ from helpers import DevNull
 
 _BSIZE = Board.SIZE
 
+
 class TestGame(unittest.TestCase):
 
     def setUp(self):
+        def fake_system(*cmd):
+            self.sys_cmd = cmd
+
         Board.SIZE = _BSIZE
         Game.SCORES_FILE = None
         self.g = Game(scores_file=None, store_file=None)
@@ -32,9 +36,6 @@ class TestGame(unittest.TestCase):
         # mock os.system
         self.system = os.system
         self.sys_cmd = None
-        def fake_system(*cmd):
-            self.sys_cmd = cmd
-
         os.system = fake_system
 
     def tearDown(self):
@@ -296,7 +297,7 @@ class TestGame(unittest.TestCase):
     def test_getCellStr_unknown_number(self):
         self.b.setCell(0, 0, 42)
         self.assertEqual(self.g.getCellStr(0, 0),
-                '%s 42%s' % (Fore.RESET, Style.RESET_ALL))
+                         '%s 42%s' % (Fore.RESET, Style.RESET_ALL))
 
     def test_getCellStr_0_azmode(self):
         g = Game(azmode=True)

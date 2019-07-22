@@ -18,6 +18,7 @@ init(autoreset=True)
 from term2048 import keypress
 from term2048.board import Board
 
+
 class Game(object):
     """
     A 2048 game

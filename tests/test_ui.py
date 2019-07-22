@@ -18,11 +18,16 @@ _os_system = os.system
 _game_loop = Game.loop
 _store_file = Game.STORE_FILE
 
+
 class TestUI(unittest.TestCase):
 
     def setUp(self):
+        def _loop(*args, **kwargs):
+            self._game_loop_started = True
+
         store = NamedTemporaryFile(delete=False)
         self.exit_status = None
+
         def fake_exit(s):
             self.exit_status = s
             raise helpers.FakeExit()
@@ -32,8 +37,6 @@ class TestUI(unittest.TestCase):
         self.stdout = sys.stdout
         self.output = helpers.DevNull()
         self._game_loop_started = False
-        def _loop(*args, **kwargs):
-            self._game_loop_started = True
         Game.loop = _loop
         Game.STORE_FILE = store.name
         sys.stdout = self.output
@@ -140,7 +143,7 @@ class TestUI(unittest.TestCase):
             self.assertFalse(True, "should exit after printing the version")
         self.assertEqual(self.exit_status, 0)
         self.assertRegexpMatches(self.output.read(),
-                r'^term2048 v\d+\.\d+\.\d+$')
+                                 r'^term2048 v\d+\.\d+\.\d+$')
 
     def test_start_game_print_version_over_rules(self):
         sys.argv = ['term2048', '--rules', '--version']
@@ -152,7 +155,7 @@ class TestUI(unittest.TestCase):
             self.assertFalse(True, "should exit after printing the version")
         self.assertEqual(self.exit_status, 0)
         self.assertRegexpMatches(self.output.read(),
-                r'^term2048 v\d+\.\d+\.\d+$')
+                                 r'^term2048 v\d+\.\d+\.\d+$')
 
     def test_start_game_print_rules(self):
         sys.argv = ['term2048', '--rules']

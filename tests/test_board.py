@@ -267,7 +267,6 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(self.b.move(None), 0)
         self.assertEqual(self.b.move("up"), 0)
 
-
     # tests for weird-collapse-bug reported on HN (issue #2)
     #   see: https://news.ycombinator.com/item?id=7398249
 
