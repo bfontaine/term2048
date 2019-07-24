@@ -32,7 +32,7 @@ To upgrade a previous installation, use:
 .. code-block::
 
     pip install -U term2048
-    
+
 To install via `snap`_:
 
 ::
@@ -56,12 +56,11 @@ Play
 
     term2048
 
-Then use arrow keys to move. Since version 0.2.1 VI keys (h,j,k,l) are also
-supported.
+Then use arrow keys to move. VI keys (h,j,k,l) are also supported.
 
 Use ``-h`` to check the list of available options, and ``--rules`` for the
-game rules. Press ``<space>`` at any time during the game to pause it
-(since 0.2.5). You can resume it later using ``term2048 --resume``.
+game rules. Press ``<space>`` at any time during the game to pause it. You can
+resume it later using ``term2048 --resume``.
 
 Tests
 -----
