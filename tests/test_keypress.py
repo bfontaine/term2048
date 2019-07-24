@@ -24,9 +24,11 @@ keypress = kp._getRealModule()
 
 fno = sys.stdin.fileno()
 
+
 class FakeStdin(StringIO):
     def fileno(self):
         return fno
+
 
 class TestKeypress(unittest.TestCase):
 
@@ -86,6 +88,7 @@ class TestKeypress(unittest.TestCase):
     def test_getKey_vim_key_right(self):
         self._pushArrowKey(keypress.L)
         self.assertEqual(keypress.getKey(), keypress.RIGHT)
+
 
 class TestKeypressWindows(unittest.TestCase):
 
