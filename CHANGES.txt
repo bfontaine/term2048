@@ -1,4 +1,6 @@
-Unreleased -- documentation nits
+v0.2.7, 2019-06-04 -- documentation nits
+
+* fix encoding issues in `setup.py` on Windows
 
 v0.2.6, 2018-06-17 -- bugfixes
 
