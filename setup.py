@@ -35,8 +35,11 @@ setup(
     classifiers=[
         'Environment :: Console',
         'License :: OSI Approved :: MIT License',
+        'Development Status :: 5 – Production/Stable',
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
@@ -44,6 +47,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
+    keywords='2048 terminal',
     entry_points={
         'console_scripts':[
             'term2048 = term2048.ui:start_game'
