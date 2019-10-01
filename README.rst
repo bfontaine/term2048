@@ -14,7 +14,7 @@ term2048
    :target: https://pypi.python.org/pypi/term2048
    :alt: Pypi package
 
-**term2048** is a terminal-based version of 2048_.
+**term2048** is a terminal-based version of 2048_.The game's objective is to slide numbered tiles on a grid to combine them to create a tile with the number 2048.
 
 .. _2048: http://gabrielecirulli.github.io/2048/
 
