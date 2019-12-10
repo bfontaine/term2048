@@ -1,0 +1,1 @@
+language = "python3"\nrun = "python setup.py install && term2048"\n

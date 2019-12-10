@@ -10,6 +10,10 @@ term2048
    :target: https://coveralls.io/r/bfontaine/term2048?branch=master
    :alt: Coverage status
 
+.. image:: http://repl.it/badge/github/bfontaine/term2048
+   :target: https://repl.it/github/bfontaine/term2048
+   :alt: run on repl.it
+
 .. image:: https://img.shields.io/pypi/v/term2048.svg
    :target: https://pypi.python.org/pypi/term2048
    :alt: Pypi package
