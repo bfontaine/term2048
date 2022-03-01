@@ -1,5 +1,11 @@
 # term2048 Changelog
 
+## v1.0.0 (unreleased)
+
+* Drop active support for Python 2.6, 3.2, 3.3 and 3.4. While the code may still work for these versions, we can’t test
+  it because GitHub Actions doesn’t support them.
+* Use Poetry as a build tool
+
 ## v0.2.7 (2019-06-04)
 
 * Fix encoding issues in `setup.py` on Windows
