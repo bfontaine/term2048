@@ -9,6 +9,11 @@ from __future__ import print_function
 import sys
 import argparse
 
+try:
+    import typing
+except ImportError:
+    pass  # Python 2.6 and 3.4
+
 from term2048.game import Game
 
 
@@ -41,21 +46,27 @@ def parse_cli_args():
     return vars(parser.parse_args())
 
 
-def start_game(debug=False):
+def start_game(
+        debug=False,
+        args=None,  # type: typing.Optional[typing.Dict[str, typing.Any]]
+):
     """
-    Start a new game. If ``debug`` is set to ``True``, the game object is
-    returned and the game loop isn't fired.
-    """
-    args = parse_cli_args()
+    Start a new game.
 
-    if args['version']:
+    :param debug: if set to `True`, the game object is returned and the game loop isn't fired.
+    :param args: if provided, the function uses them as arguments instead of parsing `sys.argv`.
+    """
+    if args is None:
+        args = parse_cli_args()
+
+    if args.get('version'):
         print_version_and_exit()
 
-    if args['rules']:
+    if args.get('rules'):
         print_rules_and_exit()
 
     game = Game(**args)
-    if args['resume']:
+    if args.get('resume'):
         game.restore()
 
     if debug:

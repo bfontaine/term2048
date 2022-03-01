@@ -28,6 +28,7 @@ except ImportError:
         H: LEFT,
     }
 
+
     def getKey():
         """Return a key pressed by the user"""
         while True:
@@ -59,6 +60,7 @@ else:
         H: LEFT,
     }
 
+
     def __getKey():
         """Return a key pressed by the user"""
         try:
@@ -68,6 +70,7 @@ else:
             return ord(ch) if ch else None
         finally:
             termios.tcsetattr(__fd, termios.TCSADRAIN, __old)
+
 
     def getKey():
         """
@@ -80,6 +83,3 @@ else:
                 k = __getKey()
 
         return __key_aliases.get(k, k)
-
-# legacy support
-getArrowKey = getKey

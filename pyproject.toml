@@ -23,6 +23,8 @@ classifiers = [
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
 ]
+include = ["term2048/py.typed"]
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=2.6,<4.0"

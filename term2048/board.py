@@ -1,41 +1,42 @@
 # -*- coding: UTF-8 -*-
 
 """
-Board-related things
+Board-related things.
 """
 
 import random
 
-# PY3 compat
 try:
-    xrange
-except NameError:
-    xrange = range
+    import typing
+except ImportError:
+    pass  # Python 2.6 and 3.4
+
+DEFAULT_GOAL = 2048
+DEFAULT_SIZE = 4
 
 
 class Board(object):
     """
-    A 2048 board
+    A 2048 board.
     """
 
     UP, DOWN, LEFT, RIGHT, PAUSE = 1, 2, 3, 4, 5
 
-    GOAL = 2048
-    SIZE = 4
-
-    def __init__(self, goal=GOAL, size=SIZE, **_kwargs):
+    def __init__(self, goal=DEFAULT_GOAL, size=DEFAULT_SIZE, **_kwargs):
         self.__size = size
-        self.__size_range = xrange(0, self.__size)
+        self.__size_range = list(range(0, self.__size))
         self.__goal = goal
         self.__won = False
-        self.cells = [[0]*self.__size for _ in xrange(self.__size)]
+        self.cells = [[0] * self.__size for _ in range(self.__size)]
         self.addTile()
         self.addTile()
 
+    @property
     def size(self):
         """return the board size"""
         return self.__size
 
+    @property
     def goal(self):
         """return the board goal"""
         return self.__goal
@@ -56,113 +57,114 @@ class Board(object):
         for y in self.__size_range:
             for x in self.__size_range:
                 c = self.getCell(x, y)
-                if (x < self.__size-1 and c == self.getCell(x+1, y)) \
-                   or (y < self.__size-1 and c == self.getCell(x, y+1)):
+                if (x < self.__size - 1 and c == self.getCell(x + 1, y)) \
+                        or (y < self.__size - 1 and c == self.getCell(x, y + 1)):
                     return True
 
         return False
 
     def filled(self):
         """
-        return true if the game is filled
+        return true if the game is totally filled.
         """
-        return len(self.getEmptyCells()) == 0
+        for x in self.__size_range:
+            for y in self.__size_range:
+                if self.getCell(x, y) == 0:
+                    return False
 
-    def addTile(self, value=None, choices=None):
+        return True
+
+    def addTile(self, choices=(2, 2, 2, 2, 2, 2, 2, 2, 2, 4)):  # type: (typing.Tuple[int, ...]) -> None
         """
-        add a random tile in an empty cell
-          value: value of the tile to add.
-          choices: a list of possible choices for the value of the tile. if
-                   ``None`` (the default), it uses
-                   ``[2, 2, 2, 2, 2, 2, 2, 2, 2, 4]``.
+        Add a random tile in an empty cell, if possible.
+
+        :param choices: a list of possible choices for the value of the tile.
         """
-        if choices is None:
-            choices = [2] * 9 + [4]
-
-        if value:
-            choices = [value]
-
         v = random.choice(choices)
         empty = self.getEmptyCells()
         if empty:
             x, y = random.choice(empty)
             self.setCell(x, y, v)
 
-    def getCell(self, x, y):
+    def getCell(self, x, y):  # type: (int, int) -> int
         """return the cell value at x,y"""
         return self.cells[y][x]
 
-    def setCell(self, x, y, v):
+    def setCell(self, x, y, value):  # type: (int, int, typing.Any) -> None
         """set the cell value at x,y"""
-        self.cells[y][x] = v
+        self.cells[y][x] = value
 
-    def getLine(self, y):
+    def getLine(self, y):  # type: (int) -> typing.List[int]
         """return the y-th line, starting at 0"""
         return self.cells[y]
 
-    def getCol(self, x):
+    def getCol(self, x):  # type: (int) -> typing.List[int]
         """return the x-th column, starting at 0"""
         return [self.getCell(x, i) for i in self.__size_range]
 
-    def setLine(self, y, l):
+    def setLine(self, y, line):  # type: (int, typing.List[int]) -> None
         """set the y-th line, starting at 0"""
-        self.cells[y] = l[:]
+        self.cells[y] = line[:]
 
-    def setCol(self, x, l):
+    def setCol(self, x, line):  # type: (int, typing.List[int]) -> None
         """set the x-th column, starting at 0"""
-        for i in xrange(0, self.__size):
-            self.setCell(x, i, l[i])
+        for i in range(0, self.__size):
+            self.setCell(x, i, line[i])
 
-    def getEmptyCells(self):
+    def getEmptyCells(self):  # type: () -> typing.List[typing.Tuple[int, int]]
         """return a (x, y) pair for each empty cell"""
         return [(x, y)
                 for x in self.__size_range
                 for y in self.__size_range if self.getCell(x, y) == 0]
 
-    def __collapseLineOrCol(self, line, d):
+    def __collapseLineOrCol(self, line, direction):
+        # type: (typing.List[int], int) -> typing.Tuple[typing.Any, int]
         """
         Merge tiles in a line or column according to a direction and return a
         tuple with the new line and the score for the move on this line
         """
-        if (d == Board.LEFT or d == Board.UP):
+        if direction == Board.LEFT or direction == Board.UP:
             inc = 1
-            rg = xrange(0, self.__size-1, inc)
+            rg = range(0, self.__size - 1, inc)
         else:
             inc = -1
-            rg = xrange(self.__size-1, 0, inc)
+            rg = range(self.__size - 1, 0, inc)
 
-        pts = 0
+        move_score = 0
         for i in rg:
             if line[i] == 0:
                 continue
-            if line[i] == line[i+inc]:
-                v = line[i]*2
-                if v == self.__goal:
+            if line[i] == line[i + inc]:
+                new_cell_value = line[i] * 2
+                if new_cell_value == self.__goal:
                     self.__won = True
 
-                line[i] = v
-                line[i+inc] = 0
-                pts += v
+                line[i] = new_cell_value
+                line[i + inc] = 0
+                move_score += new_cell_value
 
-        return (line, pts)
+        return line, move_score
 
-    def __moveLineOrCol(self, line, d):
+    def __moveLineOrCol(self, line, direction):  # type: (typing.Any, int) -> typing.List[int]
         """
-        Move a line or column to a given direction (d)
+        Move a line or column to a given direction.
         """
-        nl = [c for c in line if c != 0]
-        if d == Board.UP or d == Board.LEFT:
-            return nl + [0] * (self.__size - len(nl))
-        return [0] * (self.__size - len(nl)) + nl
+        filled_cells = [cell for cell in line if cell != 0]
+        if direction == Board.UP or direction == Board.LEFT:
+            return filled_cells + [0] * (self.__size - len(filled_cells))
+        return [0] * (self.__size - len(filled_cells)) + filled_cells
 
-    def move(self, d, add_tile=True):
+    def move(self, direction, add_tile=True):  # type: (int, bool) -> int
         """
         move and return the move score
         """
-        if d == Board.LEFT or d == Board.RIGHT:
-            chg, get = self.setLine, self.getLine
-        elif d == Board.UP or d == Board.DOWN:
-            chg, get = self.setCol, self.getCol
+
+        if direction == Board.LEFT or direction == Board.RIGHT:
+            chg = self.setLine  # type: typing.Callable[[int, typing.List[int]], None]
+            get = self.getLine  # type: typing.Callable[[int], typing.List[int]]
+        elif direction == Board.UP or direction == Board.DOWN:
+            chg = self.setCol
+            get = self.getCol
         else:
             return 0
 
@@ -173,12 +175,12 @@ class Board(object):
             # save the original line/col
             origin = get(i)
             # move it
-            line = self.__moveLineOrCol(origin, d)
+            line = self.__moveLineOrCol(origin, direction)
             # merge adjacent tiles
-            collapsed, pts = self.__collapseLineOrCol(line, d)
+            collapsed, pts = self.__collapseLineOrCol(line, direction)
             # move it again (for when tiles are merged, because empty cells are
             # inserted in the middle of the line/col)
-            new = self.__moveLineOrCol(collapsed, d)
+            new = self.__moveLineOrCol(collapsed, direction)
             # set it back in the board
             chg(i, new)
             # did it change?
@@ -186,7 +188,7 @@ class Board(object):
                 moved = True
             score += pts
 
-        # don't add a new tile if nothing changed
+        # add a new tile only if something changed
         if moved and add_tile:
             self.addTile()
 

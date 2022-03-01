@@ -6,7 +6,7 @@ except ImportError:
 
 import keypress_mock as kp
 from colorama import Fore, Style
-from term2048.board import Board
+from term2048.board import Board, DEFAULT_SIZE
 from term2048.game import Game
 
 import sys
@@ -17,8 +17,6 @@ from uuid import uuid4
 
 from helpers import DevNull
 
-_BSIZE = Board.SIZE
-
 
 class TestGame(unittest.TestCase):
 
@@ -26,7 +24,6 @@ class TestGame(unittest.TestCase):
         def fake_system(*cmd):
             self.sys_cmd = cmd
 
-        Board.SIZE = _BSIZE
         Game.SCORES_FILE = None
         self.g = Game(scores_file=None, store_file=None)
         self.b = self.g.board
@@ -56,7 +53,7 @@ class TestGame(unittest.TestCase):
 
     def test_init_with_size_3_goal_4(self):
         g = Game(size=3, goal=4, scores_file=None)
-        self.assertEqual(g.board.size(), 3)
+        self.assertEqual(g.board.size, 3)
 
     # == .saveBestScore == #
 
@@ -333,10 +330,10 @@ class TestGame(unittest.TestCase):
 
     def test_boardToString_height_no_margins(self):
         s = self.g.boardToString()
-        self.assertEqual(len(s.split("\n")), self.b.size())
+        self.assertEqual(len(s.split("\n")), self.b.size)
 
     # == .__str__ == #
 
     def test_str_height_no_margins(self):
         s = str(self.g)
-        self.assertEqual(len(s.split("\n")), self.b.size())
+        self.assertEqual(len(s.split("\n")), self.b.size)

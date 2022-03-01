@@ -180,8 +180,7 @@ class TestUI(unittest.TestCase):
         g1.board.setCell(0, 0, 16)
         self.assertTrue(g1.store())
 
-        sys.argv = ['term2048']
-        g2 = ui.start_game(debug=True)
+        g2 = ui.start_game(debug=True, args={})
         self.assertIn(g2.board.getCell(0, 0), [0, 2, 4])
 
     def test_start_game_resume(self):
@@ -191,7 +190,6 @@ class TestUI(unittest.TestCase):
         g1.score = 42
         self.assertTrue(g1.store())
 
-        sys.argv = ['term2048', '--resume']
-        g2 = ui.start_game(debug=True)
+        g2 = ui.start_game(debug=True, args={"resume": True})
         self.assertEqual(cellvalue, g2.board.getCell(0, 0))
         self.assertEqual(g1.score, g2.score)

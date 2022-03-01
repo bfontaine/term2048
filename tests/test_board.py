@@ -2,26 +2,16 @@
 
 import platform
 
+from term2048.board import DEFAULT_SIZE
+
 if platform.python_version() < '2.7':
     import unittest2 as unittest
 else:
     import unittest
 
-if platform.python_version() < '3.0':
-    import __builtin__
-else:
-    import builtins as __builtin__
-
-import helpers
 from term2048 import board
 
 Board = board.Board
-
-# PY3 compat
-try:
-    xrange
-except NameError:
-    xrange = range
 
 
 class TestBoard(unittest.TestCase):
@@ -31,10 +21,10 @@ class TestBoard(unittest.TestCase):
 
     # == init == #
     def test_init_dimensions(self):
-        self.assertEqual(len(self.b.cells), Board.SIZE)
-        self.assertEqual(len(self.b.cells[0]), Board.SIZE)
-        if Board.SIZE > 1:
-            self.assertEqual(len(self.b.cells[1]), Board.SIZE)
+        self.assertEqual(len(self.b.cells), DEFAULT_SIZE)
+        self.assertEqual(len(self.b.cells[0]), DEFAULT_SIZE)
+        if DEFAULT_SIZE > 1:
+            self.assertEqual(len(self.b.cells[1]), DEFAULT_SIZE)
 
     def test_init_dimensions_1(self):
         b = Board(size=1)
@@ -43,12 +33,12 @@ class TestBoard(unittest.TestCase):
 
     def test_init_dimensions_3_goal_4(self):
         b = Board(size=3, goal=4)
-        self.assertEqual(b.size(), 3)
+        self.assertEqual(b.size, 3)
 
     def test_init_only_two_tiles(self):
         t = 0
-        for x in xrange(Board.SIZE):
-            for y in xrange(Board.SIZE):
+        for x in range(DEFAULT_SIZE):
+            for y in range(DEFAULT_SIZE):
                 c = self.b.cells[y][x]
                 if not c == 0:
                     t += 1
@@ -67,13 +57,13 @@ class TestBoard(unittest.TestCase):
     def test_size(self):
         s = 42
         b = Board(size=s)
-        self.assertEqual(b.size(), s)
+        self.assertEqual(b.size, s)
 
     # == .goal == #
     def test_goal(self):
         g = 17
         b = Board(goal=g)
-        self.assertEqual(b.goal(), g)
+        self.assertEqual(b.goal, g)
 
     # == .won == #
     def test_won(self):
@@ -102,14 +92,14 @@ class TestBoard(unittest.TestCase):
 
     # == .filled == #
     def test_filled(self):
-        self.b.cells = [[1] * Board.SIZE for _ in xrange(Board.SIZE)]
+        self.b.cells = [[1] * DEFAULT_SIZE for _ in range(DEFAULT_SIZE)]
         self.assertTrue(self.b.filled())
 
     # == .addTile == #
     def test_addTile(self):
         b = Board(size=1)
         b.cells = [[0]]
-        b.addTile(value=42)
+        b.addTile(choices=(42,))
         self.assertEqual(b.cells[0][0], 42)
 
     # == .getCell == #
@@ -143,7 +133,7 @@ class TestBoard(unittest.TestCase):
         s = 4
         b = Board(size=s)
         line = [42, 17, 12, 3]
-        b.cells = [[line[i], 4, 1, 2] for i in xrange(s)]
+        b.cells = [[line[i], 4, 1, 2] for i in range(s)]
         self.assertSequenceEqual(b.getCol(0), line)
 
     # == .setLine == #
@@ -162,7 +152,7 @@ class TestBoard(unittest.TestCase):
 
     # == .getEmptyCells == #
     def test_getEmptyCells(self):
-        self.assertEqual(len(self.b.getEmptyCells()), Board.SIZE ** 2 - 2)
+        self.assertEqual(len(self.b.getEmptyCells()), self.b.size ** 2 - 2)
 
     def test_getEmptyCells_filled(self):
         b = Board(size=1)
@@ -320,19 +310,3 @@ class TestBoard(unittest.TestCase):
         ]
         self.assertEqual(b.move(Board.LEFT, add_tile=False), 8)
         self.assertSequenceEqual(b.getLine(0), [4, 4, 0, 0])
-
-
-class TestBoardPy3k(unittest.TestCase):
-    def setUp(self):
-        try:
-            self.xr = __builtin__.xrange
-            delattr(__builtin__, 'xrange')
-        except AttributeError:
-            self.xr = None
-        helpers.reload(board)
-
-    def tearDown(self):
-        __builtin__.xrange = self.xr
-
-    def test_xrange_fallback_on_range_on_py3k(self):
-        self.assertEqual(board.xrange, __builtin__.range)

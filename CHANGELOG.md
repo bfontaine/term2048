@@ -6,6 +6,23 @@
   it because GitHub Actions doesn’t support them.
 * Use Poetry as a build tool
 
+### Code changes
+
+These changes don’t affect you as a player; only if you’re using the Python module in your code.
+
+#### Breaking changes
+
+* Remove `board.Board.GOAL` and `board.Board.SIZE`; add `board.DEFAULT_GOAL` and `board.DEFAULT_SIZE` instead
+* `Board#goal` and `Board#size` are now properties
+* `Board#addTile` don’t accept a `value` anymore. To force a value, use `choices=(value,)`
+* `Game.__dirs` is now named `Game.__directions`
+* Remove `keypress.getArrowKey`. Use `keypress.getKey` instead
+
+#### Other changes
+
+* `ui.start_game` now accepts `args` for the parameters of the game
+* Add some type hints
+
 ## v0.2.7 (2019-06-04)
 
 * Fix encoding issues in `setup.py` on Windows
