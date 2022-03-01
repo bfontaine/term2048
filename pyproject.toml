@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "term2048"
+version = "0.2.7"
+license = "MIT"
+description = "2048 in your terminal"
+authors = ["Baptiste Fontaine <baptiste@bixoto.com>"]
+classifiers = [
+    'Environment :: Console',
+    'License :: OSI Approved :: MIT License',
+    'Development Status :: 5 – Production/Stable',
+    'Topic :: Games/Entertainment :: Puzzle Games',
+    'Programming Language :: Python :: 2',
+    'Programming Language :: Python :: 2.6',
+    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.2',
+    'Programming Language :: Python :: 3.3',
+    'Programming Language :: Python :: 3.4',
+    'Programming Language :: Python :: 3.5',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+]
+
+[tool.poetry.dependencies]
+python = ">=2.6,<4.0"
+colorama = ">= 0.2.7"
+argparse = [
+    {version = ">= 1.1", python = "^2.6"},
+]
+
+[tool.poetry.dev-dependencies]
+tox = [
+    {version = "^3.14.1", python = ">=2.7,<3.0 || >=3.5.0,<4.0"},
+    {version = "^2.9.1", python = "^2.6 || >=3.2.0,<3.5.0"},
+]
+unittest2 = [
+    {version = "0.5.1", python = "^2.6"},
+]
+mypy = [
+    {version = "*", python = ">=3.6,<4.0"},
+]
+
+[tool.poetry.scripts]
+term2048 = 'term2048.ui:start_game'
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

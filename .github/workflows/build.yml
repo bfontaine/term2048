@@ -1,0 +1,37 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["2.6", "2.7", "3.2", "3.3", "3.4", "3.5", "3.6", "3.7",  "3.8", "3.9", "3.10"]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install poetry
+        poetry install
+    - name: Lint with Mypy
+      if: "contains(['3.6', '3.7', '3.8', '3.9', '3.10'], matrix.python-version)"
+      run: |
+        poetry run mypy --allow-untyped-globals --ignore-missing-imports term2048
+    - name: Test build
+      run: |
+        poetry build
+    - name: Run Tests
+      run: |
+        poetry run python tests/test.py

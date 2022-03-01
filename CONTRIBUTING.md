@@ -12,11 +12,12 @@ I consider `term2048` to be stable; please don’t add new features.
 
 ## Make a release
 
-1. Ensure tests pass. CI should be green. Run `python3 tests/test.py` and
-   `python2 tests/test.py`
-2. Add an entry in the changelog; bump the version in `term2048/__init__.py`;
-   commit; tag; push.
-2. `rm -rf dist` to remove old distribution files
-3. `python3 setup.py sdist bdist_wheel`
-4. `twine check dist/*`. Fix any warning.
-5. `twine upload dist/*`
+1. Update the CHANGELOG
+2. Update the version in `pyproject.toml` and in `term2048/__init__.py`
+3. Commit
+4. Push and wait for the CI job to succeed
+5. Tag with `v` followed by the version (e.g. `git tag v1.0.0`)
+6. Push the tag
+7. Wait for the [CI job][ci] to finish
+
+[ci]: https://github.com/bfontaine/term2048/actions/workflows/publish.yml
