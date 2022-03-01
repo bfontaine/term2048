@@ -22,7 +22,7 @@ _store_file = Game.STORE_FILE
 class TestUI(unittest.TestCase):
 
     def setUp(self):
-        def _loop(*args, **kwargs):
+        def _loop(*_args, **_kwargs):
             self._game_loop_started = True
 
         store = NamedTemporaryFile(delete=False)
@@ -31,6 +31,7 @@ class TestUI(unittest.TestCase):
         def fake_exit(s):
             self.exit_status = s
             raise helpers.FakeExit()
+
         self.exit = sys.exit
         sys.exit = fake_exit
         sys.argv = _argv

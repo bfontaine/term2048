@@ -27,11 +27,17 @@ class FakeMsvcrt(object):
 
 
 # builtin (before 3.0) function 'reload(<module>)'
-if platform.python_version() < '3.0':
+python_version = platform.python_version()
+if python_version < '3.0':
     reload = reload
-else:
+elif '3.2' <= python_version < '3.4':
     import imp
+
     reload = imp.reload
+else:
+    import importlib
+
+    reload = importlib.reload
 
 
 # used by sys.exit mocks

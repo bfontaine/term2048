@@ -38,6 +38,7 @@ def _setCtrlC(yes=True):
     global __ctrl_c
     __ctrl_c = yes
 
+
 # mocks
 
 

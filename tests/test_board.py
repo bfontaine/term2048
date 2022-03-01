@@ -14,6 +14,7 @@ else:
 
 import helpers
 from term2048 import board
+
 Board = board.Board
 
 # PY3 compat
@@ -101,7 +102,7 @@ class TestBoard(unittest.TestCase):
 
     # == .filled == #
     def test_filled(self):
-        self.b.cells = [[1]*Board.SIZE for _ in xrange(Board.SIZE)]
+        self.b.cells = [[1] * Board.SIZE for _ in xrange(Board.SIZE)]
         self.assertTrue(self.b.filled())
 
     # == .addTile == #
@@ -128,40 +129,40 @@ class TestBoard(unittest.TestCase):
     # == .getLine == #
     def test_getLine(self):
         b = Board(size=4)
-        l = [42, 17, 12, 3]
+        line = [42, 17, 12, 3]
         b.cells = [
-            [0]*4,
-            l,
-            [0]*4,
-            [0]*4
+            [0] * 4,
+            line,
+            [0] * 4,
+            [0] * 4
         ]
-        self.assertSequenceEqual(b.getLine(1), l)
+        self.assertSequenceEqual(b.getLine(1), line)
 
     # == .getCol == #
     def test_getCol(self):
         s = 4
         b = Board(size=s)
-        l = [42, 17, 12, 3]
-        b.cells = [[l[i], 4, 1, 2] for i in xrange(s)]
-        self.assertSequenceEqual(b.getCol(0), l)
+        line = [42, 17, 12, 3]
+        b.cells = [[line[i], 4, 1, 2] for i in xrange(s)]
+        self.assertSequenceEqual(b.getCol(0), line)
 
     # == .setLine == #
     def test_setLine(self):
         i = 2
-        l = [1, 2, 3, 4]
-        self.b.setLine(i, l)
-        self.assertEqual(self.b.getLine(i), l)
+        line = [1, 2, 3, 4]
+        self.b.setLine(i, line)
+        self.assertEqual(self.b.getLine(i), line)
 
     # == .setCol == #
     def test_setCol(self):
         i = 2
-        l = [1, 2, 3, 4]
-        self.b.setCol(i, l)
-        self.assertEqual(self.b.getCol(i), l)
+        line = [1, 2, 3, 4]
+        self.b.setCol(i, line)
+        self.assertEqual(self.b.getCol(i), line)
 
     # == .getEmptyCells == #
     def test_getEmptyCells(self):
-        self.assertEqual(len(self.b.getEmptyCells()), Board.SIZE**2 - 2)
+        self.assertEqual(len(self.b.getEmptyCells()), Board.SIZE ** 2 - 2)
 
     def test_getEmptyCells_filled(self):
         b = Board(size=1)
@@ -186,21 +187,21 @@ class TestBoard(unittest.TestCase):
         b.cells = [[2, 0],
                    [2, 0]]
         b.move(Board.UP)
-        self.assertEqual(len([e for l in b.cells for e in l if e != 0]), 2)
+        self.assertEqual(len([e for line in b.cells for e in line if e != 0]), 2)
 
     def test_move_add_tile_if_move(self):
         b = Board(size=2)
         b.cells = [[0, 0],
                    [2, 0]]
         b.move(Board.UP)
-        self.assertEqual(len([e for l in b.cells for e in l if e != 0]), 2)
+        self.assertEqual(len([e for line in b.cells for e in line if e != 0]), 2)
 
     def test_move_dont_add_tile_if_nothing_move(self):
         b = Board(size=2)
         b.cells = [[2, 0],
                    [0, 0]]
         b.move(Board.UP)
-        self.assertEqual(len([e for l in b.cells for e in l if e != 0]), 1)
+        self.assertEqual(len([e for line in b.cells for e in line if e != 0]), 1)
 
     # test for issue #1
     def test_move_dont_add_tile_if_nothing_move2(self):
@@ -208,11 +209,11 @@ class TestBoard(unittest.TestCase):
         b.cells = [
             [8, 4, 4, 2],
             [0, 2, 2, 0],
-            [0]*4,
-            [0]*4
+            [0] * 4,
+            [0] * 4
         ]
         self.assertEqual(b.move(Board.UP), 0)
-        self.assertEqual(len([e for l in b.cells for e in l if e != 0]), 6)
+        self.assertEqual(len([e for line in b.cells for e in line if e != 0]), 6)
         self.assertEqual(b.getLine(0), [8, 4, 4, 2])
         self.assertEqual(b.getLine(1), [0, 2, 2, 0])
 
@@ -280,9 +281,9 @@ class TestBoard(unittest.TestCase):
         b = Board()
         b.cells = [
             [0, 2, 2, 4],
-            [0]*4,
-            [0]*4,
-            [0]*4
+            [0] * 4,
+            [0] * 4,
+            [0] * 4
         ]
         self.assertEqual(b.move(Board.RIGHT, add_tile=False), 4)
         self.assertSequenceEqual(b.getLine(0), [0, 0, 4, 4])
@@ -291,9 +292,9 @@ class TestBoard(unittest.TestCase):
         b = Board()
         b.cells = [
             [0, 4, 2, 2],
-            [0]*4,
-            [0]*4,
-            [0]*4
+            [0] * 4,
+            [0] * 4,
+            [0] * 4
         ]
         self.assertEqual(b.move(Board.RIGHT, add_tile=False), 4)
         self.assertSequenceEqual(b.getLine(0), [0, 0, 4, 4])
@@ -302,9 +303,9 @@ class TestBoard(unittest.TestCase):
         b = Board()
         b.cells = [
             [0, 2, 2, 4],
-            [0]*4,
-            [0]*4,
-            [0]*4
+            [0] * 4,
+            [0] * 4,
+            [0] * 4
         ]
         self.assertEqual(b.move(Board.LEFT, add_tile=False), 4)
         self.assertSequenceEqual(b.getLine(0), [4, 4, 0, 0])
@@ -313,9 +314,9 @@ class TestBoard(unittest.TestCase):
         b = Board()
         b.cells = [
             [2, 2, 2, 2],
-            [0]*4,
-            [0]*4,
-            [0]*4
+            [0] * 4,
+            [0] * 4,
+            [0] * 4
         ]
         self.assertEqual(b.move(Board.LEFT, add_tile=False), 8)
         self.assertSequenceEqual(b.getLine(0), [4, 4, 0, 0])

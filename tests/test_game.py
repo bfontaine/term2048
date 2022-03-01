@@ -113,8 +113,8 @@ class TestGame(unittest.TestCase):
         self.g.score = s
         self.g.best_score = s
         self.g.incScore(i)
-        self.assertEqual(self.g.score, s+i)
-        self.assertEqual(self.g.best_score, s+i)
+        self.assertEqual(self.g.score, s + i)
+        self.assertEqual(self.g.best_score, s + i)
 
     def test_inc_score_update_best_score(self):
         s = 3
@@ -122,8 +122,8 @@ class TestGame(unittest.TestCase):
         self.g.score = s
         self.g.best_score = 0
         self.g.incScore(i)
-        self.assertEqual(self.g.score, s+i)
-        self.assertEqual(self.g.best_score, s+i)
+        self.assertEqual(self.g.score, s + i)
+        self.assertEqual(self.g.best_score, s + i)
 
     def test_inc_score_dont_update_best_score_if_higher(self):
         s = 3
@@ -132,7 +132,7 @@ class TestGame(unittest.TestCase):
         self.g.score = s
         self.g.best_score = bs
         self.g.incScore(i)
-        self.assertEqual(self.g.score, s+i)
+        self.assertEqual(self.g.score, s + i)
         self.assertEqual(self.g.best_score, bs)
 
     # == .store/.restore == #

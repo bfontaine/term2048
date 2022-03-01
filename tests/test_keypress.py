@@ -20,6 +20,7 @@ except ImportError:
 
 import helpers
 from term2048 import keypress as kp
+
 keypress = kp._getRealModule()
 
 fno = sys.stdin.fileno()
