@@ -7,7 +7,7 @@ authors = ["Baptiste Fontaine <baptiste@bixoto.com>"]
 classifiers = [
     'Environment :: Console',
     'License :: OSI Approved :: MIT License',
-    'Development Status :: 5 – Production/Stable',
+    "Development Status :: 5 - Production/Stable",
     'Topic :: Games/Entertainment :: Puzzle Games',
     'Programming Language :: Python :: 2',
     'Programming Language :: Python :: 2.6',
@@ -46,5 +46,6 @@ ptyprocess = "^0.7.0"
 term2048 = 'term2048.ui:start_game'
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+# Poetry 1.2 won't support Python 2.7
+requires = ["poetry-core^1.1.0"]
 build-backend = "poetry.core.masonry.api"
