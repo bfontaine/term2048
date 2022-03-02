@@ -321,11 +321,6 @@ class TestGame(unittest.TestCase):
         g.board.setCell(0, 0, 2)
         self.assertRegexpMatches(g.getCellStr(0, 0), r'a\x1b\[0m$')
 
-    def test_getCellStr_unknown_number_azmode(self):
-        g = Game(azmode=True)
-        g.board.setCell(0, 0, 42)
-        self.assertEqual(g.getCellStr(0, 0), '?')
-
     # == .boardToString == #
 
     def test_boardToString_height_no_margins(self):
