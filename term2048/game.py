@@ -15,7 +15,7 @@ import sys
 try:
     import typing
 except ImportError:
-    pass  # Python 2.6 and 3.4
+    pass  # Python 2.6 and 3.2-3.4
 
 from colorama import init, Fore, Style
 
@@ -294,7 +294,7 @@ class Game(object):
                                            for x in rg])
                           for y in rg])
 
-    def __str__(self, margins=None):
+    def __str__(self, margins=None): # type: (typing.Optional[typing.Dict[str, int]]) -> str
         if margins is None:
             margins = {}
         b = self.boardToString(margins=margins)
