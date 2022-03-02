@@ -4,6 +4,7 @@
 
 * Drop active support for Python 2.6, 3.2, 3.3 and 3.4. While the code may still work for these versions, we can’t test
   it because GitHub Actions doesn’t support them.
+* Add active support for Python 3.8+
 * Use Poetry as a build tool
 
 ### Code changes
@@ -17,6 +18,7 @@ These changes don’t affect you as a player; only if you’re using the Python 
 * `Board#addTile` don’t accept a `value` anymore. To force a value, use `choices=(value,)`
 * `Game.__dirs` is now named `Game.__directions`
 * Remove `keypress.getArrowKey`. Use `keypress.getKey` instead
+* A few positional arguments now have clearer names: `line` instead of `l`, `direction` instead of `d`, etc
 
 #### Other changes
 
