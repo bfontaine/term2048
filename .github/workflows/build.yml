@@ -35,4 +35,4 @@ jobs:
         poetry build
     - name: Run Tests
       run: |
-        poetry run python tests/test.py
+        poetry run python tests/pty_run.py

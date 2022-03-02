@@ -44,6 +44,14 @@ python-versions = "*"
 typing = {version = ">=3.5.3", markers = "python_version < \"3.5\""}
 
 [[package]]
+name = "ptyprocess"
+version = "0.7.0"
+description = "Run a subprocess in a pseudo terminal"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "tomli"
 version = "1.2.3"
 description = "A lil' TOML parser"
@@ -86,7 +94,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=2.6,<4.0"
-content-hash = "4635190298f016f9a7490dc71de5983164b1ac990ef9c9ec1eef27eaa9360f2b"
+content-hash = "c859e8b4ee0a1f59f3830f7b414c5dc710f4a5fc7d357fd76cceb6ac7982ff0a"
 
 [metadata.files]
 argparse = [
@@ -122,6 +130,10 @@ mypy = [
 mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},
     {file = "mypy_extensions-0.4.3.tar.gz", hash = "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"},
+]
+ptyprocess = [
+    {file = "ptyprocess-0.7.0-py2.py3-none-any.whl", hash = "sha256:4b41f3967fce3af57cc7e94b888626c18bf37a083e3651ca8feeb66d492fef35"},
+    {file = "ptyprocess-0.7.0.tar.gz", hash = "sha256:5c5d0a3b48ceee0b48485e0c26037c0acd7d29765ca3fbb5cb3831d347423220"},
 ]
 tomli = [
     {file = "tomli-1.2.3-py3-none-any.whl", hash = "sha256:e3069e4be3ead9668e21cb9b074cd948f7b3113fd9c8bba083f48247aab8b11c"},
