@@ -75,7 +75,7 @@ class Game(object):
     STORE_FILE = '%s/.term2048.store' % os.path.expanduser('~')
 
     def __init__(self, scores_file=SCORES_FILE, colors=None,
-                 store_file=STORE_FILE, clear_screen=True,
+                 store_file=STORE_FILE, clear_screen=not True,
                  mode=None, azmode=False, **kwargs):
         """
         Create a new game.
@@ -203,6 +203,7 @@ class Game(object):
         """Clear the console"""
         if self.clear_screen:
             os.system('cls' if self.__is_windows else 'clear')
+            print("(cleared)")
         else:
             print('\n')
 
@@ -234,8 +235,12 @@ class Game(object):
         try:
             self.hideCursor()
             while True:
+                print("before clear")
                 self.clearScreen()
+                # 'stopped' here (no print at all) x2
                 print(self.__str__(margins=margins))
+                print("(drawn)", flush=True)  # once it printed this without a newline at the end:
+                # (drawn)end of the loop
                 if self.board.won() or not self.board.canMove():
                     break
                 m = self.readMove()
@@ -247,10 +252,11 @@ class Game(object):
                               "Resume it with `term2048 --resume`.")
                         return self.score
 
-                    print("An error ocurred while saving your game.")
+                    print("An error occurred while saving your game (score=%d).", self.score)
                     return None
 
                 self.incScore(self.board.move(m))
+                print("end of the loop")
 
         except KeyboardInterrupt:
             self.saveBestScore()
@@ -294,11 +300,52 @@ class Game(object):
                                            for x in rg])
                           for y in rg])
 
-    def __str__(self, margins=None): # type: (typing.Optional[typing.Dict[str, int]]) -> str
+    def __str__(self, margins=None):  # type: (typing.Optional[typing.Dict[str, int]]) -> str
         if margins is None:
             margins = {}
+        print("__str__")
+        # 'stopped' here x2
+        # once it printed __str__ followed by end of the loop (tested with clear_screen=False):
+        #
+        # <board>
+        #
+        # (drawn)
+        # end of the loop
+        # before clear
+        #
+        #
+        # __str__ <-------------------
+        # end of the loop
+        # before clear
+        #
+        #
+        # __str__
+        # boardToString
+        # before return
+        #
+        # <board>
+
+        # Another weird one between two boards:
+        # (drawn)
+        # end of the loop
+        # before clear
+        #
+        #
+        # __str__
+        # boardToString
+        # before return  <--. __________ no drawing between those two
+        # end of the loop <-'
+        # before clear
+        #
+        #
+        # __str__
+        # boardToString
+        # before return
+
         b = self.boardToString(margins=margins)
+        print("boardToString")
         top = '\n' * margins.get('top', 0)
         bottom = '\n' * margins.get('bottom', 0)
         scores = ' \tScore: %5d  Best: %5d\n' % (self.score, self.best_score)
+        print("before return")
         return top + b.replace('\n', scores, 1) + bottom
